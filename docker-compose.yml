@@ -16,6 +16,7 @@ services:
 #    volumes:
 #     - ./openvpn-data/conf:/etc/openvpn
 
+# samba
   samba:
     image: dperson/samba
     environment:
@@ -34,6 +35,7 @@ services:
     volumes:
       - /var/lib/docker/volumes/downloads:/downloads:z
     command: '-s "Downloads;/downloads" -u "bob;password"'
+
 # nginx
   nginx:
     image: nginx
