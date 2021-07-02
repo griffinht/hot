@@ -1,0 +1,55 @@
+# https://www.reddit.com/r/Piracy/comments/cuzmro/guide_how_to_set_up_docker_containers_to/
+# https://gitlab.com/-/snippets/1878730
+
+services:
+# openvpn server
+# for connecting outside clients
+# requires setup, see
+# https://github.com/kylemanna/docker-openvpn/blob/master/docs/docker-compose.md
+#  openvpn:
+#    cap_add:
+#     - NET_ADMIN
+#    image: kylemanna/openvpn
+#    container_name: openvpn
+#    ports:
+#     - "1194:1194/udp"
+#    restart: always
+#    volumes:
+#     - ./openvpn-data/conf:/etc/openvpn
+
+# openvpn client
+# can be used by these local services
+# https://github.com/dperson/openvpn-client/blob/master/docker-compose.yml
+  openvpn-client:
+    image: dperson/openvpn-client
+    cap_add:
+      - net_admin
+    environment:
+      - TZ='EST5EDT'
+    networks:
+      - default
+# disable when using DNS flag (-d)
+#    read_only: true
+    tmpfs:
+      - /run
+      - /tmp
+    restart: unless-stopped
+    security_opt:
+      - label:disable
+    stdin_open: true
+    tty: true
+    volumes:
+      - /dev/net:/dev/net:z
+      - ./bin/vpn:/vpn
+    ports:
+      - "5800:5800"
+    command: '-d -f'
+  firefox:
+    container_name: firefox
+    image: jlesage/firefox
+    restart: always
+    network_mode: service:openvpn-client
+    shm_size: 2g
+    volumes:
+     - /var/lib/docker/volumes/firefox-config:/config:rw
+     - /var/lib/docker/volumes/downloads:/downloads
