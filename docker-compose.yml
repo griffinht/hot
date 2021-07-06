@@ -7,18 +7,19 @@ services:
 # requires setup, see
 # https://github.com/kylemanna/docker-openvpn/blob/master/docs/docker-compose.md
 #  openvpn:
+#    restart: unless-stopped
 #    cap_add:
 #     - NET_ADMIN
 #    image: kylemanna/openvpn
 #    ports:
 #     - "1194:1194/udp"
-#    restart: always
 #    volumes:
 #     - ./openvpn-data/conf:/etc/openvpn
 
 # samba
   samba:
     image: dperson/samba
+    restart: unless-stopped
     environment:
       - TZ=America/New_York
     ports:
@@ -29,16 +30,16 @@ services:
     read_only: true
     tmpfs:
       - /tmp
-    restart: unless-stopped
     stdin_open: true
     tty: true
     volumes:
       - /var/lib/docker/volumes/downloads:/downloads:z
-    command: '-s "Downloads;/downloads" -u "bob;password"'
+    command: '-s Downloads;/downloads -p'
 
 # nginx
   nginx:
     image: nginx
+    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
@@ -48,6 +49,7 @@ services:
 # port 8096
   jellyfin:
     image: ghcr.io/linuxserver/jellyfin
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -64,6 +66,7 @@ services:
 # https://github.com/dperson/openvpn-client/blob/master/docker-compose.yml
   openvpn-client:
     image: dperson/openvpn-client
+    restart: unless-stopped
     cap_add:
       - net_admin
     environment:
@@ -75,7 +78,6 @@ services:
     tmpfs:
       - /run
       - /tmp
-    restart: unless-stopped
     security_opt:
       - label:disable
     stdin_open: true
@@ -97,7 +99,7 @@ services:
 # port 5800
   firefox:
     image: jlesage/firefox
-    restart: always
+    restart: unless-stopped
     network_mode: service:openvpn-client
     shm_size: 2g
     volumes:
@@ -108,7 +110,7 @@ services:
 # port 8080
   qbittorrent:
     image: linuxserver/qbittorrent
-    restart: always
+    restart: unless-stopped
     network_mode: service:openvpn-client
     environment:
       - PUID=1000
@@ -124,7 +126,7 @@ services:
 # port 7878
   radarr:
     image: linuxserver/radarr
-    restart: always
+    restart: unless-stopped
     network_mode: service:openvpn-client
     environment:
       - PUID=1000
