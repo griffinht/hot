@@ -60,8 +60,7 @@ services:
       - default
       - openvpn-client
 
-# Jellyfin
-# port 8096
+#jellyfin
   jellyfin:
     image: ghcr.io/linuxserver/jellyfin
     restart: unless-stopped
@@ -71,8 +70,13 @@ services:
       - TZ=America/New_York
     volumes:
       - ./bin/jellyfin:/config
+    ports:
+      - 8096:8096
 
+#
 # OpenVPN client
+#
+
 # can be used by other services with network_mode: service:openvpn-client
 # make sure to add ports to forward on the vpn
 # https://github.com/dperson/openvpn-client/blob/master/docker-compose.yml
@@ -114,7 +118,6 @@ services:
       - PGID=1000
       - TZ=America/New_York
       - UMASK_SET=022
-      - WEBUI_PORT=8080
     volumes:
       - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
       - downloads:/downloads
