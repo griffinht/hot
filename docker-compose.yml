@@ -3,6 +3,11 @@
 
 networks:
   default:
+  samba:
+  openvpn-client:
+  
+volumes:
+  downloads:
 
 services:
 # openvpn server
@@ -20,26 +25,26 @@ services:
 #     - ./openvpn-data/conf:/etc/openvpn
 
 # samba
-  samba:
-    image: dperson/samba
-    restart: unless-stopped
-    environment:
-      - TZ=America/New_York
-    networks:
-    - default
-    ports:
-      - "137:137/udp"
-      - "138:138/udp"
-      - "139:139/tcp"
-      - "445:445/tcp"
-    read_only: true
-    tmpfs:
-      - /tmp
-    stdin_open: true
-    tty: true
-    volumes:
-      - downloads:/downloads:z
-    command: '-n -p -s Downloads;/downloads'
+#  samba:
+#    image: dperson/samba
+#    restart: unless-stopped
+#    environment:
+#      - TZ=America/New_York
+#    networks:
+#    - samba
+#    ports:
+#      - "137:137/udp"
+#      - "138:138/udp"
+#      - "139:139/tcp"
+#      - "445:445/tcp"
+#    read_only: true
+#    tmpfs:
+#      - /tmp
+#    stdin_open: true
+#    tty: true
+#    volumes:
+#      - downloads:/downloads:z
+#    command: '-n -p -s Downloads;/downloads'
 
 # nginx
   nginx:
@@ -48,7 +53,11 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/html:/usr/share/nginx/html/
+    networks:
+      - default
+      - openvpn-client
 
 # Jellyfin
 # port 8096
@@ -60,9 +69,7 @@ services:
       - PGID=1000
       - TZ=America/New_York
     volumes:
-      - /path/to/library:/config
-      - /path/to/tvseries:/data/tvshows
-      - /path/to/movies:/data/movies
+      - ./bin/jellyfin:/config
 
 # OpenVPN client
 # can be used by other services with network_mode: service:openvpn-client
@@ -76,7 +83,7 @@ services:
     environment:
       - TZ=America/New_York
     networks:
-      - default
+      - openvpn-client
 # disable when using DNS flag (-d)
     #read_only: true
     tmpfs:
@@ -90,25 +97,10 @@ services:
     volumes:
       - /dev/net:/dev/net:z
       - ./bin/vpn:/vpn
-    ports:
-      - "5800:5800"
-      - "8080:8080"
-      - "7878:7878"
 
 #
 # VPN services
 #
-    
-# Firefox with vpn, connect from a browser
-# port 5800
-  firefox:
-    image: jlesage/firefox
-    restart: unless-stopped
-    network_mode: service:openvpn-client
-    shm_size: 2g
-    volumes:
-      - firefox-config:/config:rw
-      - downloads:/downloads
 
 # qBittorrent
 # port 8080
@@ -123,7 +115,7 @@ services:
       - UMASK_SET=022
       - WEBUI_PORT=8080
     volumes:
-      - qbittorrent-config:/config
+      - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
       - downloads:/downloads
 
 # Radarr
@@ -138,6 +130,6 @@ services:
       - TZ=America/New_York
       - UMASK_SET=022
     volumes:
-      - radarr-data:/config
-      - radarr-movies:/movies
+      - ./radarr/config.xml:/config/config.xml
+      - ./bin/radarr-movies:/movies
       - downloads:/downloads
