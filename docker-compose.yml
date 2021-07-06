@@ -46,15 +46,16 @@ services:
 #      - downloads:/downloads:z
 #    command: '-n -p -s Downloads;/downloads'
 
-# nginx
+# nginx proxy
   nginx:
     image: nginx
     restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/html:/usr/share/nginx/html/
+      - ./nginx/html/:/etc/nginx/html/
     networks:
       - default
       - openvpn-client
@@ -97,6 +98,9 @@ services:
     volumes:
       - /dev/net:/dev/net:z
       - ./bin/vpn:/vpn
+    ports:
+      - "8080:8080"
+      - "7878:7878"
 
 #
 # VPN services
