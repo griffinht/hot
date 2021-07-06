@@ -4,7 +4,7 @@
   <EnableSsl>False</EnableSsl>
   <SslCertPath></SslCertPath>
   <Port>7878</Port>
-  <UrlBase></UrlBase>
+  <UrlBase>/radarr</UrlBase>
   <ApiKey>7403f65180944250aef6acf696d8e4cd</ApiKey>
   <AuthenticationMethod>None</AuthenticationMethod>
   <UpdateMechanism>Docker</UpdateMechanism>

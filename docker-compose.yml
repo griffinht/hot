@@ -98,9 +98,6 @@ services:
     volumes:
       - /dev/net:/dev/net:z
       - ./bin/vpn:/vpn
-    ports:
-      - "8080:8080"
-      - "7878:7878"
 
 #
 # VPN services
