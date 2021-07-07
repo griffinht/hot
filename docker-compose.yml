@@ -68,7 +68,7 @@ services:
     ports:
       - 8096:8096
     volumes:
-      - ./bin/jellyfin:/config
+      - ./bin/jellyfin/config:/config
       - ./bin/jellyfin/cache:/cache
       - ./bin/jellyfin/media:/media
       - ./bin/jellyfin/media2:/media2:ro
@@ -137,3 +137,17 @@ services:
       - ./radarr/config.xml:/config/config.xml
       - ./bin/radarr-movies:/movies
       - downloads:/downloads
+
+# Jackett
+# port 9117
+  jackett:
+    image: ghcr.io/linuxserver/jackett
+    restart: unless-stopped
+    network_mode: service:openvpn-client
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
+      - ./bin/jackett:/downloads

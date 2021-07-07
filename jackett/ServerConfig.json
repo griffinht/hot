@@ -1,0 +1,23 @@
+{
+  "Port": 9117,
+  "AllowExternal": true,
+  "APIKey": "iuvc2o596vzwbqfuh4nznfhucfpk5269",
+  "AdminPassword": null,
+  "InstanceId": "518t20g8leb44dsh16zsyvojoc6vsmk5o1eadwf0tqtynsdq8zvr5zrfuagtmtlb",
+  "BlackholeDir": null,
+  "UpdateDisabled": false,
+  "UpdatePrerelease": false,
+  "BasePathOverride": "/jackett",
+  "CacheEnabled": true,
+  "CacheTtl": 2100,
+  "CacheMaxResultsPerIndexer": 1000,
+  "FlareSolverrUrl": null,
+  "OmdbApiKey": null,
+  "OmdbApiUrl": null,
+  "ProxyType": 0,
+  "ProxyUrl": null,
+  "ProxyPort": null,
+  "ProxyUsername": null,
+  "ProxyPassword": null,
+  "ProxyIsAnonymous": true
+}
