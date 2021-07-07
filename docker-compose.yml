@@ -107,7 +107,7 @@ services:
     command: '-d -f \"\"'
     volumes:
       - /dev/net:/dev/net:z
-      - ./vpn:/vpn
+      - ./openvpn-client/vpn:/vpn
 
 #
 # VPN services
@@ -157,4 +157,3 @@ services:
       - TZ=America/New_York
     volumes:
       - jackett:/config
-      - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json

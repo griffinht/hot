@@ -1,8 +1,11 @@
-### First time setup
-  - Expose 9117
-  - Navigate to http://localhost:9117
-  - Base Url: /jackett
+### Setup
+  - Navigate to `config/Jackett/ServerConfig.json`
+  - Set `"BasePathOverride": "",` to `"BasePathOverride": "/jackett",`
+  - Restart Jackett
+  - Navigate to http://localhost/jackett
+  - Configure
 
-
-- Trackers
-  - Add some
+### Configuration
+  - `Add indexer`
+    - Select indexers
+  - `Add selected`
