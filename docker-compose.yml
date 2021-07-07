@@ -21,37 +21,38 @@ services:
 # for connecting outside clients
 # requires setup, see
 # https://github.com/kylemanna/docker-openvpn/blob/master/docs/docker-compose.md
-#  openvpn:
-#    restart: unless-stopped
-#    cap_add:
-#     - NET_ADMIN
-#    image: kylemanna/openvpn
-#    ports:
-#     - "1194:1194/udp"
-#    volumes:
-#     - ./openvpn-data/conf:/etc/openvpn
+  openvpn:
+    restart: unless-stopped
+    cap_add:
+     - NET_ADMIN
+    image: kylemanna/openvpn
+    ports:
+     - "1194:1194/udp"
+    volumes:
+     - ./openvpn-data/conf:/etc/openvpn
 
 # samba
-#  samba:
-#    image: dperson/samba
-#    restart: unless-stopped
-#    environment:
-#      - TZ=America/New_York
-#    networks:
-#    - samba
-#    ports:
-#      - "137:137/udp"
-#      - "138:138/udp"
-#      - "139:139/tcp"
-#      - "445:445/tcp"
-#    read_only: true
-#    tmpfs:
-#      - /tmp
-#    stdin_open: true
-#    tty: true
-#    volumes:
-#      - downloads:/downloads:z
-#    command: '-n -p -s Downloads;/downloads'
+# SMB file share
+  samba:
+    image: dperson/samba
+    restart: unless-stopped
+    environment:
+      - TZ=America/New_York
+    networks:
+    - samba
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139/tcp"
+      - "445:445/tcp"
+    read_only: true
+    tmpfs:
+      - /tmp
+    stdin_open: true
+    tty: true
+    volumes:
+      - media:/media
+    command: '-n -p -s Media;/media'
 
 # nginx proxy
   nginx:
