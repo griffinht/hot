@@ -100,7 +100,8 @@ services:
     command: '-d -f \"\"'
     volumes:
       - /dev/net:/dev/net:z
-      - ./bin/vpn:/vpn
+      - ./vpn/auth:/vpn/auth
+      - ./vpn/vpn.conf:/vpn/vpn.conf
 
 #
 # VPN services
@@ -118,7 +119,6 @@ services:
       - TZ=America/New_York
       - UMASK_SET=022
     volumes:
-      - /bin/qbittorrent:/config
       - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
       - downloads:/downloads
 
@@ -135,7 +135,6 @@ services:
       - UMASK_SET=022
     volumes:
       - ./radarr/config.xml:/config/config.xml
-      - ./bin/radarr/config:/config
       - ./bin/radarr/movies:/movies
       - downloads:/downloads
 
@@ -151,5 +150,4 @@ services:
       - TZ=America/New_York
     volumes:
       - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
-      - ./bin/jackett:/config
       - ./bin/jackett:/downloads
