@@ -68,9 +68,7 @@ services:
     ports:
       - 8096:8096
     volumes:
-      - ./jellyfin/encoding.xml:/config/config/encoding.xml
-      - ./jellyfin/network.xml:/config/config/network.xml
-      - ./jellyfin/system.xml:/config/config/system.xml
+      - ./bin/jellyfin:/config
       - ./bin/jellyfin/cache:/cache
       - ./bin/jellyfin/media:/media
       - ./bin/jellyfin/media2:/media2:ro
