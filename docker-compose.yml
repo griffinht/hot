@@ -71,7 +71,6 @@ services:
       - ./bin/jellyfin/config:/config
       - ./bin/jellyfin/cache:/cache
       - ./bin/jellyfin/media:/media
-      - ./bin/jellyfin/media2:/media2:ro
 
 #
 # OpenVPN client
@@ -119,6 +118,7 @@ services:
       - TZ=America/New_York
       - UMASK_SET=022
     volumes:
+      - /bin/qbittorrent:/config
       - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
       - downloads:/downloads
 
@@ -135,7 +135,8 @@ services:
       - UMASK_SET=022
     volumes:
       - ./radarr/config.xml:/config/config.xml
-      - ./bin/radarr-movies:/movies
+      - ./bin/radarr/config:/config
+      - ./bin/radarr/movies:/movies
       - downloads:/downloads
 
 # Jackett
@@ -150,4 +151,5 @@ services:
       - TZ=America/New_York
     volumes:
       - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
+      - ./bin/jackett:/config
       - ./bin/jackett:/downloads
