@@ -7,7 +7,14 @@ networks:
   openvpn-client:
   
 volumes:
+  media:
   downloads:
+
+  jellyfin:
+  jellyfin-cache:
+  qbittorrent:
+  radarr:
+  jackett:
 
 services:
 # openvpn server
@@ -68,9 +75,9 @@ services:
     ports:
       - 8096:8096
     volumes:
-      - ./bin/jellyfin/config:/config
-      - ./bin/jellyfin/cache:/cache
-      - ./bin/jellyfin/media:/media
+      - jellyfin:/config
+      - jellyfin-cache:/cache
+      - media:/media
 
 #
 # OpenVPN client
@@ -100,8 +107,7 @@ services:
     command: '-d -f \"\"'
     volumes:
       - /dev/net:/dev/net:z
-      - ./vpn/auth:/vpn/auth
-      - ./vpn/vpn.conf:/vpn/vpn.conf
+      - ./vpn:/vpn
 
 #
 # VPN services
@@ -119,8 +125,9 @@ services:
       - TZ=America/New_York
       - UMASK_SET=022
     volumes:
-      - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
+      - qbittorrent:/config
       - downloads:/downloads
+      - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
 
 # Radarr
 # port 7878
@@ -134,9 +141,9 @@ services:
       - TZ=America/New_York
       - UMASK_SET=022
     volumes:
-      - ./radarr/config.xml:/config/config.xml
-      - ./bin/radarr/movies:/movies
+      - radarr:/config
       - downloads:/downloads
+      - ./bin/radarr/movies:/movies
 
 # Jackett
 # port 9117
@@ -149,5 +156,5 @@ services:
       - PGID=1000
       - TZ=America/New_York
     volumes:
+      - jackett:/config
       - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
-      - ./bin/jackett:/downloads
