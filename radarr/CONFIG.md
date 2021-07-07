@@ -24,3 +24,5 @@
           - Port: `8080`
           - Username: 
           - Password: 
+      - Lists
+        - TMDB
