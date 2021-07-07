@@ -67,7 +67,7 @@ services:
       - default
       - openvpn-client
 
-#jellyfin
+# Jellyfin Media Server
   jellyfin:
     image: jellyfin/jellyfin
     restart: unless-stopped
@@ -78,6 +78,17 @@ services:
       - jellyfin:/config
       - jellyfin-cache:/cache
       - media:/media
+
+# iperf3 speedtest server
+  iperf3:
+    image: mlabbe/iperf3
+    restart: unless-stopped
+    ports:
+      - 5201:5201/udp
+      - 5201:5201/tcp
+# healthcheck not needed, just wastes resources
+    healthcheck:
+      disable: true
 
 #
 # OpenVPN client
