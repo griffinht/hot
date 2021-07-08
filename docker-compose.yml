@@ -17,19 +17,32 @@ volumes:
   jackett:
 
 services:
-# openvpn server
-# for connecting outside clients
-# requires setup, see
-# https://github.com/kylemanna/docker-openvpn/blob/master/docs/docker-compose.md
-  openvpn:
+# wireguard
+# vpn server
+# https://github.com/linuxserver/docker-wireguard
+  wireguard:
+    image: ghcr.io/linuxserver/wireguard
     restart: unless-stopped
     cap_add:
-     - NET_ADMIN
-    image: kylemanna/openvpn
-    ports:
-     - "1194:1194/udp"
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+#      - SERVERURL=wireguard.domain.com #optional
+#      - SERVERPORT=51820 #optional
+      - PEERS=1 #optional
+#      - PEERDNS=auto #optional
+#      - INTERNAL_SUBNET=10.13.13.0 #optional
+#      - ALLOWEDIPS=0.0.0.0/0 #optional
     volumes:
-     - ./openvpn-data/conf:/etc/openvpn
+      - ./wireguard/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
 
 # samba
 # SMB file share
