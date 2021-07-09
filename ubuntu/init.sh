@@ -1,11 +1,12 @@
 #!/bin/bash
 
-apt update
-apt upgrade -y
+sudo apt update
+sudo apt upgrade -y
 
-# install docker engine
-apt-get update
-apt-get -y install \
+# docker engine
+# https://docs.docker.com/engine/install/ubuntu/
+sudo apt-get update
+sudo apt-get -y install \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -15,13 +16,25 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/
 echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
-apt-get -y install docker-ce docker-ce-cli containerd.io
+sudo apt-get update
+sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
-# install docker compose
-curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+sudo docker version
 
-# done
+# docker compose
+# https://docs.docker.com/compose/install/
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+sudo docker-compose --version
+
+# rootless docker
+# https://docs.docker.com/engine/security/rootless/#rootless-docker-in-docker
+sudo apt-get -y install uidmap
+curl -fsSL https://get.docker.com/rootless | sh
+export PATH=/home/$(whoami)/bin:$PATH
+export DOCKER_HOST=unix:///run/user/1000/docker.sock
+systemctl --user start docker
+
 docker version
-docker-compose --version
+docker-compose version
