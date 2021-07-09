@@ -32,8 +32,8 @@ sudo docker-compose --version
 # https://docs.docker.com/engine/security/rootless/#rootless-docker-in-docker
 sudo apt-get -y install uidmap
 curl -fsSL https://get.docker.com/rootless | sh
-export PATH=/home/$(whoami)/bin:$PATH
-export DOCKER_HOST=unix:///run/user/1000/docker.sock
+#export PATH=/home/$(whoami)/bin:$PATH
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 systemctl --user start docker
 
 docker version
