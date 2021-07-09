@@ -28,9 +28,20 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 sudo docker-compose --version
 
+# rootless docker (needed later)
+sudo apt-get -y install uidmap
+
+# user setup
+sudo useradd -m -s /bin/bash docker-admin
+# ensure systemd --user runs without requiring login
+sudo loginctl enable-linger docker-admin
+# todo this needs to be a real login (with ssh or something)
+# su - (--login) is not enough to start systemd --user or something
+# idk i don't know linux
+sudo su - docker-admin
+
 # rootless docker
 # https://docs.docker.com/engine/security/rootless/#rootless-docker-in-docker
-sudo apt-get -y install uidmap
 curl -fsSL https://get.docker.com/rootless | sh
 #export PATH=/home/$(whoami)/bin:$PATH
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
