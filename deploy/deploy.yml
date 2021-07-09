@@ -1,0 +1,11 @@
+name: 'Deploy'
+description: 'Deploy to target'
+inputs:
+  target:
+    description: 'Remote address of listening target server'
+    required: true
+runs:
+  using: 'docker'
+  image: 'deploy'
+  args:
+    - ${{ target }}
