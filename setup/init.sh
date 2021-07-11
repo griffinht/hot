@@ -49,7 +49,7 @@ sudo apt-get -y install uidmap
 sudo useradd -m -s /bin/bash docker-user
 # ensure systemd --user runs without requiring login
 sudo loginctl enable-linger docker-user
-sudo su - docker-user
+sudo su - docker-user << EOF
 
 
 
@@ -62,3 +62,5 @@ systemctl --user start docker
 
 docker version
 docker-compose version
+
+EOF
