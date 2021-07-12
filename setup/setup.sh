@@ -30,7 +30,7 @@ SSH_FINGERPRINT=$(echo $SSH_KEY | ssh-keygen -lf - | cut -d " " -f2 | cut -d ":"
 HTTPS_URL=api.github.com/meta
 # api request needs JSON parser
 sudo apt-get -y install jq
-HTTPS_FINGERPRINT=$(curl -s https://$SSH_HOST | jq -r .ssh_key_fingerprints.SHA256_RSA)
+HTTPS_FINGERPRINT=$(curl -s https://$HTTPS_URL | jq -r .ssh_key_fingerprints.SHA256_RSA)
 # verify fingerprints match
 MESSAGE="$SSH_FINGERPRINT (fetched via ssh from $SSH_HOST)\n$HTTPS_FINGERPRINT (fetched via https from https://$HTTPS_URL)\n"
 if [[ SSH_FINGERPRINT != HTTPS_FINGERPRINT ]]; then
