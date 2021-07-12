@@ -25,10 +25,12 @@ GITHUB_EMAIL=griffinht@gmail.com
 # fetch SSH key & fingerprint via SSH
 SSH_HOST=github.com
 SSH_KEY=$(ssh_keyscan $SSH_HOST)
-SSH_FINGERPRINT=$(ssh-keygen -lf $SSH_KEY)
+SSH_FINGERPRINT=$(ssh-keygen -lf $SSH_KEY | cut -d " " -f2 | cut -d ":" -f2)
 # fetch SSH fingerprint via HTTPS
 HTTPS_URL=api.github.com/meta
-HTTPS_FINGERPRINT=$(curl -s https://$SSH_HOST | grep RSA)
+# api request needs JSON parser
+sudo apt-get -y install jq
+HTTPS_FINGERPRINT=$(curl -s https://$SSH_HOST | jq -r .ssh_key_fingerprints.SHA256_RSA)
 # verify fingerprints match
 MESSAGE="$SSH_FINGERPRINT (fetched via ssh from $SSH_HOST)\n$HTTPS_FINGERPRINT (fetched via https from https://$HTTPS_URL)\n"
 if [[ SSH_FINGERPRINT != HTTPS_FINGERPRINT ]]; then
@@ -37,7 +39,7 @@ if [[ SSH_FINGERPRINT != HTTPS_FINGERPRINT ]]; then
   exit
 fi
 # match
-printf "SSH fingerprints match\n$MESSAGE"
+printf "SSH fingerprints match, adding to known_hosts\n$MESSAGE"
 # add verified SSH key to known_hosts
 $SSH_KEY >> ~/.ssh/known_hosts
 # change to correct directory
