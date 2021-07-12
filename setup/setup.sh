@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 #
 # Setup script to be ran manually to clone a GitHub repo and start an init script
 #
@@ -31,7 +33,11 @@ SSH_FINGERPRINT=$(echo $SSH_KEY | ssh-keygen -lf - | cut -d " " -f2 | cut -d ":"
 # fetch SSH fingerprint via HTTPS
 HTTPS_URL=api.github.com/meta
 # api request needs JSON parser
-sudo apt-get -y install jq
+if [[ "install ok installed" != $(dpkg-query -W --showformat='${Status}\n' jq | grep "install ok installed") ]]; then
+  # jq needs to be installed
+  printf "sudo apt-get -y install jq\n"
+  sudo apt-get -y install jq
+fi
 HTTPS_FINGERPRINT=$(curl -s https://$HTTPS_URL | jq -r .ssh_key_fingerprints.SHA256_RSA)
 # verify fingerprints match
 MESSAGE="$SSH_FINGERPRINT (fetched via ssh from $SSH_HOST)\n$HTTPS_FINGERPRINT (fetched via https from https://$HTTPS_URL)\n"
@@ -43,14 +49,14 @@ fi
 # match
 printf "SSH fingerprints match, adding to known_hosts\n$MESSAGE"
 # add verified SSH key to known_hosts
-$SSH_KEY >> ~/.ssh/known_hosts
+echo $SSH_KEY >> ~/.ssh/known_hosts
 # change to correct directory
 mkdir $GIT_REPOSITORY
 cd $GIT_REPOSITORY
 
 # generate a deploy key for GitHub
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -C $GITHUB_EMAIL
-printf "\n$USER public key:"
+printf "\n$USER public key:\n\n"
 cat ~/.ssh/id_ed25519.pub
 printf "Add this key to GitHub as a deploy key for repository $GIT_REPOSITORY\n"
 read -p "Press enter to continue and clone repository $GIT_REPOSITORY from GitHub"
