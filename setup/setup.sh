@@ -35,7 +35,7 @@ sudo apt-get -y install jq
 HTTPS_FINGERPRINT=$(curl -s https://$HTTPS_URL | jq -r .ssh_key_fingerprints.SHA256_RSA)
 # verify fingerprints match
 MESSAGE="$SSH_FINGERPRINT (fetched via ssh from $SSH_HOST)\n$HTTPS_FINGERPRINT (fetched via https from https://$HTTPS_URL)\n"
-if [[ SSH_FINGERPRINT != HTTPS_FINGERPRINT ]]; then
+if [[ $SSH_FINGERPRINT != $HTTPS_FINGERPRINT ]]; then
   # no match
   printf "SSH fingerprints do not match! MITM attack?\n$MESSAGE"
   exit
