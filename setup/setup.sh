@@ -4,8 +4,10 @@
 # Setup script to be ran manually to clone a GitHub repo and start an init script
 #
 
-# https://serverfault.com/a/595256
-# ssh user@remote "$(< setup/setup.sh)"
+# USER=user && HOST=host
+# scp setup/setup.sh $USER@$HOST:. && ssh $USER@$HOST
+# ./setup.sh
+
 
 
 # Name of git repo to be cloned
