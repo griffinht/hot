@@ -56,13 +56,13 @@ cd $GIT_REPOSITORY
 
 # generate a deploy key for GitHub
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -C $GITHUB_EMAIL
-printf "\n$USER public key:\n\n"
+printf "\n$USER public key:\n"
 cat ~/.ssh/id_ed25519.pub
-printf "Add this key to GitHub as a deploy key for repository $GIT_REPOSITORY\n"
+printf "\nAdd this key to GitHub as a deploy key for repository $GIT_REPOSITORY\n"
 read -p "Press enter to continue and clone repository $GIT_REPOSITORY from GitHub"
 
 # clone to current directory, which was changed to earlier
-git clone git@$SSH_HOST:$GITHUB_USER/$GITHUB_REPOSITORY.git .
+git clone git@$SSH_HOST:$GITHUB_USER/$GIT_REPOSITORY.git .
 
 # execute $SCRIPT
 chmod +x $SCRIPT
