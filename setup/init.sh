@@ -46,12 +46,17 @@ sudo docker-compose --version
 sudo apt-get -y install uidmap
 
 # user setup
-sudo useradd -m -s /bin/bash docker-user
+# check if user exists https://stackoverflow.com/a/14811915/11975214
+if id docker-user &>/dev/null; then
+  read -p "User docker-user already exists. Press enter to continue anyway"
+else
+  sudo useradd -m -s /bin/bash docker-user
+fi
 # ensure systemd --user runs without requiring login
 sudo loginctl enable-linger docker-user
-sudo su - docker-user << EOF
-
-
+# don't use sudo su -
+# make sure environment variables are escaped! https://stackoverflow.com/a/27921346/11975214
+sudo systemd-run --uid=docker-user --pipe /bin/bash << 'EOF'
 
 # https://unix.stackexchange.com/a/657714/480971 :)
 export XDG_RUNTIME_DIR=/run/user/$UID
