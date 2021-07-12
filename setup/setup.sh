@@ -6,11 +6,11 @@
 
 # ssh user@host "bash -s" < ./script.sh "$1" "$2"
 
-# Environment
+
 
 # Name of git repo to be cloned
 GIT_REPOSITORY=hot
-# Path to script to run after setup is complete
+# Path to script to run after this one complete
 SCRIPT=setup/init.sh
 
 # GitHub user to clone $GIT_REPOSITORY from
@@ -19,10 +19,9 @@ GITHUB_USER=stzups
 # https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
 GITHUB_EMAIL=griffinht@gmail.com
 
-#
-#
-#
 
+
+# fetch, verify, then add SSH key to known_hosts
 # fetch SSH key & fingerprint via SSH
 SSH_HOST=github.com
 SSH_KEY=$(ssh_keyscan $SSH_HOST)
