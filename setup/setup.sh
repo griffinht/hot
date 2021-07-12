@@ -24,7 +24,7 @@ GITHUB_EMAIL=griffinht@gmail.com
 # fetch, verify, then add SSH key to known_hosts
 # fetch SSH key & fingerprint via SSH
 SSH_HOST=github.com
-SSH_KEY=$(ssh_keyscan $SSH_HOST)
+SSH_KEY=$(ssh-keyscan $SSH_HOST)
 SSH_FINGERPRINT=$(echo $SSH_KEY | ssh-keygen -lf - | cut -d " " -f2 | cut -d ":" -f2)
 # fetch SSH fingerprint via HTTPS
 HTTPS_URL=api.github.com/meta
