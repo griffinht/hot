@@ -4,8 +4,8 @@
 # Setup script to be ran manually to clone a GitHub repo and start an init script
 #
 
-# ssh user@host "bash -s" < ./script.sh "$1" "$2"
-
+# https://serverfault.com/a/595256
+# ssh user@remote "$(< setup/setup.sh)"
 
 
 # Name of git repo to be cloned
@@ -25,7 +25,7 @@ GITHUB_EMAIL=griffinht@gmail.com
 # fetch SSH key & fingerprint via SSH
 SSH_HOST=github.com
 SSH_KEY=$(ssh_keyscan $SSH_HOST)
-SSH_FINGERPRINT=$(ssh-keygen -lf $SSH_KEY | cut -d " " -f2 | cut -d ":" -f2)
+SSH_FINGERPRINT=$(echo $SSH_KEY | ssh-keygen -lf - | cut -d " " -f2 | cut -d ":" -f2)
 # fetch SSH fingerprint via HTTPS
 HTTPS_URL=api.github.com/meta
 # api request needs JSON parser
