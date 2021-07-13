@@ -64,6 +64,7 @@ curl -fsSL https://get.docker.com/rootless | sh
 #export PATH=/home/$(whoami)/bin:$PATH #optional?
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 systemctl --user start docker
+printf "export XDG_RUNTIME_DIR=/run/user/\$UID\nexport DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock\n" >> ~/.bashrc
 
 docker version
 docker-compose version
