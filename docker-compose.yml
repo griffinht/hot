@@ -60,8 +60,8 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - media:/media
-    command: '-n -p -s Media;/media'
+      - downloads:/downloads
+    command: '-n -p -s Downloads;/downloads'
 
 # nginx proxy
   nginx:
