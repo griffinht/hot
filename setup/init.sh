@@ -54,6 +54,8 @@ else
 fi
 # ensure systemd --user runs without requiring login
 sudo loginctl enable-linger docker-user
+# so nginx can run
+sudo sysctl net.ipv4.ip_unprivileged_port_start=0
 # don't use sudo su -
 # make sure environment variables are escaped! https://stackoverflow.com/a/27921346/11975214
 sudo systemd-run --uid=docker-user --pipe /bin/bash << 'EOF'
