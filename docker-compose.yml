@@ -14,7 +14,9 @@ volumes:
   jellyfin-cache:
   qbittorrent:
   radarr:
+  radarr-movies:
   jackett:
+  jackett-data:
 
 services:
 # wireguard
@@ -164,17 +166,21 @@ services:
     volumes:
       - radarr:/config
       - downloads:/downloads
-      - ./bin/radarr/movies:/movies
+      - radarr-movies:/movies
 
 # Jackett
 # port 9117
   jackett:
-    image: ghcr.io/linuxserver/jackett
+    image: jackett
+    build:
+      context: jackett
     restart: unless-stopped
     network_mode: service:openvpn-client
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
+      - XDG_DATA_HOME=/data
     volumes:
       - jackett:/config
+      - jackett-data:/data
