@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ -d vpn ]; then
+  echo "directory vpn already exists"
+  exit 1
+fi
+
+if [ -f vpn ]; then
+  echo "file vpn already exists (should be a directory, will be created by this script)";
+  exit 1
+fi
+
 mkdir vpn
 mv "$1" vpn/vpn.conf
 sed -i /auth-user-pass/d vpn/vpn.conf
