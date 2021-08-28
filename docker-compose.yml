@@ -86,8 +86,6 @@ services:
       context: jellyfin
     restart: unless-stopped
 #    user: uid:gid
-    ports:
-      - 8096:8096
     volumes:
       - jellyfin:/config
       - jellyfin-cache:/cache
