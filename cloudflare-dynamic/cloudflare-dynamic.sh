@@ -6,11 +6,11 @@ old_content_file="old_ip_address"
 # path to token
 token=$(cat "$1")
 zone_name="$2"
-# old ip address, or empty to get from file
-old_content="$3"
 # new ip address, or empty to get from $ip_server via simple curl request
 # this will replace any occurrences of $old_content in dns records
-new_content="$4"
+new_content="$3"
+# old ip address, or empty to get from file
+old_content="$4"
 
 if [ -z "$new_content" ]; then
   # get $new_content from $ip_server
