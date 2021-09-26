@@ -1,1 +1,0 @@
-./cloudflare-dynamic.sh "secret" "stzups.net"
