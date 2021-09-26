@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# $1 = .conf or .ovpn file path
+# $2 = username
+# $3 = password
+
 if [ -d vpn ]; then
   echo "directory vpn already exists"
   exit 1
