@@ -85,7 +85,7 @@ services:
       - default
       - openvpn-client
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f --insecure https://localhost:443" ]
+      test: [ "CMD-SHELL", "curl -f https://hot.stzups.net:443" ]
       interval: 5s
       timeout: 5s
       retries: 5
