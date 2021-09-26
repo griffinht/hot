@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ip_server=https://icanhazip.com
+ip_server="https://icanhazip.com"
 old_content_file="old_ip_address"
 
 # path to token
@@ -13,14 +13,17 @@ old_content="$3"
 new_content="$4"
 
 if [ -z "$new_content" ]; then
+  # get $new_content from $ip_server
   new_content=$(curl -sS $ip_server)
   echo "Got current ip address $new_content from $ip_server"
 fi;
 
 if [ -z "$old_content" ]; then
+  # get $old_content from file
   old_content=$(cat "$old_content_file" 2>/dev/null)
 
   if [ -z "$old_content" ]; then
+    # get $old_content from $new_content
     old_content=$new_content
     echo "Got old ip address from current ip address $new_content, saving to file"
     echo "$old_content" > "$old_content_file"
@@ -29,6 +32,7 @@ if [ -z "$old_content" ]; then
   fi;
 fi;
 
+# check if update is needed
 if [ "$old_content" == "$new_content" ]; then
   echo "IP address change not detected, still $old_content"
   exit 0
@@ -55,12 +59,12 @@ dns_ids=$(get "zones/$zone_id/dns_records" \
   | jq -r '.result[]| select(.content == "'"$old_content"'").id')
 
 if [ -z "$dns_ids" ]; then
-  echo "No dns records to update"
-  exit 0
+  echo "Warning: couldn't find any dns records with content $old_content to update to $new_content"
+  exit 1
 fi;
 
 # iterate through $dns_ids
-# entries with content that matches $old_content will be updated to $new_content
+# entries with content that match $old_content will be updated to $new_content
 while IFS= read -r dns_id; do
   echo "Updating dns_id $dns_id"
   response=$(curl -sS -X PATCH "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$dns_id" -H "Authorization: Bearer $token" -H "Content-Type:application/json" \
