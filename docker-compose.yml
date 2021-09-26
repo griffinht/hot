@@ -20,6 +20,10 @@ volumes:
 
   certbot:
 
+secrets:
+  certbot_cloudflare:
+    file: bin/certbot_cloudflare
+
 services:
 # wireguard
 # vpn server
@@ -95,6 +99,10 @@ services:
     build:
       context:
         certbot
+    environment:
+      CLOUDFLARE_CREDENTIALS_FILE: /run/secrets/certbot_cloudflare
+    secrets:
+      - certbot_cloudflare
     volumes:
       - certbot:/etc/letsencrypt/
 

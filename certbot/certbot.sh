@@ -6,4 +6,4 @@ certbot certonly \
   --noninteractive \
   -d hot.stzups.net \
   --dns-cloudflare \
-  --dns-cloudflare-credentials cloudflare.ini
+  --dns-cloudflare-credentials "$CLOUDFLARE_CREDENTIALS_FILE"

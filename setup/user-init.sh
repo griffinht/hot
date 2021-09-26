@@ -1,9 +1,9 @@
 #!/bin/bash
 
+mkdir -p ../bin/
 echo "Cerbot setup"
 read -p "Cloudflare api token (https://dash.cloudflare.com/profile/api-tokens) (for dns): " cloudflare_api_token
-mkdir -p ../certbot/bin
-echo "dns_cloudflare_api_token = $cloudflare_api_token" > ../certbot/bin/cloudflare.ini
+echo "dns_cloudflare_api_token = $cloudflare_api_token" > ../bin/certbot_cloudflare
 echo "ExpressVPN setup"
 read -p ".conf or .ovpn file path: " vpn_file
 read -p "username: " vpn_username
