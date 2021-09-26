@@ -34,7 +34,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
-      - SERVERURL=hot.stzups.com
+      - SERVERURL=hotter.stzups.com
       - PEERS=2
     volumes:
       - ./wireguard/config:/config
