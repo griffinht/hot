@@ -76,3 +76,6 @@ while IFS= read -r dns_id; do
   fi;
   echo "Success"
 done <<< "$dns_ids"
+
+echo "$new_content" > "$old_content_file"
+echo "Persisted $new_content to file $old_content_file"
