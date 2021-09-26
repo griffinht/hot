@@ -130,7 +130,10 @@ services:
     networks:
       - openvpn-client
     healthcheck:
-      test: [ "CMD-SHELL", "curl -m 1 icanhazip.com" ]
+      test: [ "CMD-SHELL", "curl -f https://icanhazip.com" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 # disable when using DNS flag (-d)
     #read_only: true
     tmpfs:
