@@ -13,5 +13,5 @@ RUN chmod u+x cloudflare-dynamic.sh \
 
 VOLUME cloudflare-dynamic
 
-#CMD [ "cron", "-f" ]
-CMD [ "/bin/bash", "cloudflare-dynamic.sh" ]
+CMD [ "cron", "-f" ]
+#CMD [ "/bin/bash", "cloudflare-dynamic.sh" ]
