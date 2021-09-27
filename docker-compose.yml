@@ -19,10 +19,13 @@ volumes:
   jackett-data:
 
   certbot:
+  cloudflare-dynamic:
 
 secrets:
   certbot_cloudflare:
     file: bin/certbot_cloudflare
+  cloudflare-dynamic_cloudflare:
+    file: bin/cloudflare-dynamic_cloudflare
 
 services:
 # wireguard
@@ -99,12 +102,25 @@ services:
     build:
       context:
         certbot
-    environment:
-      CLOUDFLARE_CREDENTIALS_FILE: /run/secrets/certbot_cloudflare
+#    environment:
+#      CLOUDFLARE_CREDENTIALS_FILE: /run/secrets/certbot_cloudflare
     secrets:
       - certbot_cloudflare
     volumes:
       - certbot:/etc/letsencrypt/
+
+  cloudflare-dynamic:
+    image: cloudflare-dynamic
+    build:
+      context:
+        cloudflare-dynamic
+    secrets:
+      - cloudflare-dynamic_cloudflare
+#    environment:
+#      token_file: /run/secrets/cloudflare-dynamic_cloudflare
+#      zone_name: stzups.com
+    volumes:
+      - cloudflare-dynamic:/cloudflare-dynamic/
 
 # Jellyfin Media Server
   jellyfin:

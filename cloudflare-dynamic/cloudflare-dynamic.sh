@@ -1,11 +1,15 @@
 #!/bin/bash
+set -e
 
 ip_server="https://icanhazip.com"
-old_content_file="old_ip_address"
+#old_content_file="old_ip_address"
+old_content_file="/cloudflare-dynamic/old_ip_address"
 
 # path to token
-token=$(cat "$1")
-zone_name="$2"
+token=$(cat "/run/secrets/cloudflare-dynamic_cloudflare")
+#token=$(cat "$1")
+zone_name=stzups.com
+#zone_name="$2"
 # new ip address, or empty to get from $ip_server via simple curl request
 # this will replace any occurrences of $old_content in dns records
 new_content="$3"
@@ -20,7 +24,9 @@ fi;
 
 if [ -z "$old_content" ]; then
   # get $old_content from file
-  old_content=$(cat "$old_content_file" 2>/dev/null)
+  if [ -f "$old_content_file" ]; then
+    old_content=$(cat "$old_content_file")
+  fi;
 
   if [ -z "$old_content" ]; then
     # get $old_content from $new_content
