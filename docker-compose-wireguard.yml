@@ -9,7 +9,7 @@ services:
       - NET_ADMIN
     volumes:
       - "wg-access-server-data:/data"
-      - "./wireguard/config.yaml:/config/yaml"
+      - "./wireguard/config.yaml:/config.yaml"
     ports:
       - "8000:8000/tcp"
       - "51820:51820/udp"
