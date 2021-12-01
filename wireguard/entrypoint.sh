@@ -1,0 +1,13 @@
+#!/bin/bash
+
+KEY_FILE="key"
+
+if [[ ! -f "$KEY_FILE" ]]; then
+  printf "warning: no wireguard private key found - regenerating"
+  touch "$KEY_FILE"
+  chmod 000 "$KEY_FILE"
+  chmod u+rw "$KEY_FILE"
+  wg-keygen > "$KEY_FILE"
+fi
+
+wg-access-server serve --wireguard-private-key "$(cat $KEY_FILE)"
