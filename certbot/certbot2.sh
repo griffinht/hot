@@ -2,10 +2,13 @@
 
 CLOUDFLARE_API_URL=https://api.cloudflare.com/client/v4/
 
-# check if $CLOUDFLARE_API_URL is set (call this before using $CLOUDFLARE_API_URL)
+# check if $CLOUDFLARE_API_TOKEN is set
+# token needs the following for each zone (domain) it can manipulate
+# Zone.Zone:Read
+# Zone.DNS:Edit
 cloudflare() {
-  if [ -z "$CLOUDFLARE_API_URL" ]; then
-    echo "CLOUDFLARE_API_URL not set"
+  if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+    echo "CLOUDFLARE_API_TOKEN not set"
     exit 1
   fi;
 }
