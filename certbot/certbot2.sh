@@ -21,13 +21,42 @@ cloudflare_api() {
   fi;
 }
 
+# blocks and continually retries finding record with type from a domain's authoritative nameservers
+function dig-check-nameservers() {
+  DIG_RETRY_MAX=100
+  DIG_RETRY_DELAY=0.1
+
+  DOMAIN=$1
+  RECORD_TYPE=$2
+  RECORD=$3
+
+  DIG_NAMESERVERS=$(dig "$DOMAIN" NS +short)
+  echo "cycling a maximum of $DIG_RETRY_MAX times every $DIG_RETRY_DELAY seconds through each of the following nameservers for $DOMAIN until $RECORD is found"
+  echo "$DIG_NAMESERVERS"
+  n=0
+  while true; do
+    while IFS= read -r nameserver; do
+      if [ "$n" -gt "$DIG_RETRY_MAX" ]; then
+        echo "max retries while cycling through nameservers"
+        exit 1;
+      fi;
+      ((n++))
+      if [ -n "$(dig @"$nameserver" "$RECORD.$DOMAIN" "$RECORD_TYPE" +short)" ]; then
+        echo "Found $RECORD in $DOMAIN after $n attempts"
+        exit 0
+      fi;
+      sleep "$DIG_RETRY_DELAY"
+    done <<< "$DIG_NAMESERVERS"
+  done
+}
+
 function manual-auth-hook()
 {
   CLOUDFLARE_API_TOKEN="$1"
-#  DOMAIN="$CERTBOT_DOMAIN"
-  DOMAIN="$2"
-#  VALIDATION="$CERTBOT_VALIDATION"
-  VALIDATION="$3"
+  DOMAIN="$CERTBOT_DOMAIN"
+#  DOMAIN="$2"
+  VALIDATION="$CERTBOT_VALIDATION"
+#  VALIDATION="$3"
 #
   cloudflare_api "$CLOUDFLARE_API_TOKEN" GET zones > test1
 
@@ -44,7 +73,7 @@ function manual-auth-hook()
   echo "Got zone id $ZONE_ID for domain $DOMAIN via GET to zones"
   echo "$ZONE_ID" > "$ZONE_ID_FILE"
 #
-  cloudflare_api_post "$CLOUDFLARE_API_TOKEN" "zones/$ZONE_ID/dns_records" '{"type":"TXT","name":"_acme-challenge","content":"'"$VALIDATION"'","ttl":"1"}' > test2
+  cloudflare_api "$CLOUDFLARE_API_TOKEN" POST "zones/$ZONE_ID/dns_records" '{"type":"TXT","name":"_acme-challenge","content":"'"$VALIDATION"'","ttl":"1"}' > test2
   if [ "$(jq -r '.success' < test2)" != "true" ]; then
     echo "Error creating DNS record with type TXT with _acme-challenge = $VALIDATION via POST to zones/$ZONE_ID/dns_records"
     jq '.errors' < test2
@@ -53,6 +82,8 @@ function manual-auth-hook()
   DNS_RECORD_ID=$(jq -r '.result.id' < test2)
   echo "Created DNS record with id $DNS_RECORD_ID with type TXT with _acme-challenge = $VALIDATION via POST to zones/$ZONE_ID/dns_records"
   echo "$DNS_RECORD_ID" > "$DNS_RECORD_ID_FILE"
+
+  dig-check-nameservers "$DOMAIN" "TXT" "_acme-challenge"
 }
 
 function manual-cleanup-hook() {
