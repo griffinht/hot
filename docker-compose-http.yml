@@ -35,7 +35,7 @@ services:
     secrets:
         - dynamic-ip_cloudflare
     volumes:
-      - ./dynamic-ip/ids:/ids
+      - ./dynamic-ip/paths:/paths
 
 volumes:
   certbot:

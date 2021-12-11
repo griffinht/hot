@@ -5,7 +5,7 @@ CLOUDFLARE_API_URL="https://api.cloudflare.com/client/v4/"
 CLOUDFLARE_API_TOKEN="$1"
 CONTENT="$2"
 
-rm -f dynamic-ip/ids
+rm -f dynamic-ip/paths
 
 for ZONE_ID in "${@:3}"; do
   echo "Doing $ZONE_ID"
@@ -25,13 +25,13 @@ for ZONE_ID in "${@:3}"; do
     exit 1
   fi;
 
-  IDS="$(echo "$RESPONSE" | jq -r '.result[]| select(.content == "'"$CONTENT"'").id')"
-  while IFS= read -r ID; do
-    echo "Adding $ID"
-    echo "zones/$ZONE_ID/dns_records/$ID" >> dynamic-ip/ids
-  done <<< "$IDS"
+  PATHS="$(echo "$RESPONSE" | jq -r '.result[]| select(.content == "'"$CONTENT"'").id')"
+  while IFS= read -r P; do
+    echo "Adding $P"
+    echo "zones/$ZONE_ID/dns_records/$P" >> dynamic-ip/paths
+  done <<< "$PATHS"
   echo "$CLOUDFLARE_API_TOKEN" > bin/dynamic-ip_cloudflare
 
-  echo "Success! Saved token to bin/dynamic-ip_cloudflare and dynamic-ip/ids to file"
-  cat dynamic-ip/ids
+  echo "Success! Saved token to bin/dynamic-ip_cloudflare and dynamic-ip/paths to file"
+  cat dynamic-ip/paths
 done

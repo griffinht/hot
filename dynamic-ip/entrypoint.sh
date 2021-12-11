@@ -1,7 +1,4 @@
 #!/bin/bash
-# get these values using cloudflare.sh
-ZONE_ID="$ZONE_ID"
-DNS_IDS="$DNS_IDS"
 
 OLD_CONTENT=
 while true; do
@@ -11,7 +8,7 @@ while true; do
     echo "updating $OLD_CONTENT to $CONTENT"
     #todo reload nginx
     #todo mikrotik
-    if ./cloudflare.sh "$(cat "/run/secrets/dynamic-ip_cloudflare")" "$(cat /ids)" "$CONTENT"; then OLD_CONTENT="$CONTENT"; fi
+    if ./cloudflare.sh "$(cat "/run/secrets/dynamic-ip_cloudflare")" "$(cat /paths)" "$CONTENT"; then OLD_CONTENT="$CONTENT"; fi
   fi;
 #todo interval
   sleep 1m
