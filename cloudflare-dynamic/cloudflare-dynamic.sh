@@ -1,87 +1,87 @@
 #!/bin/bash
 set -e
 
-ip_server="https://icanhazip.com"
-#old_content_file="old_ip_address"
-old_content_file="/cloudflare-dynamic/old_ip_address"
+ZONE_NAME="$1"
+IP_SERVER="https://icanhazip.com"
+#OLD_CONTENT_FILE="old_ip_address"
+OLD_CONTENT_FILE="/cloudflare-dynamic/old_ip_address"
 
-# path to token
-token=$(cat "/run/secrets/cloudflare-dynamic_cloudflare")
-#token=$(cat "$1")
-zone_name=stzups.com
-#zone_name="$2"
-# new ip address, or empty to get from $ip_server via simple curl request
-# this will replace any occurrences of $old_content in dns records
-new_content="$3"
+# path to CLOUDFLARE_API_TOKEN
+CLOUDFLARE_API_TOKEN=$(cat "/run/secrets/cloudflare-dynamic_cloudflare")
+#CLOUDFLARE_API_TOKEN=$(cat "$1")
+#ZONE_NAME="$2"
+# new ip address, or empty to get from $IP_SERVER via simple curl request
+# this will replace any occurrences of $OLD_CONTENT in dns records
+NEW_CONTENT="$3"
 # old ip address, or empty to get from file
-old_content="$4"
+OLD_CONTENT="$4"
 
-if [ -z "$new_content" ]; then
-  # get $new_content from $ip_server
-  new_content=$(curl -sS $ip_server)
-  echo "Got current ip address $new_content from $ip_server"
+if [ -z "$NEW_CONTENT" ]; then
+  # get $NEW_CONTENT from $IP_SERVER
+  NEW_CONTENT=$(curl -sS $IP_SERVER)
+  echo "Got current ip address $NEW_CONTENT from $IP_SERVER"
 fi;
 
-if [ -z "$old_content" ]; then
-  # get $old_content from file
-  if [ -f "$old_content_file" ]; then
-    old_content=$(cat "$old_content_file")
+if [ -z "$OLD_CONTENT" ]; then
+  # get $OLD_CONTENT from file
+  if [ -f "$OLD_CONTENT_FILE" ]; then
+    OLD_CONTENT=$(cat "$OLD_CONTENT_FILE")
   fi;
 
-  if [ -z "$old_content" ]; then
-    # get $old_content from $new_content
-    old_content=$new_content
-    echo "Got old ip address from current ip address $new_content, saving to file"
-    echo "$old_content" > "$old_content_file"
+  if [ -z "$OLD_CONTENT" ]; then
+    # get $OLD_CONTENT from $NEW_CONTENT
+    OLD_CONTENT=$NEW_CONTENT
+    echo "Got old ip address from current ip address $NEW_CONTENT, saving to file"
+    echo "$OLD_CONTENT" > "$OLD_CONTENT_FILE"
   else
-    echo "Got old ip address $old_content from file $old_content_file"
+    echo "Got old ip address $OLD_CONTENT from file $OLD_CONTENT_FILE"
   fi;
 fi;
 
 # check if update is needed
-if [ "$old_content" == "$new_content" ]; then
-  echo "IP address change not detected, still $old_content"
+if [ "$OLD_CONTENT" == "$NEW_CONTENT" ]; then
+  echo "IP address change not detected, still $OLD_CONTENT"
   exit 0
 fi;
 
-echo "IP address change detected, updating occurrences of $old_content to $new_content"
+echo "IP address change detected, updating occurrences of $OLD_CONTENT to $NEW_CONTENT"
 
 get() {
-  curl -sS -X GET "https://api.cloudflare.com/client/v4/$1" -H "Authorization: Bearer $token" -H "Content-Type:application/json"
+  curl -sS -X GET "https://api.cloudflare.com/client/v4/$1" -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type:application/json"
 }
 
-# get $zone_id from $zone_name
-zone_id=$(get "zones" \
-  | jq -r '.result[]| select(.name == "'"$zone_name"'").id')
+# get $ZONE_ID from $ZONE_NAME
+ZONE_ID=$(get "zones" \
+  | jq -r '.result[]| select(.name == "'"$ZONE_NAME"'").id')
 
-if [ -z "$zone_id" ]; then
-  echo "Zone id for zone_name $zone_name not found"
+if [ -z "$ZONE_ID" ]; then
+  echo "Zone id for ZONE_NAME $ZONE_NAME not found"
   exit 1
 fi;
-echo "Found zone id $zone_id for zone_name $zone_name"
+echo "Found zone id $ZONE_ID for ZONE_NAME $ZONE_NAME"
 
-# get $dns_ids from $zone_id
-dns_ids=$(get "zones/$zone_id/dns_records" \
-  | jq -r '.result[]| select(.content == "'"$old_content"'").id')
+# get $DNS_IDS from $ZONE_ID
+DNS_IDS=$(get "zones/$ZONE_ID/dns_records" \
+  | jq -r '.result[]| select(.content == "'"$OLD_CONTENT"'").id')
 
-if [ -z "$dns_ids" ]; then
-  echo "Warning: couldn't find any dns records with content $old_content to update to $new_content"
+if [ -z "$DNS_IDS" ]; then
+  echo "Warning: couldn't find any dns records with content $OLD_CONTENT to update to $NEW_CONTENT"
   exit 1
 fi;
 
-# iterate through $dns_ids
-# entries with content that match $old_content will be updated to $new_content
-while IFS= read -r dns_id; do
-  echo "Updating dns_id $dns_id"
-  response=$(curl -sS -X PATCH "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$dns_id" -H "Authorization: Bearer $token" -H "Content-Type:application/json" \
-               --data '{"content":"'"$new_content"'"}')
-  if [ "$(echo "$response" | jq '.success')" != "true" ]; then
+# iterate through $DNS_IDS
+# entries with content that match $OLD_CONTENT will be updated to $NEW_CONTENT
+while IFS= read -r DNS_ID; do
+  echo "Updating DNS_ID $DNS_ID"
+  RESPONSE=$(curl -sS -X PATCH "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$DNS_ID" -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type:application/json" \
+               --data '{"content":"'"$NEW_CONTENT"'"}')
+  if [ "$(echo "$RESPONSE" | jq '.success')" != "true" ]; then
     echo "Error"
-    echo "$response"
+    echo "$RESPONSE"
     exit 1
   fi;
   echo "Success"
-done <<< "$dns_ids"
+done <<< "$DNS_IDS"
 
-echo "$new_content" > "$old_content_file"
-echo "Persisted $new_content to file $old_content_file"
+echo "$NEW_CONTENT" > "$OLD_CONTENT_FILE"
+echo "Persisted $NEW_CONTENT to file $OLD_CONTENT_FILE"
