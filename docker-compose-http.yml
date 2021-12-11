@@ -2,7 +2,7 @@ services:
   nginx:
     depends_on:
       certbot:
-        condition: service_started
+        condition: service_healthy
       dynamic-ip:
         condition: service_started
     restart: unless-stopped
@@ -10,10 +10,7 @@ services:
     build:
       context: nginx
     ports:
-#      - 80:80
       - 443:443
-#    networks:
-#      - default
     volumes:
       - certbot:/etc/letsencrypt/
   certbot:
@@ -25,6 +22,11 @@ services:
       - certbot_cloudflare
     volumes:
       - certbot:/etc/letsencrypt/
+    healthcheck:
+      test: [ "CMD-SHELL", "ls  -f /etc/letsencrypt/live/griffinht.com/fullchain.pem" ]
+      interval: 1s
+      timeout: 1s
+      retries: 60
   dynamic-ip:
     restart: unless-stopped
     image: dynamic-ip
