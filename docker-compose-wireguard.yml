@@ -11,8 +11,8 @@ services:
       - "wg-access-server-data:/data"
       - "./wireguard/config.yaml:/config.yaml"
     ports:
+      - "80:80/udp"
       - "8000:8000/tcp"
-      - "80:51820/udp"
     devices:
       - "/dev/net/tun:/dev/net/tun"
 
