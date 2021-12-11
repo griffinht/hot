@@ -7,6 +7,7 @@ if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
   echo "Token name: hot_certbot"
   echo "Permissions: Zone, DNS, Read/Edit (and edit for cloudflare-dynamic.sh)"
   echo "Continue to summary > Create Token > (pass given token as first argument)"
-  read -rp "CLOUDFLARE_API_TOKEN: " CLOUDFLARE_API_TOKEN
+  read -srp "CLOUDFLARE_API_TOKEN: " CLOUDFLARE_API_TOKEN
+  echo
 fi
 echo "dns_cloudflare_api_token = $CLOUDFLARE_API_TOKEN" > bin/dynamic-ip_cloudflare
