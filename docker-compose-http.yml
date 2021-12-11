@@ -9,3 +9,20 @@ services:
 #      - 443:443
 #    networks:
 #      - default
+    volumes:
+      - certbot:/etc/letsencrypt/
+  certbot:
+    image: certbot
+    build:
+      context: certbot
+    restart: unless-stopped
+    secrets:
+      - certbot_cloudflare
+    volumes:
+      - certbot:/etc/letsencrypt/
+volumes:
+  certbot:
+
+secrets:
+  certbot_cloudflare:
+    file: bin/certbot_cloudflare
