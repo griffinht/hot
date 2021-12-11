@@ -4,7 +4,7 @@ set -e
 KEY_FILE="key"
 
 if [[ ! -f "$KEY_FILE" ]]; then
-  printf "warning: no wireguard private key found - regenerating"
+  echo "warning: no wireguard private key found - regenerating"
   touch "$KEY_FILE"
   chmod 000 "$KEY_FILE"
   chmod u+rw "$KEY_FILE"
