@@ -111,16 +111,11 @@ function certbot-certonly()
   # Zone.Zone:Read
   # Zone.DNS:Edit
   CLOUDFLARE_API_TOKEN="$2"
+  CONFIG_DIR="$3"
 
-  if [ -z "$DOMAIN" ]; then
-    echo "DOMAIN not set"
-    exit 1
-  fi;
-  if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-    echo "CLOUDFLARE_API_TOKEN not set"
-    echo ""
-    exit 1
-  fi;
+  if [ -z "$DOMAIN" ]; then echo "DOMAIN not set"; exit 1; fi;
+  if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "CLOUDFLARE_API_TOKEN not set"; exit 1; fi;
+  if [ -z "$CONFIG_DIR" ]; then echo "CONFIG_DIR not set"; exit 1; fi;
 
   certbot certonly \
     --test-cert \
@@ -135,9 +130,9 @@ function certbot-certonly()
     --register-unsafely-without-email \
     --agree-tos \
     \
-    --config-dir test/config \
-    --work-dir test/work \
-    --logs-dir test/logs
+    --config-dir "$CONFIG_DIR" \
+    --work-dir /tmp/ \
+    --logs-dir /tmp/
 
 }
 
