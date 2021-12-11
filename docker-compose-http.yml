@@ -35,8 +35,7 @@ services:
     secrets:
         - dynamic-ip_cloudflare
     volumes:
-      - ./dynamic-ip/dns-ids:/dns-ids
-      - ./dynamic-ip/zone-id:/zone-id
+      - ./dynamic-ip/ids:/ids
 
 volumes:
   certbot:

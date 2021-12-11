@@ -9,7 +9,9 @@ while true; do
   #todo check error code
   if [ "$OLD_CONTENT" != "$CONTENT" ]; then
     echo "updating $OLD_CONTENT to $CONTENT"
-    if ./cloudflare.sh "$(cat "/run/secrets/dynamic-ip_cloudflare")" "$(cat "/zone-id")" "$(cat "/dns-ids")" "$CONTENT"; then OLD_CONTENT="$CONTENT"; fi
+    #todo reload nginx
+    #todo mikrotik
+    if ./cloudflare.sh "$(cat "/run/secrets/dynamic-ip_cloudflare")" "$(cat /ids)" "$CONTENT"; then OLD_CONTENT="$CONTENT"; fi
   fi;
 #todo interval
   sleep 1m

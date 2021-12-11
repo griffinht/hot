@@ -21,9 +21,12 @@ if [ "$(echo "$RESPONSE" | jq '.success')" != "true" ]; then
   exit 1
 fi;
 
-echo "$RESPONSE" | jq -r '.result[]| select(.content == "'"$CONTENT"'").id' > dynamic-ip/dns-ids
+IDS="$(echo "$RESPONSE" | jq -r '.result[]| select(.content == "'"$CONTENT"'").id')"
+while IFS= read -r ID; do
+  echo "Adding $ID"
+  echo "zones/$ZONE_ID/dns_records/$ID" >> dynamic-ip/ids
+done <<< "$IDS"
 echo "$CLOUDFLARE_API_TOKEN" > bin/dynamic-ip_cloudflare
-echo "$ZONE_ID" > dynamic-ip/zone-id
 
-echo "Success! Saved token to bin/dynamic-ip_cloudflare and dynamic-ip/dns_ids and dynamic/zone_id to file"
-cat dynamic-ip/dns-ids
+echo "Success! Saved token to bin/dynamic-ip_cloudflare and dynamic-ip/ids to file"
+cat dynamic-ip/ids

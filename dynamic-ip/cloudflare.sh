@@ -1,21 +1,20 @@
 #!/bin/bash
-# PATCH zones/$ZONE_ID/dns_records/$DNS_ID with $CONTENT
+# PATCH zones/$ZONE_ID/dns_records/$IDS with $CONTENT
 CLOUDFLARE_API_URL="https://api.cloudflare.com/client/v4/"
 
 CLOUDFLARE_API_TOKEN="$1"
-ZONE_ID="$2"
-DNS_IDS="$3"
+IDS="$3"
 CONTENT="$4"
 
-# iterate through $DNS_IDS
-while IFS= read -r DNS_ID; do
-  echo "Updating DNS_ID $DNS_ID"
+# iterate through $IDS
+while IFS= read -r IDS; do
+  echo "Updating IDS $IDS"
 
   RESPONSE=$(curl -sS -X PATCH \
       -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
       -H "Content-Type:application/json" \
        --data '{"content":"'"$CONTENT"'"}' \
-      "$CLOUDFLARE_API_URL""zones/$ZONE_ID/dns_records/$DNS_ID")
+      "$CLOUDFLARE_API_URL$IDS")
 
   if [ "$(echo "$RESPONSE" | jq '.success')" != "true" ]; then
     echo "Error"
@@ -24,4 +23,4 @@ while IFS= read -r DNS_ID; do
   fi;
 
   echo "Success"
-done <<< "$DNS_IDS"
+done <<< "$IDS"
