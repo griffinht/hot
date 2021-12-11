@@ -13,6 +13,11 @@ services:
       - 443:443
     volumes:
       - certbot:/etc/letsencrypt/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   certbot:
     restart: unless-stopped
     image: certbot
