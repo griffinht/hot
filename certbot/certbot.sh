@@ -3,7 +3,6 @@
 DOMAIN="$1"
 
 certbot certonly \
-  --test-cert \
   -d "$DOMAIN" \
   \
   --noninteractive \
