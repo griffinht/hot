@@ -1,11 +1,16 @@
 #!/bin/bash
+# get these values using cloudflare.sh
+ZONE_ID="$ZONE_ID"
+DNS_IDS="$DNS_IDS"
 
 OLD_CONTENT=
 while true; do
-  CONTENT=$(curl icanhazip.com)
-  if [ "$OLD_CONTENT" -ne "$CONTENT" ]; then
-    ./cloudflare-dynamic.sh "$(cat "/run/secrets/cloudflare-dynamic_cloudflare")" zone_id dns_ids new_content;
-    OLD_CONTENT="$NEW_CONTENT"
+  CONTENT=$(curl -s icanhazip.com)
+  #todo check error code
+  if [ "$OLD_CONTENT" != "$CONTENT" ]; then
+    echo "updating $OLD_CONTENT to $CONTENT"
+    if ./cloudflare.sh "$(cat "/run/secrets/dynamic-ip_cloudflare")" "$(cat "/zone-id")" "$(cat "/dns-ids")" "$CONTENT"; then OLD_CONTENT="$CONTENT"; fi
   fi;
-  sleep 1d
+#todo interval
+  sleep 1m
 done;

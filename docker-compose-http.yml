@@ -3,6 +3,8 @@ services:
     depends_on:
       certbot:
         condition: service_started
+      dynamic-ip:
+        condition: service_started
     restart: unless-stopped
     image: nginx
     build:
@@ -23,6 +25,16 @@ services:
       - certbot_cloudflare
     volumes:
       - certbot:/etc/letsencrypt/
+  dynamic-ip:
+    restart: unless-stopped
+    image: dynamic-ip
+    build:
+      context: dynamic-ip
+    secrets:
+        - dynamic-ip_cloudflare
+    volumes:
+      - ./dynamic-ip/dns-ids:/dns-ids
+      - ./dynamic-ip/zone-id:/zone-id
 
 volumes:
   certbot:
@@ -30,3 +42,5 @@ volumes:
 secrets:
   certbot_cloudflare:
     file: bin/certbot_cloudflare
+  dynamic-ip_cloudflare:
+    file: bin/dynamic-ip_cloudflare
