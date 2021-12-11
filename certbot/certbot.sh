@@ -1,9 +1,8 @@
 #!/bin/bash
 
-DOMAIN="$1"
-
 certbot certonly \
-  -d "$DOMAIN" \
+  -d griffinht.com \
+  -d scribbleshare.com \
   \
   --noninteractive \
   --register-unsafely-without-email \

@@ -2,6 +2,6 @@
 set -e
 
 while true; do
-  ./certbot.sh griffinht.com;
+  ./certbot.sh;
   sleep 1d
 done;
