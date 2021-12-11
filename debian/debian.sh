@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
-
+#https://wiki.debian.org/DebianInstaller/Preseed/EditIso
 curl https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.1.0-amd64-netinst.iso -C - -Lo debian.iso
 
-sudo apt-get -y install xorriso genisoimage
+sudo apt-get -y install xorriso genisoimage isolinux
 
 xorriso -osirrox on -indev debian.iso  -extract / isofiles/
 #rm debian.iso
@@ -19,13 +19,12 @@ chmod -w -R isofiles/install.amd/
 #md5
 (
 cd isofiles/
-chmod a+w md5sum.txt
-md5sum `find -follow -type f` > md5sum.txt
-chmod a-w md5sum.txt
+chmod +w md5sum.txt
+find -follow -type f ! -name md5sum.txt -print0 | xargs -0 md5sum > md5sum.txt
+chmod -w md5sum.txt
 )
 #
-chmod a+w isofiles/isolinux/isolinux.bin
-genisoimage -r -J -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o debian-unattended.iso isofiles
+xorriso -as mkisofs -o debian-unattended.iso -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin -c isolinux/boot.cat -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table isofiles
 # clean
 chmod +w -R isofiles
 rm -r isofiles
