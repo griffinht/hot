@@ -22,7 +22,7 @@ if [ "$(echo "$RESPONSE" | jq '.success')" != "true" ]; then
 fi;
 
 echo "$RESPONSE" | jq -r '.result[]| select(.content == "'"$CONTENT"'").id' > dynamic-ip/dns-ids
-echo "CLOUDFLARE_API_TOKEN" > bin/dynamic-ip_cloudflare
+echo "$CLOUDFLARE_API_TOKEN" > bin/dynamic-ip_cloudflare
 echo "$ZONE_ID" > dynamic-ip/zone-id
 
 echo "Success! Saved token to bin/dynamic-ip_cloudflare and dynamic-ip/dns_ids and dynamic/zone_id to file"
