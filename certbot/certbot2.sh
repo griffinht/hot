@@ -5,22 +5,20 @@ ZONE_ID_FILE=zone-id
 DNS_RECORD_ID_FILE=dns-record-id
 
 cloudflare_api() {
-    CLOUDFLARE_API_TOKEN="$1"
-    METHOD="$2"
-    CLOUDFLARE_API_PATH="$3"
+  CLOUDFLARE_API_TOKEN="$1"
+  METHOD="$2"
+  CLOUDFLARE_API_PATH="$3"
+  DATA="$4"
+  if [ -z "$DATA" ]; then
     curl -sS -X "$METHOD" "$CLOUDFLARE_API_URL$CLOUDFLARE_API_PATH" \
       -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
       -H "Content-Type:application/json"
-}
-
-cloudflare_api_post() {
-  CLOUDFLARE_API_TOKEN="$1"
-  CLOUDFLARE_API_PATH="$2"
-  DATA=$3
-  curl -sS -X POST "$CLOUDFLARE_API_URL$CLOUDFLARE_API_PATH" \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-    -H "Content-Type:application/json" \
-    --data "$DATA"
+  else
+    curl -sS -X "$METHOD" "$CLOUDFLARE_API_URL$CLOUDFLARE_API_PATH" \
+      -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+      -H "Content-Type:application/json" \
+      --data "$DATA"
+  fi;
 }
 
 function manual-auth-hook()
@@ -61,8 +59,6 @@ function manual-cleanup-hook() {
   CLOUDFLARE_API_TOKEN="$1"
   ZONE_ID=$(cat "$ZONE_ID_FILE")
   DNS_RECORD_ID=$(cat "$DNS_RECORD_ID_FILE")
-  rm "$DNS_RECORD_ID_FILE"
-  rm "$ZONE_ID_FILE"
 
   echo "$ZONE_ID and $DNS_RECORD_ID"
 #
@@ -73,6 +69,8 @@ function manual-cleanup-hook() {
     exit 1
   fi
   echo "Deleted DNS record via DELETE to zones/$ZONE_ID/dns_records/$DNS_RECORD_ID"
+  rm "$DNS_RECORD_ID_FILE"
+  rm "$ZONE_ID_FILE"
 }
 
 function certbot-certonly()
