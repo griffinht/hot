@@ -5,8 +5,8 @@ if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
   echo "Specify a CLOUDFLARE_API_TOKEN for certbot"
   echo "Go to Cloudflare dashboard > Person Icon (top right) > My Profile > API Tokens > Create Token > Custom Custom Token"
   echo "Token name: hot_certbot"
-  echo "Permissions: Zone, DNS, Read/Edit (and edit for cloudflare-dynamic.sh)"
-  echo "Continue to summary > Create Token > (pass given token as first argument)"
+  echo "Permissions: Zone, DNS, Read/Edit"
+  echo "Continue to summary > Create Token > (enter token below)"
   read -srp "CLOUDFLARE_API_TOKEN: " CLOUDFLARE_API_TOKEN
   echo
 fi
