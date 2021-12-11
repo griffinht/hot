@@ -1,25 +1,29 @@
 services:
   nginx:
+    depends_on:
+      certbot:
+        condition: service_started
+    restart: unless-stopped
     image: nginx
     build:
       context: nginx
-    restart: unless-stopped
     ports:
-      - 80:80
-#      - 443:443
+#      - 80:80
+      - 443:443
 #    networks:
 #      - default
     volumes:
       - certbot:/etc/letsencrypt/
   certbot:
+    restart: unless-stopped
     image: certbot
     build:
       context: certbot
-    restart: unless-stopped
     secrets:
       - certbot_cloudflare
     volumes:
       - certbot:/etc/letsencrypt/
+
 volumes:
   certbot:
 
