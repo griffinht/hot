@@ -1,17 +1,15 @@
 services:
   wireguard:
+    restart: unless-stopped
     image: place1/wg-access-server
     build:
-       dockerfile: wireguard/Dockerfile
-       context: .
-    restart: unless-stopped
+      context: wireguard
     cap_add:
       - NET_ADMIN
     volumes:
       - "wg-access-server-data:/data"
-      - "./wireguard/config.yaml:/config.yaml"
     ports:
-      - "80:80/udp"
+      - "123:123/udp"
       - "8000:8000/tcp"
     devices:
       - "/dev/net/tun:/dev/net/tun"

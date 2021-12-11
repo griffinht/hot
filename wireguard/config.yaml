@@ -1,4 +1,4 @@
 adminPassword: password
 wireguard:
-  port: 80
+  port: 123
 externalHost: griffinht.com
