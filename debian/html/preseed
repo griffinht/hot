@@ -34,9 +34,8 @@ d-i netcfg/confirm_static boolean true
 d-i netcfg/get_hostname string hot-desktop
 d-i netcfg/get_domain string unassigned-domain
 
-#todo unecc
 # Disable that annoying WEP key dialog.
-d-i netcfg/wireless_wep string
+#d-i netcfg/wireless_wep string
 # The wacky dhcp hostname that some ISPs use as a password of sorts.
 #d-i netcfg/dhcp_hostname string radish
 
