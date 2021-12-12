@@ -20,19 +20,30 @@ git clone git@github.com:stzups/hot.git
 EOF
 
 # rootless docker
-apt-get install -y dbus-user-session slirp4netns
-# todo restart here
+apt-get install -y uidmap
+# not needed
+#apt-get install -y slirp4netns
+#apt-get install -y dbus-user-session
+# todo restart here after dbus-user-session
 loginctl enable-linger hot
 # make sure environment variables are escaped! https://stackoverflow.com/a/27921346/11975214
-systemd-run --uid=docker-user --pipe /bin/bash << 'EOF'
+systemd-run --uid=hot --pipe /bin/bash << 'EOF'
+# fix XDG_RUNTIME_DIR
 # https://unix.stackexchange.com/a/657714/480971 :)
 export XDG_RUNTIME_DIR=/run/user/$UID
+printf "export XDG_RUNTIME_DIR=/run/user/\$UID\n" >> ~/.bashrc
+
+# rootless docker (needs XDG_RUNTIME_DIR)
 curl -fsSL https://get.docker.com/rootless | sh
+
+# fix DOCKER_HOST
 #optional?
 #export PATH=/home/$(whoami)/bin:$PATH
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
-systemctl --user start docker
-printf "export XDG_RUNTIME_DIR=/run/user/\$UID\nexport DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock\n" >> ~/.bashrc
+printf "export DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock\n" >> ~/.bashrc
+
+# start docker - todo necessary???
+#systemctl --user start docker
 
 docker version
 docker-compose version
