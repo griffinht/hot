@@ -3,8 +3,9 @@
 ## Provide preseed file via network
 ### Start http server with preseed file
 Run these commands from this current working directory
+
+Make sure `wget` at the bottom of `html/preseed` has the right address
 ```
-sed -i 's/HOST/192.168.0.123/g' html/preseed
 docker run -v "$(pwd)"/html:/usr/share/nginx/html/ -p 8080:80 nginx
 ```
 ## Install debian
@@ -18,4 +19,4 @@ Plug in to the new computer, and boot to the USB drive
 From installer menu:
 - Advanced options > Automated install
 - (wait for network configuration)
-- enter location of preseed when prompted (`http://192.168.0.123/preseed` assuming you are running the http server)
+- enter location of preseed when prompted (`http://192.168.0.123:8080/preseed` assuming you are running the http server)
