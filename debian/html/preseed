@@ -10,54 +10,18 @@ d-i keyboard-configuration/xkb-keymap select us
 
 #todo
 ### Network configuration
-# Disable network configuration entirely. This is useful for cdrom
-# installations on non-networked devices where the network questions,
-# warning and long timeouts are a nuisance.
-#d-i netcfg/enable boolean false
-
 # netcfg will choose an interface that has link if possible. This makes it
 # skip displaying a list if there is more than one interface.
 d-i netcfg/choose_interface select auto
 
-# To pick a particular interface instead:
-#d-i netcfg/choose_interface select eth1
-
-# To set a different link detection timeout (default is 3 seconds).
-# Values are interpreted as seconds.
-#d-i netcfg/link_wait_timeout string 10
-
-# If you have a slow dhcp server and the installer times out waiting for
-# it, this might be useful.
-#d-i netcfg/dhcp_timeout string 60
-#d-i netcfg/dhcpv6_timeout string 60
-
-# If you prefer to configure the network manually, uncomment this line and
-# the static network configuration below.
-#d-i netcfg/disable_autoconfig boolean true
-
-# If you want the preconfiguration file to work on systems both with and
-# without a dhcp server, uncomment these lines and the static network
-# configuration below.
-#d-i netcfg/dhcp_failed note
-#d-i netcfg/dhcp_options select Configure network manually
-
 # Static network configuration.
 #
 # IPv4 example
-#d-i netcfg/get_ipaddress string 192.168.1.42
-#d-i netcfg/get_netmask string 255.255.255.0
-#d-i netcfg/get_gateway string 192.168.1.1
-#d-i netcfg/get_nameservers string 192.168.1.1
-#d-i netcfg/confirm_static boolean true
-#
-# IPv6 example
-#d-i netcfg/get_ipaddress string fc00::2
-#d-i netcfg/get_netmask string ffff:ffff:ffff:ffff::
-#d-i netcfg/get_gateway string fc00::1
-#d-i netcfg/get_nameservers string fc00::1
-#d-i netcfg/confirm_static boolean true
-
-
+d-i netcfg/get_ipaddress string 192.168.0.5
+d-i netcfg/get_netmask string 255.255.254.0
+d-i netcfg/get_gateway string 192.168.0.1
+d-i netcfg/get_nameservers string 192.168.0.1
+d-i netcfg/confirm_static boolean true
 
 
 
@@ -98,9 +62,8 @@ d-i passwd/root-login boolean false
 d-i passwd/user-fullname string debian
 d-i passwd/username string debian
 # Normal user's password, either in clear text
-#todo
-#d-i passwd/user-password password insecure
-#d-i passwd/user-password-again password insecure
+d-i passwd/user-password password insecure
+d-i passwd/user-password-again password insecure
 
 # You may set this to any valid setting for $TZ; see the contents of
 # /usr/share/zoneinfo/ for valid values.
@@ -205,16 +168,6 @@ d-i finish-install/keep-consoles boolean true
 
 # Avoid that last message about the install being complete.
 d-i finish-install/reboot_in_progress note
-
-### Preseeding other packages
-# Depending on what software you choose to install, or if things go wrong
-# during the installation process, it's possible that other questions may
-# be asked. You can preseed those too, of course. To get a list of every
-# possible question that could be asked during an install, do an
-# installation, and then run these commands:
-#   debconf-get-selections --installer > file
-#   debconf-get-selections >> file
-
 
 #### Advanced options
 ### Running custom commands during the installation
