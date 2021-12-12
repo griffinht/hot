@@ -2,13 +2,6 @@
 set -e
 
 #
-# System
-#
-
-sudo apt-get update
-sudo apt-get -y upgrade
-
-#
 # Docker Engine
 # https://docs.docker.com/engine/install/ubuntu/
 #
