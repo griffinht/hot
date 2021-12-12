@@ -7,8 +7,8 @@ set -e
 #
 
 # USER=user && HOST=host
-# scp setup/setup.sh $USER@$HOST:. && ssh $USER@$HOST
-# ./setup.sh
+# scp setup/initold.sh $USER@$HOST:. && ssh $USER@$HOST
+# ./initold.sh
 
 
 
