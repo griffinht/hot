@@ -81,15 +81,6 @@ d-i netcfg/wireless_wep string
 # change to false to disable asking.
 #d-i hw-detect/load_firmware boolean true
 
-### Network console
-# Use the following settings if you wish to make use of the network-console
-# component for remote installation over SSH. This only makes sense if you
-# intend to perform the remainder of the installation manually.
-#d-i anna/choose_modules string network-console
-#d-i network-console/authorized_keys_url string http://10.0.0.1/openssh-key
-#d-i network-console/password password r00tme
-#d-i network-console/password-again password r00tme
-
 ### Mirror settings
 # If you select ftp, the mirror/country string does not need to be set.
 #d-i mirror/protocol string ftp
@@ -97,11 +88,6 @@ d-i mirror/country string manual
 d-i mirror/http/hostname string http.us.debian.org
 d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string
-
-# Suite to install.
-#d-i mirror/suite string testing
-# Suite to use for loading installer components (optional).
-#d-i mirror/udeb/suite string testing
 
 ### Account setup
 # Skip creation of a root account (normal user account will be able to
@@ -112,21 +98,13 @@ d-i passwd/root-login boolean false
 d-i passwd/user-fullname string debian
 d-i passwd/username string debian
 # Normal user's password, either in clear text
-d-i passwd/user-password password insecure
-d-i passwd/user-password-again password insecure
-
-### Clock and time zone setup
-# Controls whether or not the hardware clock is set to UTC.
-#todo d-i clock-setup/utc boolean true
+#todo
+#d-i passwd/user-password password insecure
+#d-i passwd/user-password-again password insecure
 
 # You may set this to any valid setting for $TZ; see the contents of
 # /usr/share/zoneinfo/ for valid values.
 d-i time/zone string US/Eastern
-
-# Controls whether to use NTP to set the clock during the install
-#todo d-i clock-setup/ntp boolean true
-# NTP server to use. The default is almost always fine here.
-#d-i clock-setup/ntp-server string ntp.example.com
 
 ### Partitioning
 ## Partitioning example
@@ -172,12 +150,6 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
-# Force UEFI booting ('BIOS compatibility' will be lost). Default: false.
-#d-i partman-efi/non_efi_system boolean true
-# Ensure the partition table is GPT - this is required for EFI
-#d-i partman-partitioning/choose_label string gpt
-#d-i partman-partitioning/default_label string gpt
-
 # This makes partman automatically partition without confirmation.
 d-i partman-md/confirm boolean true
 d-i partman-partitioning/confirm_write_new_label boolean true
@@ -197,32 +169,8 @@ d-i partman/confirm_nooverwrite boolean true
 d-i apt-setup/services-select multiselect security, updates
 d-i apt-setup/security_host string security.debian.org
 
-# Additional repositories, local[0-9] available
-#d-i apt-setup/local0/repository string \
-#       http://local.server/debian stable main
-#d-i apt-setup/local0/comment string local server
-# Enable deb-src lines
-#d-i apt-setup/local0/source boolean true
-# URL to the public key of the local repository; you must provide a key or
-# apt will complain about the unauthenticated repository and so the
-# sources.list line will be left commented out.
-#d-i apt-setup/local0/key string http://local.server/key
-# If the provided key file ends in ".asc" the key file needs to be an
-# ASCII-armoured PGP key, if it ends in ".gpg" it needs to use the
-# "GPG key public keyring" format, the "keybox database" format is
-# currently not supported.
-
-# By default the installer requires that repositories be authenticated
-# using a known gpg key. This setting can be used to disable that
-# authentication. Warning: Insecure, not recommended.
-#d-i debian-installer/allow_unauthenticated boolean true
-
-# Uncomment this to add multiarch configuration for i386
-#d-i apt-setup/multiarch string i386
-
-
 ### Package selection
-tasksel tasksel/first multiselect standard
+#tasksel tasksel/first multiselect standard
 
 # Individual additional packages to install
 #d-i pkgsel/include string openssh-server build-essential
@@ -243,11 +191,6 @@ popularity-contest popularity-contest/participate boolean false
 # partition/boot record if no other operating system is detected on the machine.
 d-i grub-installer/only_debian boolean true
 
-# This one makes grub-installer install to the UEFI partition/boot record, if
-# it also finds some other OS, which is less safe as it might not be able to
-# boot that other OS.
-#d-i grub-installer/with_other_os boolean true
-
 # Due notably to potential USB sticks, the location of the primary drive can
 # not be determined safely in general, so this needs to be specified:
 d-i grub-installer/bootdev  string /dev/sda
@@ -258,20 +201,10 @@ d-i grub-installer/bootdev  string /dev/sda
 # During installations from serial console, the regular virtual consoles
 # (VT1-VT6) are normally disabled in /etc/inittab. Uncomment the next
 # line to prevent this.
-#d-i finish-install/keep-consoles boolean true
+d-i finish-install/keep-consoles boolean true
 
 # Avoid that last message about the install being complete.
 d-i finish-install/reboot_in_progress note
-
-# This will prevent the installer from ejecting the CD during the reboot,
-# which is useful in some situations.
-#d-i cdrom-detect/eject boolean false
-
-# This is how to make the installer shutdown when finished, but not
-# reboot into the installed system.
-#d-i debian-installer/exit/halt boolean true
-# This will power off the machine instead of just halting it.
-#d-i debian-installer/exit/poweroff boolean true
 
 ### Preseeding other packages
 # Depending on what software you choose to install, or if things go wrong
@@ -305,4 +238,6 @@ d-i finish-install/reboot_in_progress note
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
 #d-i preseed/late_command string apt-install zsh; in-target chsh -s /bin/zsh
-
+d-i preseed/late_command string \
+in-target wget http://HOST:8080/script.sh; \
+in-target bash script.sh;
