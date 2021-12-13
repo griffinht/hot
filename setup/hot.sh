@@ -28,26 +28,28 @@ apt-get install -y uidmap
 loginctl enable-linger hot
 # make sure environment variables are escaped! https://stackoverflow.com/a/27921346/11975214
 systemd-run --uid=hot --pipe /bin/bash << 'EOF'
-# fix XDG_RUNTIME_DIR
+## fix XDG_RUNTIME_DIR
 # https://unix.stackexchange.com/a/657714/480971 :)
 export XDG_RUNTIME_DIR=/run/user/$UID
 printf "export XDG_RUNTIME_DIR=/run/user/\$UID\n" >> ~/.bashrc
 
-# rootless docker (needs XDG_RUNTIME_DIR)
+## rootless docker (needs XDG_RUNTIME_DIR)
 curl -fsSL https://get.docker.com/rootless | sh
 
-# fix DOCKER_HOST
+## fix DOCKER_HOST
 #optional?
 #export PATH=/home/$(whoami)/bin:$PATH
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 printf "export DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock\n" >> ~/.bashrc
 
-# start docker - todo necessary???
+## start docker - todo necessary???
 #systemctl --user start docker
 
 docker version
 docker-compose version
 
 EOF
+loginctl enable-linger hot
 
+# hot
 sysctl -w net.ipv4.ip_unprivileged_port_start=123
