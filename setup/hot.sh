@@ -1,22 +1,10 @@
 #!/bin/bash
 set -e
 
-# hot
-apt-get install -y git
-useradd -m -s /bin/bash hot
-su - hot << EOF
-# generate a deploy key for GitHub
-ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -C "griffinht@gmail.com"
-echo
-echo "Title: hot-desktop"
-echo "Key: "
-cat ~/.ssh/id_ed25519.pub
-echo
-echo "Add this key to GitHub as a deploy key for this repository"
-read -rp "Press enter to continue and clone repository"
-#todo
-ssh-keyscan github.com >> ~/.ssh/known_hosts
-git clone git@github.com:stzups/hot.git
+useradd -m -s /bin/bash docker-user
+su - docker-user << 'EOF'
+mkdir -p ~/.ssh
+cat /home/admin/.ssh/authorized_keys > ~/.ssh/authorized_keys
 EOF
 
 # rootless docker
@@ -29,13 +17,17 @@ apt-get install -y uidmap
 # machinectl
 #apt-get install -y systemd-container
 
-su - hot2 << 'EOF'
-export XDG_RUNTIME_DIR=/run/user/$UID
-## rootless docker (needs XDG_RUNTIME_DIR)
-curl -fsSL https://get.docker.com/rootless | sh
-EOF
 
-systemd-run --uid=hot --pipe /bin/bash << 'EOF'
+# run from diff host!
+ssh -T docker-user@192.168.0.5 << 'EOF'
+#curl -fsSL https://get.docker.com/rootless | sh
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+printf "export DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock\n" >> ~/.bashrc
+EOF
+docker context create hot-desktop --docker host=ssh://docker-user@192.168.0.5
+
+#todo this or that
+systemd-run --uid=docker-user --pipe /bin/bash << 'EOF'
 ## fix XDG_RUNTIME_DIR
 # https://unix.stackexchange.com/a/657714/480971 :)
 export XDG_RUNTIME_DIR=/run/user/$UID
@@ -57,7 +49,7 @@ docker version
 docker-compose version
 
 EOF
-loginctl enable-linger hot
+loginctl enable-linger docker-user
 
 # hot
 sysctl -w net.ipv4.ip_unprivileged_port_start=123
