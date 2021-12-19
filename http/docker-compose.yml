@@ -3,8 +3,6 @@ services:
     depends_on:
       certbot:
         condition: service_healthy
-      dynamic-ip:
-        condition: service_started
     restart: unless-stopped
     image: nginx
     build:
