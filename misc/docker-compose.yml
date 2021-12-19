@@ -1,7 +1,7 @@
 services:
 # iperf3 speedtest server
   iperf3:
-    image: mlabbe/iperf3
+    build: .
     restart: unless-stopped
     ports:
       - 5201:5201/udp
