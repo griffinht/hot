@@ -34,6 +34,7 @@ export XDG_RUNTIME_DIR=/run/user/$UID
 printf "export XDG_RUNTIME_DIR=/run/user/\$UID\n" >> ~/.bashrc
 
 ## rootless docker (needs XDG_RUNTIME_DIR)
+# dockerd-rootless-setuptool.sh install ????
 curl -fsSL https://get.docker.com/rootless | sh
 
 ## fix DOCKER_HOST
