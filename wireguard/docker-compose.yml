@@ -9,7 +9,7 @@ services:
     volumes:
       - "wg-access-server-data:/data"
     ports:
-      - "123:123/udp"
+      - "3108:3108/udp"
       - "8000:8000/tcp"
     devices:
       - "/dev/net/tun:/dev/net/tun"
