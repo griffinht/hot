@@ -11,8 +11,7 @@ EOF
 apt-get install -y uidmap
 # not needed
 #apt-get install -y slirp4netns
-#apt-get install -y dbus-user-session
-# todo restart here after dbus-user-session
+
 # make sure environment variables are escaped! https://stackoverflow.com/a/27921346/11975214
 # machinectl
 #apt-get install -y systemd-container

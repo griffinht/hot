@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if dpkg -l docker-ce docker-ce-cli containerd.io > /dev/null; then
+  echo docker is already installed
+  exit 0;
+fi
+
 # docker
 # https://docs.docker.com/engine/install/debian/
 apt-get update
