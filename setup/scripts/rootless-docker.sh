@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage
 # rootless-docker.sh $USER
@@ -41,6 +42,11 @@ EOF
 su - docker-user << 'EOF'
 # add environment variables to beginning of .bashrc (before non-interactive check)
 # https://superuser.com/a/246841/1252579
+source ~/.bashrc
+echo $DOCKER_HOST
+if [ -n "$DOCKER_HOST" ]; then
+  exit 0
+fi
 temp=$(mktemp)
 printf '# setup/rootless-docker.sh\nexport XDG_RUNTIME_DIR=/run/user/$UID\nexport DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock\n' | cat - ~/.bashrc > $temp && mv $temp ~/.bashrc
 EOF
