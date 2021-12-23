@@ -14,7 +14,3 @@ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 printf "export DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock\n" >> ~/.bashrc
 EOF
 docker context create hot-desktop --docker host=ssh://docker-user@192.168.0.5
-
-# hot
-sudo sysctl --system
-echo "net.ipv4.ip_unprivileged_port_start=0" > /etc/sysctl.d/hot.conf
