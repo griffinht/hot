@@ -32,14 +32,14 @@ loginctl enable-linger "$USER"
 
 # user install
 #systemd-run --uid="$USER" --pipe /bin/bash << 'EOF'
-su - docker-user << 'EOF'
+su - "$USER" << 'EOF'
 export XDG_RUNTIME_DIR=/run/user/$UID
 dockerd-rootless-setuptool.sh install
 EOF
 
 # user setup
 #systemd-run --uid="$USER" --pipe /bin/bash << 'EOF'
-su - docker-user << 'EOF'
+su - "$USER" << 'EOF'
 # add environment variables to beginning of .bashrc (before non-interactive check)
 # https://superuser.com/a/246841/1252579
 source ~/.bashrc
