@@ -39,9 +39,10 @@ function zone_id() {
     echo "Adding $P"
     echo "zones/$ZONE_ID/dns_records/$P" >> dynamic-ip/paths
   done <<< "$PATHS"
-  echo "$CLOUDFLARE_API_TOKEN" > bin/dynamic-ip_cloudflare
+  mkdir -p http/bin
+  echo "$CLOUDFLARE_API_TOKEN" > http/bin/dynamic-ip_cloudflare
 
-  echo "Success! Saved token to bin/dynamic-ip_cloudflare and dynamic-ip/paths to file"
+  echo "Success! Saved token to http/bin/dynamic-ip_cloudflare and dynamic-ip/paths to file"
   cat dynamic-ip/paths
 }
 
