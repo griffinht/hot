@@ -29,7 +29,7 @@ services:
     environment:
       - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE?you forgot ./certbot/configure.sh}
     healthcheck:
-      test: [ "CMD-SHELL", "ls  -f /etc/letsencrypt/live/griffinht.com/fullchain.pem" ]
+      test: [ "CMD-SHELL", "ls -f /etc/letsencrypt/live/griffinht.com/fullchain.pem" ]
       interval: 1s
       timeout: 1s
       retries: 60
