@@ -9,6 +9,7 @@ services:
         condition: service_healthy
     build: ./nginx
     ports:
+      - 80:80
       - 443:443
     volumes:
       - certificates:/etc/letsencrypt/
