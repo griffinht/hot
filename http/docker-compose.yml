@@ -8,6 +8,7 @@ services:
       certbot:
         condition: service_healthy
     build: ./nginx
+#note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
       - 80:80
       - 443:443
