@@ -10,4 +10,4 @@ if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
   read -srp "CLOUDFLARE_API_TOKEN: " CLOUDFLARE_API_TOKEN
   echo
 fi
-echo "dns_cloudflare_api_token = $CLOUDFLARE_API_TOKEN" >> .env
+echo "CERTBOT_CLOUDFLARE=dns_cloudflare_api_token = $CLOUDFLARE_API_TOKEN" >> .env

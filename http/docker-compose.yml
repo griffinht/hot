@@ -22,7 +22,7 @@ services:
     build:
       context: certbot
     environment:
-      - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE}
+      - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE?you forgot ./certbot/configure.sh}
     volumes:
       - certbot:/etc/letsencrypt/
     healthcheck:
@@ -36,7 +36,7 @@ services:
     build:
       context: dynamic-ip
     environment:
-      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE}
+      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE?you forgot ./dynamic-ip/configure.sh}
 
 volumes:
   certbot:

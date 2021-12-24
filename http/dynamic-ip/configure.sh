@@ -40,7 +40,7 @@ function zone_id() {
 # todo move to env
     echo "zones/$ZONE_ID/dns_records/$P" >> dynamic-ip/paths
   done <<< "$PATHS"
-  echo "$CLOUDFLARE_API_TOKEN" >> .env
+  echo "DYNAMIC-IP_CLOUDFLARE=$CLOUDFLARE_API_TOKEN" >> .env
 
   echo "Success! Saved token to http/bin/dynamic-ip_cloudflare and dynamic-ip/paths to file"
   cat dynamic-ip/paths
