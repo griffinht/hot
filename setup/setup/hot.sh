@@ -10,6 +10,10 @@ if id "$USER" > /dev/null; then
 else
   useradd -m -s /bin/bash "$USER"
 fi
+su - "$USER" << EOF
+mkdir -p ~/.ssh/
+cat "$(pwd)"/authorized_keys > ~/.ssh/authorized_keys
+EOF
 
 ./scripts/rootless-docker.sh "$USER"
 
