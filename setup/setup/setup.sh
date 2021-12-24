@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo hello
-pwd
-whoami
-ls
+ls -a
+if [ "$(id -u)" -ne 0 ]; then
+  echo ./hot.sh | sudo -s
+else
+  ./hot.sh
+fi

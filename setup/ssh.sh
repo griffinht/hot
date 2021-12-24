@@ -14,6 +14,9 @@ scp "$temp" "$HOST":setup.tar
 ssh "$HOST" /bin/bash << EOF
 tar -xf setup.tar
 rm setup.tar
-./setup/setup.sh
+(
+cd setup
+./setup.sh
+)
 rm -r ./setup
 EOF
