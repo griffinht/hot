@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$(id -u)" -ne 0 ]; then
-  echo ./hot.sh | sudo -s
+  echo 'cd '"$(pwd)"' && ./hot.sh' | sudo --login
 else
   ./hot.sh
 fi

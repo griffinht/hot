@@ -14,4 +14,4 @@ fi
 ./scripts/rootless-docker.sh "$USER"
 
 echo "net.ipv4.ip_unprivileged_port_start = 0" > /etc/sysctl.d/hot.conf
-sudo sysctl --system
+sysctl --system
