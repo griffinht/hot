@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# todo remove --test-cert on 12/31
 certbot certonly \
   --test-cert \
   -d griffinht.com \
