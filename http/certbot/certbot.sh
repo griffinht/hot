@@ -9,4 +9,4 @@ certbot certonly \
   --agree-tos \
   \
   --dns-cloudflare \
-  --dns-cloudflare-credentials "/run/secrets/certbot_cloudflare"
+  --dns-cloudflare-credentials "./certbot_cloudflare"

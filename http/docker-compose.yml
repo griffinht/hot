@@ -21,8 +21,8 @@ services:
     image: certbot
     build:
       context: certbot
-    secrets:
-      - certbot_cloudflare
+    environment:
+      - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE}
     volumes:
       - certbot:/etc/letsencrypt/
     healthcheck:
@@ -35,16 +35,10 @@ services:
     image: dynamic-ip
     build:
       context: dynamic-ip
-    secrets:
-        - dynamic-ip_cloudflare
+    environment:
+      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE}
     volumes:
       - ./dynamic-ip/paths:/paths
 
 volumes:
   certbot:
-
-secrets:
-  certbot_cloudflare:
-    file: bin/certbot_cloudflare
-  dynamic-ip_cloudflare:
-    file: bin/dynamic-ip_cloudflare
