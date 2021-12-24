@@ -30,13 +30,13 @@ services:
       interval: 1s
       timeout: 1s
       retries: 60
-  dynamic-ip:
-    restart: unless-stopped
-    image: dynamic-ip
-    build:
-      context: dynamic-ip
-    environment:
-      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE?you forgot ./dynamic-ip/configure.sh}
+#  dynamic-ip:
+#    restart: unless-stopped
+#    image: dynamic-ip
+#    build:
+#      context: dynamic-ip
+#    environment:
+#      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE?you forgot ./dynamic-ip/configure.sh}
 
 volumes:
   certbot:
