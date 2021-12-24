@@ -11,4 +11,4 @@ if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
   echo
 fi
 mkdir -p http/bin
-echo "dns_cloudflare_api_token = $CLOUDFLARE_API_TOKEN" > http/bin/dynamic-ip_cloudflare
+echo "dns_cloudflare_api_token = $CLOUDFLARE_API_TOKEN" > http/bin/certbot_cloudflare
