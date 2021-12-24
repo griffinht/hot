@@ -1,30 +1,30 @@
+volumes:
+  certificates:
 services:
   nginx:
+    image: nginx
+    restart: unless-stopped
     depends_on:
       certbot:
         condition: service_healthy
-    restart: unless-stopped
-    image: nginx
-    build:
-      context: nginx
+    build: ./nginx
     ports:
       - 443:443
     volumes:
-      - certbot:/etc/letsencrypt/
+      - certificates:/etc/letsencrypt/
     healthcheck:
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
       timeout: 5s
       retries: 5
   certbot:
-    restart: unless-stopped
     image: certbot
-    build:
-      context: certbot
+    restart: unless-stopped
+    build: ./certbot
+    volumes:
+      - certificates:/etc/letsencrypt/
     environment:
       - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE?you forgot ./certbot/configure.sh}
-    volumes:
-      - certbot:/etc/letsencrypt/
     healthcheck:
       test: [ "CMD-SHELL", "ls  -f /etc/letsencrypt/live/griffinht.com/fullchain.pem" ]
       interval: 1s
@@ -33,10 +33,6 @@ services:
 #  dynamic-ip:
 #    restart: unless-stopped
 #    image: dynamic-ip
-#    build:
-#      context: dynamic-ip
+#    build: ./dynamic-ip
 #    environment:
 #      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE?you forgot ./dynamic-ip/configure.sh}
-
-volumes:
-  certbot:

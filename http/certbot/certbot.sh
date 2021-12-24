@@ -1,6 +1,7 @@
 #!/bin/bash
 
 certbot certonly \
+  --test-cert \
   -d griffinht.com \
   -d scribbleshare.com \
   \
