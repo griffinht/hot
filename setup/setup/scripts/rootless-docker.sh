@@ -12,7 +12,7 @@ fi
 # https://docs.docker.com/engine/security/rootless/
 
 # system dependencies
-if dpkg -l dbus-user-session; then
+if ! dpkg -l dbus-user-session > /dev/null; then
   echo error: dbus-user-session not installed
   echo this should be installed manually, and might require a restart
   exit 1;
@@ -21,7 +21,7 @@ fi
 apt-get install -y uidmap
 
 # https://docs.docker.com/engine/security/rootless/#networking-errors
-if dpkg -l slirp4netns; then
+if ! dpkg -l slirp4netns; then
   echo warning: manually installing optional package slirp4netns because it was not already installed
   apt-get install -y slirp4netns
 fi
