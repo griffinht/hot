@@ -1,8 +1,8 @@
 services:
 # iperf3 speedtest server
   iperf3:
-    build: .
     restart: unless-stopped
+    build: .
     ports:
       - 5201:5201/udp
       - 5201:5201/tcp
