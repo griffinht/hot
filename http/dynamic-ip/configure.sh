@@ -37,10 +37,10 @@ function zone_id() {
   PATHS="$(echo "$RESPONSE" | jq -r '.result[]| select(.content == "'"$CONTENT"'").id')"
   while IFS= read -r P; do
     echo "Adding $P"
+# todo move to env
     echo "zones/$ZONE_ID/dns_records/$P" >> dynamic-ip/paths
   done <<< "$PATHS"
-  mkdir -p http/bin
-  echo "$CLOUDFLARE_API_TOKEN" > http/bin/dynamic-ip_cloudflare
+  echo "$CLOUDFLARE_API_TOKEN" >> .env
 
   echo "Success! Saved token to http/bin/dynamic-ip_cloudflare and dynamic-ip/paths to file"
   cat dynamic-ip/paths

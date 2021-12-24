@@ -37,8 +37,6 @@ services:
       context: dynamic-ip
     environment:
       - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE}
-    volumes:
-      - ./dynamic-ip/paths:/paths
 
 volumes:
   certbot:
