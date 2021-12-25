@@ -1,6 +1,5 @@
 volumes:
   certificates:
-  git:
 services:
   nginx:
     image: nginx
@@ -34,14 +33,6 @@ services:
       interval: 1s
       timeout: 1s
       retries: 60
-  git:
-    image: git
-    restart: unless-stopped
-    build: ./git
-    volumes:
-      - git:/git
-    ports:
-      - 9000:9000
 #  dynamic-ip:
 #    restart: unless-stopped
 #    image: dynamic-ip

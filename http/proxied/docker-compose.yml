@@ -1,0 +1,9 @@
+volumes:
+  git:
+services:
+  git:
+    image: git
+    restart: unless-stopped
+    build: ./griffin.ht/git
+    volumes:
+      - git:/git
