@@ -10,3 +10,6 @@ ip firewall nat add chain=dstnat action=dst-nat dst-address=98.21.46.184 dst-por
 
 # wireguard (on port 123 to circumvent port blocking)
 ip firewall nat add chain=dstnat action=dst-nat dst-address=98.21.46.184 dst-port=3108 to-addresses=192.168.0.5 protocol=udp
+
+# minecraft
+ip firewall nat add chain=dstnat action=dst-nat dst-address=98.21.46.184 dst-port=25565 to-addresses=192.168.0.5 protocol=tcp

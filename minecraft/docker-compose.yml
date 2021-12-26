@@ -1,0 +1,11 @@
+volumes:
+  minecraft:
+services:
+  minecraft:
+    image: minecraft
+    restart: unless-stopped
+    build: ./minecraft
+    ports:
+      - 25565:25565
+    volumes:
+      - minecraft:/minecraft
