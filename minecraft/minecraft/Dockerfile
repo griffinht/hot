@@ -7,8 +7,16 @@ FROM eclipse-temurin:17-jre-alpine
 
 COPY --from=minecraft-build /server.jar /server.jar
 
-VOLUME ["/minecraft"]
+RUN adduser --no-create-home --disabled-password minecraft
 
 WORKDIR /minecraft
+
+RUN chown minecraft:minecraft /minecraft
+
+USER minecraft
+
+RUN echo "eula=true" > eula.txt
+
+VOLUME ["/minecraft"]
 
 ENTRYPOINT java -jar /server.jar nogui
