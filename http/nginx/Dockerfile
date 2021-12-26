@@ -6,3 +6,4 @@ COPY --from=stzups/stzups.net:latest /stzups.net/ /stzups.net/
 COPY --from=stzups/realgmoney.com:latest /realgmoney.com/ /realgmoney.com/
 
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY websites.conf.d /etc/nginx/websites.conf.d
