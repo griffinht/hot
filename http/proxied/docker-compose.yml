@@ -1,9 +1,13 @@
+networks:
+  git:
 volumes:
   git:
 services:
   git:
     image: git
     restart: unless-stopped
-    build: ./griffin.ht/git
+    build: ./git
+    networks:
+      - git
     volumes:
       - git:/git
