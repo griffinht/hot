@@ -1,0 +1,19 @@
+networks:
+  git:
+volumes:
+  git:
+services:
+  git-http-backend:
+    build: ./git-http-backend
+    restart: unless-stopped
+    networks:
+      - git
+    volumes:
+      - git:/git
+  git-http-frontend:
+    image: nginx
+    restart: unless-stopped
+    networks:
+      - git
+    volumes:
+      - git:/usr/share/nginx/html

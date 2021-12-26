@@ -1,23 +1,22 @@
 networks:
-  proxied_git:
+  git_git:
     external: true
 volumes:
   certificates:
 services:
   nginx:
-    image: nginx
+    build: ./nginx
     restart: unless-stopped
     depends_on:
       certbot:
         condition: service_healthy
-    build: ./nginx
 #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
       - 80:80
       - 443:443
     networks:
       - default
-      - proxied_git
+      - git_git
     volumes:
       - certificates:/etc/letsencrypt/
     healthcheck:
@@ -27,9 +26,8 @@ services:
       timeout: 5s
       retries: 5
   certbot:
-    image: certbot
-    restart: unless-stopped
     build: ./certbot
+    restart: unless-stopped
     volumes:
       - certificates:/etc/letsencrypt/
     environment:
@@ -40,8 +38,7 @@ services:
       timeout: 1s
       retries: 60
 #  dynamic-ip:
-#    restart: unless-stopped
-#    image: dynamic-ip
 #    build: ./dynamic-ip
+#    restart: unless-stopped
 #    environment:
 #      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE?you forgot ./dynamic-ip/configure.sh}
