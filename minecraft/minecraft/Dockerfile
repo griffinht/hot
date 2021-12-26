@@ -17,9 +17,12 @@ WORKDIR /minecraft
 RUN chown minecraft:minecraft /minecraft
 
 USER minecraft
-RUN printf "host: localhost\nport: 25575\npassword: password\n" > $HOME/.rcon-cli.yaml
 
 COPY . .
+
+# configure rcon-cli with password from server.properties
+# docker exec -it <container id> rcon-cli
+RUN printf "host: localhost\nport: 25575\npassword: $(grep rcon.password < server.properties | cut -c 15-)\n" > $HOME/.rcon-cli.yaml
 
 VOLUME ["/minecraft"]
 
