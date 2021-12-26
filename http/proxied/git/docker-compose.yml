@@ -3,6 +3,14 @@ networks:
 volumes:
   git:
 services:
+  git-nginx:
+    build: ./nginx
+    depends_on:
+      - git-http-backend
+      - git-http-frontend
+    restart: unless-stopped
+    networks:
+      - git
   git-http-backend:
     build: ./git-http-backend
     restart: unless-stopped
