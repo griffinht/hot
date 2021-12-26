@@ -1,9 +1,7 @@
 services:
   wireguard:
+    build: ./wireguard
     restart: unless-stopped
-    image: place1/wg-access-server
-    build:
-      context: wireguard
     cap_add:
       - NET_ADMIN
     volumes:
