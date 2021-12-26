@@ -11,9 +11,9 @@ services:
     volumes:
       - git:/git
   git-http-frontend:
-    image: nginx
+    build: ./git-http-frontend
     restart: unless-stopped
     networks:
       - git
     volumes:
-      - git:/usr/share/nginx/html
+      - git:/git
