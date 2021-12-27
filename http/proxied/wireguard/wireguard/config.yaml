@@ -1,4 +1,5 @@
 adminPassword: password
 wireguard:
   port: 3108
+port: 80
 externalHost: 98.21.46.184

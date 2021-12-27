@@ -1,6 +1,8 @@
 networks:
   git_git:
     external: true
+  wireguard_default:
+    external: true
 volumes:
   certificates:
 services:
@@ -17,6 +19,7 @@ services:
     networks:
       - default
       - git_git
+      - wireguard_default
     volumes:
       - certificates:/etc/letsencrypt/
     healthcheck:
