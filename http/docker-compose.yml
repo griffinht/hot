@@ -1,5 +1,5 @@
 networks:
-  git_git:
+  git_default:
     external: true
   wireguard_default:
     external: true
@@ -18,7 +18,7 @@ services:
       - 443:443
     networks:
       - default
-      - git_git
+      - git_default
       - wireguard_default
     volumes:
       - certificates:/etc/letsencrypt/

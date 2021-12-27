@@ -1,19 +1,13 @@
-networks:
-  git:
 volumes:
   git:
 services:
   git-http-backend:
     build: ./git-http-backend
     restart: unless-stopped
-    networks:
-      - git
     volumes:
       - git:/git
   git-http-frontend:
     build: ./git-http-frontend
     restart: unless-stopped
-    networks:
-      - git
     volumes:
       - git:/git
