@@ -3,6 +3,8 @@ networks:
     external: true
   wireguard_default:
     external: true
+  minecraft_default:
+    external: true
 volumes:
   certificates:
 services:
@@ -20,6 +22,7 @@ services:
       - default
       - git_default
       - wireguard_default
+      - minecraft_default
     volumes:
       - certificates:/etc/letsencrypt/
     healthcheck:
