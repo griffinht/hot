@@ -7,7 +7,8 @@ services:
     volumes:
       - git:/git
   git-http-frontend:
-    build: ./git-http-frontend
+    image: git-web-view:latest
     restart: unless-stopped
     volumes:
       - git:/git
+    command: --directory /git
