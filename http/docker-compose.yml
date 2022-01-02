@@ -26,8 +26,7 @@ services:
     volumes:
       - certificates:/etc/letsencrypt/
     healthcheck:
-# todo remove --insecure on 12/31
-      test: [ "CMD-SHELL", "curl --insecure -f https://griffinht.com:443" ]
+      test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
       timeout: 5s
       retries: 5

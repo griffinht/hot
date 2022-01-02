@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# todo remove --test-cert on 12/31
-# todo add aws griffin.ht
+# https://community.letsencrypt.org/t/prevent-0001-xxxx-certificate-suffixes/66802/4
+#  --test-cert \
 certbot certonly \
-  --test-cert \
+  --cert-name griffinht.com \
   -d griffinht.com \
   -d stzups.net \
   -d scribbleshare.com \
@@ -17,8 +17,10 @@ certbot certonly \
   --dns-cloudflare \
   --dns-cloudflare-credentials "./certbot_cloudflare"
 
+#  --test-cert \
+#  --break-my-certs \
 certbot certonly \
-  --test-cert \
+  --cert-name griffinht.com \
   --expand \
   -d griffin.ht \
   \
