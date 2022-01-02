@@ -38,6 +38,8 @@ services:
       - certificates:/etc/letsencrypt/
     environment:
       - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE?you forgot ./certbot/configure.sh}
+      - CERTBOT_AWS_ACCESS_KEY_ID=${CERTBOT_AWS_ACCESS_KEY_ID?you forgot ./certbot/configure.sh}
+      - CERTBOT_AWS_SECRET_ACCESS_KEY=${CERTBOT_AWS_SECRET_ACCESS_KEY?you forgot ./certbot/configure.sh}
     healthcheck:
       test: [ "CMD-SHELL", "ls -f /etc/letsencrypt/live/griffinht.com/fullchain.pem" ]
       interval: 1s
