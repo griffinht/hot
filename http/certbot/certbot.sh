@@ -16,3 +16,14 @@ certbot certonly \
   \
   --dns-cloudflare \
   --dns-cloudflare-credentials "./certbot_cloudflare"
+
+certbot certonly \
+  --test-cert \
+  --expand \
+  -d griffin.ht \
+  \
+  --noninteractive \
+  --register-unsafely-without-email \
+  --agree-tos \
+  \
+  --dns-route53
