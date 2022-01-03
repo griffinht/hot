@@ -1,0 +1,20 @@
+volumes:
+  http_certificates:
+    external: true
+  http_acme:
+    external: true
+  git_git:
+    external: true
+  minecraft_minecraft:
+    external: true
+  wireguard_wg-access-server-data:
+    external: true
+services:
+  backup:
+    build: ./backup
+    volumes:
+      - git_git:/backup/git
+      - http_certificates:/backup/certificates
+      - http_acme:/backup/acme
+      - minecraft_minecraft:/backup/minecraft
+      - wireguard_wg-access-server-data:/backup/wireguard
