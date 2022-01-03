@@ -2,7 +2,7 @@
 
 acme.sh \
   --cert-home /certificates \
-  --server letsencrypt_test \
+  --server letsencrypt \
   --issue \
   -d griffinht.com --dns dns_cf \
   -d stzups.net --dns dns_cf \
