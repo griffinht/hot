@@ -7,12 +7,13 @@ networks:
     external: true
 volumes:
   certificates:
+  acme:
 services:
   nginx:
     build: ./nginx
     restart: unless-stopped
     depends_on:
-      certbot:
+      acme:
         condition: service_healthy
 #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
@@ -24,23 +25,24 @@ services:
       - wireguard_default
       - minecraft_default
     volumes:
-      - certificates:/etc/letsencrypt/
+      - certificates:/certificates
     healthcheck:
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
       timeout: 5s
       retries: 5
-  certbot:
-    build: ./certbot
+  acme:
+    build: ./acme
     restart: unless-stopped
     volumes:
-      - certificates:/etc/letsencrypt/
+      - certificates:/certificates
+      - acme:/home/acme/.acme.sh/
     environment:
       - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE?you forgot ./certbot/configure.sh}
       - CERTBOT_AWS_ACCESS_KEY_ID=${CERTBOT_AWS_ACCESS_KEY_ID?you forgot ./certbot/configure.sh}
       - CERTBOT_AWS_SECRET_ACCESS_KEY=${CERTBOT_AWS_SECRET_ACCESS_KEY?you forgot ./certbot/configure.sh}
     healthcheck:
-      test: [ "CMD-SHELL", "ls -f /etc/letsencrypt/live/griffinht.com/fullchain.pem" ]
+      test: [ "CMD-SHELL", "ls -f /certificates/griffinht.com/griffinht.com.cer" ]
       interval: 1s
       timeout: 1s
       retries: 60
