@@ -5,13 +5,14 @@ services:
     image: dperson/samba
     restart: unless-stopped
     ports:
-      - 137:137/udp
-      - 138:138/udp
       - 139:139
       - 445:445
     volumes:
       - data:/data
-    command: -p -n -s "data;/data;yes;no"
+    command: -s "public;/data/public;yes;no"
+    environment:
+      USERID: 65534
+      GROUPID: 65534
   nfs:
     image: erichough/nfs-server
     restart: unless-stopped
@@ -19,7 +20,7 @@ services:
       - SYS_ADMIN
     privileged: true
     environment:
-      NFS_EXPORT_0: '/data *(rw,fsid=0)'
+      NFS_EXPORT_0: '/data *(rw,fsid=0,insecure,all_squash)'
       NFS_DISABLE_VERSION_3: true
     volumes:
       - data:/data
