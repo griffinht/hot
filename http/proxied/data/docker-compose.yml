@@ -11,7 +11,20 @@ services:
       - 445:445
     volumes:
       - data:/data
-    command: -p -n -s "data;/data" -p -n -s "images;/data/images;yes;no"
+    command: -p -n -s "data;/data;yes;no"
+  nfs:
+    image: erichough/nfs-server
+    restart: unless-stopped
+    cap_add:
+      - SYS_ADMIN
+    privileged: true
+    environment:
+      NFS_EXPORT_0: '/data *(rw,no_subtree_check)'
+      NFS_DISABLE_VERSION_3: true
+    volumes:
+      - data:/data
+    ports:
+      - 2049:2049
   filebrowser:
     build: filebrowser
     restart: unless-stopped
