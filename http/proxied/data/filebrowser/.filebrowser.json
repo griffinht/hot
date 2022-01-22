@@ -1,4 +1,5 @@
 {
+  "baseURL": "/filebrowser",
   "address": "",
   "root": "/data"
 }

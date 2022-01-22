@@ -5,6 +5,8 @@ networks:
     external: true
   minecraft_default:
     external: true
+  data_default:
+    external: true
 volumes:
   certificates:
   acme:
@@ -24,6 +26,7 @@ services:
       - git_default
       - wireguard_default
       - minecraft_default
+      - data_default
     volumes:
       - certificates:/certificates
     healthcheck:
