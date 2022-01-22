@@ -1,0 +1,21 @@
+volumes:
+  data:
+services:
+  samba:
+    image: dperson/samba
+    restart: unless-stopped
+    ports:
+      - 137:137/udp
+      - 138:138/udp
+      - 139:139
+      - 445:445
+    volumes:
+      - data:/data
+    command: -p -n -s "data;/data" -p -n -s "images;/data/images;yes;no"
+  filebrowser:
+    build: filebrowser
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - data:/data
