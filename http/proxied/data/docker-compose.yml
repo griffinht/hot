@@ -14,7 +14,7 @@ services:
       - 445:445
     volumes:
       - public:/public
-    command: -s "public;/public/public;yes;no"
+    command: -s "public;/public;yes;no"
     environment:
       USERID: 0
       GROUPID: 0
