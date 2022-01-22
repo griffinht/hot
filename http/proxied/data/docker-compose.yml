@@ -19,7 +19,7 @@ services:
       - SYS_ADMIN
     privileged: true
     environment:
-      NFS_EXPORT_0: '/data *(rw,no_subtree_check)'
+      NFS_EXPORT_0: '/data *(ro,fsid=0)'
       NFS_DISABLE_VERSION_3: true
     volumes:
       - data:/data
