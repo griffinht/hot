@@ -9,7 +9,17 @@ networks:
     external: true
 volumes:
   certificates:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: nfsvers=4,addr=192.168.0.6,rw
+      device: ":/docker/http_acme"
   acme:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: nfsvers=4,addr=192.168.0.6,rw
+      device: ":/docker/http_certificates"
 services:
   nginx:
     build: ./nginx
