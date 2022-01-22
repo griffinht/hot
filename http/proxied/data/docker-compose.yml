@@ -11,8 +11,8 @@ services:
       - data:/data
     command: -s "public;/data/public;yes;no"
     environment:
-      USERID: 65534
-      GROUPID: 65534
+      USERID: 0
+      GROUPID: 0
   nfs:
     image: erichough/nfs-server
     restart: unless-stopped
@@ -20,7 +20,7 @@ services:
       - SYS_ADMIN
     privileged: true
     environment:
-      NFS_EXPORT_0: '/data *(rw,fsid=0,insecure,all_squash)'
+      NFS_EXPORT_0: '/data *(rw,fsid=0,insecure,all_squash,anonuid=0,anongid=0)'
       NFS_DISABLE_VERSION_3: true
     volumes:
       - data:/data
