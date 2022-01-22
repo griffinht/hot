@@ -29,4 +29,4 @@ services:
     restart: unless-stopped
     volumes:
       - public:/public
-      - filebrowser:/database.db
+      - filebrowser:/data

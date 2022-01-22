@@ -1,3 +1,6 @@
 FROM filebrowser/filebrowser
 
-COPY .filebrowser.json /.filebrowser.json
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh && rm /.filebrowser.json
+
+ENTRYPOINT ["./entrypoint.sh"]
