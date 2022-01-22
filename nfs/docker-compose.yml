@@ -1,0 +1,16 @@
+volumes:
+  data:
+services:
+  nfs:
+    image: erichough/nfs-server
+    restart: unless-stopped
+    cap_add:
+      - SYS_ADMIN
+    privileged: true
+    environment:
+      NFS_EXPORT_0: '/data *(rw,fsid=0,insecure,all_squash,anonuid=0,anongid=0)'
+      NFS_DISABLE_VERSION_3: true
+    volumes:
+      - data:/data
+    ports:
+      - 2049:2049

@@ -1,5 +1,10 @@
 volumes:
-  data:
+  public:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: nfsvers=4,addr=192.168.0.6,rw
+      device: ":/public"
 services:
   samba:
     image: dperson/samba
@@ -8,26 +13,13 @@ services:
       - 139:139
       - 445:445
     volumes:
-      - data:/data
-    command: -s "public;/data/public;yes;no"
+      - public:/public
+    command: -s "public;/public/public;yes;no"
     environment:
       USERID: 0
       GROUPID: 0
-  nfs:
-    image: erichough/nfs-server
-    restart: unless-stopped
-    cap_add:
-      - SYS_ADMIN
-    privileged: true
-    environment:
-      NFS_EXPORT_0: '/data *(rw,fsid=0,insecure,all_squash,anonuid=0,anongid=0)'
-      NFS_DISABLE_VERSION_3: true
-    volumes:
-      - data:/data
-    ports:
-      - 2049:2049
   filebrowser:
     build: filebrowser
     restart: unless-stopped
     volumes:
-      - data:/data
+      - public:/public
