@@ -12,4 +12,5 @@ cd docker
 mkdir wireguard_wg-access-server-data
 mkdir http_certificates
 mkdir http_acme
+mkdir data_filebrowser
 )
