@@ -1,5 +1,5 @@
 {
   "baseURL": "/filebrowser",
   "address": "",
-  "root": "/data/public"
+  "root": "/public"
 }
