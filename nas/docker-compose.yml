@@ -21,11 +21,13 @@ services:
     build: borg
     volumes:
       - data:/data
+      - backup:/backup
       - borg:/borg
   rclone:
     build: rclone
     volumes:
       - backup:/backup
+      - rclone:/rclone
     environment:
       - RCLONE_B2_ACCOUNT=${RCLONE_B2_ACCOUNT?you forgot ./rclone/configure.sh}
       - RCLONE_B2_KEY=${RCLONE_B2_KEY?you forgot ./rclone/configure.sh}
