@@ -5,12 +5,6 @@ volumes:
       type: nfs
       o: nfsvers=4,addr=192.168.0.6,rw
       device: ":/public"
-  filebrowser:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: nfsvers=4,addr=192.168.0.6,rw
-      device: ":/docker/data_filebrowser"
 services:
   samba:
     image: dperson/samba
@@ -29,4 +23,3 @@ services:
     restart: unless-stopped
     volumes:
       - public:/public
-      - filebrowser:/data
