@@ -5,6 +5,7 @@ B2_KEY="$RCLONE_B2_KEY"
 SOURCE='/backup'
 CACHE='/rclone/cache'
 REMOTE='hot'
+BUCKET='hot-griffinht-com'
 
 echo creating config
 rclone config create "$REMOTE" b2 \
@@ -15,7 +16,7 @@ sync() {
   rclone sync \
     --progress \
     --cache-dir "$CACHE" \
-    "$SOURCE" "$REMOTE":
+    "$SOURCE" "$REMOTE":"$BUCKET"
 }
 
 while true; do
