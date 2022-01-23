@@ -1,12 +1,14 @@
 #!/bin/sh
+set -e
 
-REPOSITORY='/borg'
+REPOSITORY='/backup'
 BACKUP='/data/public'
+export BORG_BASE_DIR='/borg'
 
 echo checking "$REPOSITORY"
 if [ ! "$(ls -A $REPOSITORY)" ]; then
   echo "$REPOSITORY" is empty, init new borg repository
-  borg init --encryption=none /borg
+  borg init --encryption=none "$REPOSITORY"
 fi
 
 backup() {
