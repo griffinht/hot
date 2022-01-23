@@ -2,6 +2,7 @@ volumes:
   data:
   backup:
   borg:
+  rclone:
 services:
   nfs:
     image: erichough/nfs-server
@@ -25,3 +26,6 @@ services:
     build: rclone
     volumes:
       - backup:/backup
+    environment:
+      - RCLONE_B2_ACCOUNT=${RCLONE_B2_ACCOUNT?you forgot ./rclone/configure.sh}
+      - RCLONE_B2_KEY=${RCLONE_B2_KEY?you forgot ./rclone/configure.sh}
