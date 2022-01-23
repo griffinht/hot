@@ -19,5 +19,5 @@ services:
     volumes:
       - data:/data
     environment:
-      - RESTIC_B2_ACCOUNT=${RESTIC_B2_ACCOUNT?you forgot ./restic/configure.sh}
+      - RESTIC_B2_ID=${RESTIC_B2_ID?you forgot ./restic/configure.sh}
       - RESTIC_B2_KEY=${RESTIC_B2_KEY?you forgot ./restic/configure.sh}
