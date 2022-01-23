@@ -21,7 +21,7 @@ sync() {
 
 while true; do
   echo 'syncing'
+  date +%Y-%m-%dT%T
   sync
-  echo 'done'
   sleep '15s'
 done
