@@ -14,6 +14,7 @@ fi
     --username "user" \
     --perm.admin=false \
     --perm.execute=false \
-    --perm.share=false
+    --perm.share=false \
+    --lockPassword=true
 
 /filebrowser -d /data/filebrowser.db
