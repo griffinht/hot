@@ -1,5 +1,6 @@
 volumes:
   data:
+  restic:
 services:
   nfs:
     image: erichough/nfs-server
@@ -18,6 +19,7 @@ services:
     build: restic
     volumes:
       - data:/data
+      - restic:/restic
     environment:
       - RESTIC_B2_ID=${RESTIC_B2_ID?you forgot ./restic/configure.sh}
       - RESTIC_B2_KEY=${RESTIC_B2_KEY?you forgot ./restic/configure.sh}
