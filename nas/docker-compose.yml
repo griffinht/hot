@@ -21,3 +21,4 @@ services:
     environment:
       - RESTIC_B2_ID=${RESTIC_B2_ID?you forgot ./restic/configure.sh}
       - RESTIC_B2_KEY=${RESTIC_B2_KEY?you forgot ./restic/configure.sh}
+      - RESTIC_PASSWORD=${RESTIC_PASSWORD?you forgot ./restic/configure.sh}

@@ -5,7 +5,7 @@ export B2_ACCOUNT_KEY="$RESTIC_B2_KEY"
 BACKUP='/data/public'
 BUCKET='hot-griffinht-com'
 REPOSITORY='hot'
-PASSWORD='password'
+PASSWORD="$RESTIC_PASSWORD"
 
 echo "$PASSWORD" | restic -r b2:"$BUCKET":"$REPOSITORY" init
 

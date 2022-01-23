@@ -7,3 +7,5 @@ backblaze > `My Account` > `App Key` > `Add a New Application Key`
 Enter `applicationKey` here (`Copy to Clipboard`): ...
 
 done
+
+enter password for backups
