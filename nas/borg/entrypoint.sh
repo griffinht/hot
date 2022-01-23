@@ -1,7 +1,7 @@
 #!/bin/sh
 
 REPOSITORY='/borg'
-BACKUP='/data'
+BACKUP='/data/public'
 
 echo checking "$REPOSITORY"
 if [ ! "$(ls -A $REPOSITORY)" ]; then
@@ -10,10 +10,16 @@ if [ ! "$(ls -A $REPOSITORY)" ]; then
 fi
 
 backup() {
-  borg create --stats "$REPOSITORY" "$BACKUP"
+  borg create \
+    --stats \
+    --verbose \
+    --show-rc \
+    --compression lz4 \
+    "$REPOSITORY"'::{now}' \
+    "$BACKUP"
 }
 
 while true; do
   backup
-  sleep 100
+  sleep 15s
 done
