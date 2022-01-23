@@ -23,3 +23,9 @@ services:
     restart: unless-stopped
     volumes:
       - public:/public
+  gossa:
+    image: pldubouilh/gossa
+    environment:
+      PREFIX: "/gossa/"
+    volumes:
+      - public:/shared
