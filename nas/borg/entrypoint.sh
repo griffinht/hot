@@ -21,5 +21,5 @@ backup() {
 
 while true; do
   backup
-  sleep 15s
+  sleep 1d
 done
