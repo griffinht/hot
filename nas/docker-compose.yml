@@ -14,3 +14,8 @@ services:
       - data:/data
     ports:
       - 2049:2049
+  borg:
+    build: borg
+    restart: unless-stopped
+    volumes:
+      - data:/data
