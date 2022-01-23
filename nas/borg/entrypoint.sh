@@ -4,7 +4,7 @@ REPOSITORY='/borg'
 BACKUP='/data'
 
 echo checking "$REPOSITORY"
-if [ "$(ls -A $REPOSITORY)" ]; then
+if [ ! "$(ls -A $REPOSITORY)" ]; then
   echo "$REPOSITORY" is empty, init new borg repository
   borg init --encryption=none /borg
 fi
