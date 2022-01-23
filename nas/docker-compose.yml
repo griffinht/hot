@@ -21,3 +21,7 @@ services:
     volumes:
       - data:/data
       - borg:/borg
+  rclone:
+    build: rclone
+    volumes:
+      - backup:/backup
