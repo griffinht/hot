@@ -11,7 +11,7 @@ PASSWORD="$RESTIC_PASSWORD"
 
 check() {
   echo "$PASSWORD" | restic \
-    -r b2:"$BUCKET":dfg \
+    -r b2:"$BUCKET":"$REPOSITORY" \
     snapshots
 }
 
