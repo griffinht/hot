@@ -2,6 +2,7 @@
 set -e
 
 REPOSITORY='/backup'
+ARCHIVE='{now}'
 BACKUP='/data/public'
 export BORG_BASE_DIR='/borg'
 
@@ -17,11 +18,11 @@ backup() {
     --verbose \
     --show-rc \
     --compression lz4 \
-    "$REPOSITORY"'::{now}' \
+    "$REPOSITORY"::"$ARCHIVE" \
     "$BACKUP"
 }
 
 while true; do
   backup
-  sleep 1d
+  sleep 15s
 done
