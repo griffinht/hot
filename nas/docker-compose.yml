@@ -1,5 +1,6 @@
 volumes:
   data:
+  borg:
 services:
   nfs:
     image: erichough/nfs-server
@@ -19,3 +20,4 @@ services:
     restart: unless-stopped
     volumes:
       - data:/data
+      - borg:/borg
