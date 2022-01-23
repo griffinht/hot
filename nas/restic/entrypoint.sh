@@ -3,20 +3,22 @@ set -e
 
 export B2_ACCOUNT_ID="$RESTIC_B2_ID"
 export B2_ACCOUNT_KEY="$RESTIC_B2_KEY"
-BACKUP='/data/public'
-BUCKET='hot-griffinht-com'
-REPOSITORY='hot'
-CACHE='/restic/cache'
+
 export RESTIC_PASSWORD="$RESTIC_PASSWORD"
 
+BUCKET='hot-griffinht-com'
+REPOSITORY='hot'
+export RESTIC_REPOSITORY='b2:'"$BUCKET"':'"$REPOSITORY"
+
+BACKUP='/data/public'
+CACHE='/restic/cache'
+
 check() {
-  restic -r b2:"$BUCKET":"$REPOSITORY" \
-    snapshots
+  restic snapshots
 }
 
 init() {
-  restic -r b2:"$BUCKET":"$REPOSITORY" \
-    init
+  restic init
 }
 
 echo 'checking for existing repository'
@@ -27,7 +29,7 @@ fi
 echo 'done'
 
 backup() {
-  restic -r b2:"$BUCKET":"$REPOSITORY" \
+  restic \
     --cache-dir "$CACHE" \
     --cleanup-cache \
     --verbose \
