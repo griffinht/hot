@@ -40,5 +40,5 @@ while true; do
   echo 'backing up'
   date +%Y-%m-%dT%T
   backup
-  sleep 15s
+  sleep 1d
 done
