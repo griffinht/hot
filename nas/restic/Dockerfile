@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk add borgbackup
+RUN apk add restic
 
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
