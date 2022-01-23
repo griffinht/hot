@@ -7,17 +7,15 @@ BACKUP='/data/public'
 BUCKET='hot-griffinht-com'
 REPOSITORY='hot'
 CACHE='/restic/cache'
-PASSWORD="$RESTIC_PASSWORD"
+export RESTIC_PASSWORD="$RESTIC_PASSWORD"
 
 check() {
-  echo "$PASSWORD" | restic \
-    -r b2:"$BUCKET":"$REPOSITORY" \
+  restic -r b2:"$BUCKET":"$REPOSITORY" \
     snapshots
 }
 
 init() {
-  echo "$PASSWORD" | restic \
-    -r b2:"$BUCKET":"$REPOSITORY" \
+  restic -r b2:"$BUCKET":"$REPOSITORY" \
     init
 }
 
@@ -29,8 +27,7 @@ fi
 echo 'done'
 
 backup() {
-  echo "$PASSWORD" | restic \
-    -r b2:"$BUCKET":"$REPOSITORY" \
+  restic -r b2:"$BUCKET":"$REPOSITORY" \
     --cache-dir "$CACHE" \
     --cleanup-cache \
     --verbose \
