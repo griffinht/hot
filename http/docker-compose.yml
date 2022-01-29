@@ -1,11 +1,11 @@
 networks:
-  git_default:
+  git_internal:
     external: true
   wireguard_default:
     external: true
   minecraft_default:
     external: true
-  data_default:
+  data_internal:
     external: true
   speedtest_internal:
     external: true
@@ -35,10 +35,10 @@ services:
       - 443:443
     networks:
       - default
-      - git_default
+      - git_internal
       - wireguard_default
       - minecraft_default
-      - data_default
+      - data_internal
       - speedtest_internal
     volumes:
       - certificates:/certificates

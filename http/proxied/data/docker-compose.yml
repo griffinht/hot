@@ -1,3 +1,7 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
 volumes:
   public:
     driver: local
@@ -21,11 +25,16 @@ services:
   filebrowser:
     build: filebrowser
     restart: unless-stopped
+    networks:
+      - internal
     volumes:
       - public:/public
   gossa:
     image: pldubouilh/gossa
-    environment:
-      PREFIX: "/gossa/"
+    restart: unless-stoppped
+    networks:
+      - internal
     volumes:
       - public:/shared
+    environment:
+      PREFIX: "/gossa/"

@@ -1,3 +1,7 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
 services:
   speedtest:
     image: e7db/speedtest
@@ -9,7 +13,3 @@ services:
     restart: unless-stopped
     networks:
       - internal
-networks:
-  internal:
-    driver: bridge
-    internal: true

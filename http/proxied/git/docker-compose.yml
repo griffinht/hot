@@ -1,14 +1,22 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
 volumes:
   git:
 services:
   git-http-backend:
     build: ./git-http-backend
     restart: unless-stopped
+    networks:
+      - internal
     volumes:
       - git:/git
   git-http-frontend:
     image: git-web-view:latest
     restart: unless-stopped
+    networks:
+      - internal
     volumes:
       - git:/git
     command: --directory /git
