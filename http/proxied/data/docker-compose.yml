@@ -31,7 +31,7 @@ services:
       - public:/public
   gossa:
     image: pldubouilh/gossa
-    restart: unless-stoppped
+    restart: unless-stopped
     networks:
       - internal
     volumes:
