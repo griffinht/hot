@@ -2,6 +2,14 @@ services:
   speedtest:
     image: e7db/speedtest
     restart: unless-stopped
+    networks:
+      - internal
   speedtest2:
     image: adolfintel/speedtest
     restart: unless-stopped
+    networks:
+      - internal
+networks:
+  internal:
+    driver: bridge
+    internal: true
