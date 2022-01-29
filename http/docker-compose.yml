@@ -7,6 +7,8 @@ networks:
     external: true
   data_default:
     external: true
+  speedtest_default:
+    external: true
 volumes:
   certificates:
     driver: local
@@ -37,6 +39,7 @@ services:
       - wireguard_default
       - minecraft_default
       - data_default
+      - speedtest_default
     volumes:
       - certificates:/certificates
     healthcheck:
