@@ -1,5 +1,5 @@
 volumes:
-  data:
+  nas_data:
     external: true
   restic:
 services:
@@ -13,7 +13,7 @@ services:
       NFS_EXPORT_0: '/data/public *(rw,fsid=0,insecure,all_squash,anonuid=0,anongid=0)'
       NFS_DISABLE_VERSION_3: true
     volumes:
-      - data:/data
+      - nas_data:/data
     ports:
       - 2049:2049
   samba:
@@ -23,7 +23,7 @@ services:
       - 139:139
       - 445:445
     volumes:
-      - data:/data
+      - nas_data:/data
     command: -s "public;/data/public;yes;no"
     environment:
       USERID: 0
@@ -31,7 +31,7 @@ services:
   restic:
     build: restic
     volumes:
-      - data:/data
+      - nas_data:/data
       - restic:/restic
     environment:
       - RESTIC_B2_ID=${RESTIC_B2_ID?you forgot ./restic/configure.sh}
