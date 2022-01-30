@@ -2,6 +2,7 @@
 
 acme.sh \
   --cert-home /certificates \
+  --config-home /acme \
   --server letsencrypt \
   --issue \
   -d 'griffinht.com' --dns dns_cf \

@@ -10,18 +10,10 @@ networks:
   speedtest_internal:
     external: true
 volumes:
-  certificates:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: nfsvers=4,addr=192.168.0.6,rw
-      device: ":/docker/http_acme"
-  acme:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: nfsvers=4,addr=192.168.0.6,rw
-      device: ":/docker/http_certificates"
+  http_certificates:
+    external: true
+  http_acme:
+    external: true
 services:
   nginx:
     build: ./nginx
@@ -41,7 +33,7 @@ services:
       - data_internal
       - speedtest_internal
     volumes:
-      - certificates:/certificates
+      - http_certificates:/certificates
     healthcheck:
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
@@ -51,8 +43,8 @@ services:
     build: ./acme
     restart: unless-stopped
     volumes:
-      - certificates:/certificates
-      - acme:/home/acme/.acme.sh/
+      - http_certificates:/certificates
+      - http_acme:/acme
     environment:
       - CERTBOT_CLOUDFLARE=${CERTBOT_CLOUDFLARE?you forgot ./certbot/configure.sh}
       - CERTBOT_AWS_ACCESS_KEY_ID=${CERTBOT_AWS_ACCESS_KEY_ID?you forgot ./certbot/configure.sh}
