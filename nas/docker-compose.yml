@@ -30,6 +30,7 @@ services:
       GROUPID: 0
   restic:
     build: restic
+    restart: unless-stopped
     volumes:
       - nas_data:/data
       - restic:/restic
