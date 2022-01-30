@@ -3,12 +3,8 @@ networks:
     driver: bridge
     internal: true
 volumes:
-  public:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: nfsvers=4,addr=192.168.0.6,rw
-      device: ":/public"
+  data_public:
+    external: true
 services:
   samba:
     image: dperson/samba
@@ -17,7 +13,7 @@ services:
       - 139:139
       - 445:445
     volumes:
-      - public:/public
+      - data_public:/public
     command: -s "public;/public;yes;no"
     environment:
       USERID: 0
@@ -28,13 +24,13 @@ services:
     networks:
       - internal
     volumes:
-      - public:/public
+      - data_public:/public
   gossa:
     image: pldubouilh/gossa
     restart: unless-stopped
     networks:
       - internal
     volumes:
-      - public:/shared
+      - data_public:/shared
     environment:
       PREFIX: "/gossa/"
