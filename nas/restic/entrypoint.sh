@@ -10,7 +10,7 @@ BUCKET='hot-griffinht-com'
 REPOSITORY='hot'
 export RESTIC_REPOSITORY='b2:'"$BUCKET"':'"$REPOSITORY"
 
-BACKUP='/data/public'
+BACKUP='/data/backup'
 CACHE='/restic/cache'
 
 check() {
