@@ -19,3 +19,4 @@ EOF
 
 echo "net.ipv4.ip_unprivileged_port_start = 0" > /etc/sysctl.d/hot.conf
 sysctl --system
+./modules.sh
