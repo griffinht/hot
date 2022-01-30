@@ -6,18 +6,6 @@ volumes:
   data_public:
     external: true
 services:
-  samba:
-    image: dperson/samba
-    restart: unless-stopped
-    ports:
-      - 139:139
-      - 445:445
-    volumes:
-      - data_public:/public
-    command: -s "public;/public;yes;no"
-    environment:
-      USERID: 0
-      GROUPID: 0
   filebrowser:
     build: filebrowser
     restart: unless-stopped

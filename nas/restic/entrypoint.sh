@@ -10,7 +10,8 @@ BUCKET='hot-griffinht-com'
 REPOSITORY='hot'
 export RESTIC_REPOSITORY='b2:'"$BUCKET"':'"$REPOSITORY"
 
-BACKUP='/data/backup'
+BACKUP='/data/private/backup'
+BACKUP2='/data/public/backup'
 CACHE='/restic/cache'
 
 check() {
@@ -34,6 +35,11 @@ backup() {
     --cleanup-cache \
     --verbose \
     backup "$BACKUP"
+  restic \
+    --cache-dir "$CACHE" \
+    --cleanup-cache \
+    --verbose \
+    backup "$BACKUP2"
 }
 
 while true; do
