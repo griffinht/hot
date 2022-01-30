@@ -1,10 +1,6 @@
 volumes:
-  wg-access-server-data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: nfsvers=4,addr=192.168.0.6,rw
-      device: ":/docker/wireguard_wg-access-server-data"
+  wireguard_wg-access-server-data:
+    external: true
 services:
   wireguard:
     build: ./wireguard
@@ -14,6 +10,6 @@ services:
     ports:
         - "3108:3108/udp"
     volumes:
-        - "wg-access-server-data:/data"
+        - "wireguard_wg-access-server-data:/data"
     devices:
         - "/dev/net/tun:/dev/net/tun"
