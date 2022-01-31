@@ -6,7 +6,7 @@
     --baseurl "/filebrowser" \
     --address "" \
     --port "80" \
-    --root "public" \
+    --root "data" \
     --auth.method "noauth"
 
 /filebrowser -d /data/filebrowser.db users add user password \

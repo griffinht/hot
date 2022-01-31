@@ -3,7 +3,7 @@ networks:
     driver: bridge
     internal: true
 volumes:
-  data_public:
+  data:
     external: true
 services:
   filebrowser:
@@ -12,13 +12,13 @@ services:
     networks:
       - internal
     volumes:
-      - data_public:/public
+      - data:/data
   gossa:
     image: pldubouilh/gossa
     restart: unless-stopped
     networks:
       - internal
     volumes:
-      - data_public:/shared
+      - data:/shared
     environment:
       PREFIX: "/gossa/"
