@@ -11,6 +11,8 @@ networks:
     external: true
   webdav_internal:
     external: true
+  forwardproxy_default:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -35,6 +37,7 @@ services:
       - data_internal
       - speedtest_internal
       - webdav_internal
+      - forwardproxy_default
     volumes:
       - http_certificates:/certificates
     healthcheck:

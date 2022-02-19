@@ -1,0 +1,4 @@
+services:
+  tinyproxy:
+    build: .
+    restart: unless-stopped
