@@ -1,0 +1,16 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
+volumes:
+  data:
+    external: true
+services:
+  rclone:
+    image: rclone/rclone
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - data:/data
+    command: serve webdav -vv --addr 0.0.0.0:80 --baseurl /webdav /data

@@ -9,6 +9,8 @@ networks:
     external: true
   speedtest_internal:
     external: true
+  webdav_internal:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -32,6 +34,7 @@ services:
       - minecraft_default
       - data_internal
       - speedtest_internal
+      - webdav_internal
     volumes:
       - http_certificates:/certificates
     healthcheck:
