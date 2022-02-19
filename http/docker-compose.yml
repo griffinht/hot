@@ -16,6 +16,8 @@ volumes:
     external: true
   http_acme:
     external: true
+  http_passwd:
+    external: true
 services:
   nginx:
     build: ./nginx
@@ -37,6 +39,7 @@ services:
       - webdav_internal
     volumes:
       - http_certificates:/certificates
+      - http_passwd:/passwd
     healthcheck:
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
