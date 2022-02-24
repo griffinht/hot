@@ -6,11 +6,11 @@ volumes:
   data:
     external: true
 services:
-  rclone:
-    image: rclone/rclone
+  webdav:
+    build:
+      context: .
     restart: unless-stopped
     networks:
       - internal
     volumes:
       - data:/data
-    command: serve webdav -vv --addr 0.0.0.0:80 --baseurl /webdav /data
