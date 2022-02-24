@@ -8,3 +8,6 @@ log:
   read: true
   update: true
   delete: true
+users:
+  admin: # with password 'foo' and access to '/home/webdav'
+    password: "$2a$10$yITzSSNJZAdDZs8iVBQzkuZCzZ49PyjTiPIrmBUKUpB0pwX7eySvW"
