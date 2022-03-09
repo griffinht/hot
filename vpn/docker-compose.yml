@@ -1,0 +1,15 @@
+volumes:
+  vpn:
+    external: true
+services:
+  vpn:
+    image: lscr.io/linuxserver/wireguard
+    restart: unless-stopped
+    #sysctls:
+    #  - net.ipv4.conf.all.src_valid_mark=1
+    cap_add:
+      - NET_ADMIN
+    #  - SYS_MODULE
+    volumes:
+      - vpn:/config
+    #  - /lib/modules:/lib/modules
