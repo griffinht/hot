@@ -1,6 +1,10 @@
 volumes:
   vpn:
     external: true
+  downloads:
+    external: true
+  qbittorrent:
+    external: true
 services:
   vpn:
     image: lscr.io/linuxserver/wireguard
@@ -13,3 +17,10 @@ services:
     volumes:
       - vpn:/config
     #  - /lib/modules:/lib/modules
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent
+    restart: unless-stopped
+    volumes:
+      - downloads:/downloads
+      - qbittorrent:/config
+    network_mode: service:vpn
