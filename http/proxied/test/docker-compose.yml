@@ -1,0 +1,15 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
+volumes:
+  test:
+    external: true
+services:
+  test:
+    build: test
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - test:/test
