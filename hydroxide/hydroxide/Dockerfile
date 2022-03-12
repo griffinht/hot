@@ -15,4 +15,6 @@ RUN apk --no-cache add ca-certificates openrc \
 
 COPY --from=build /usr/local/bin/hydroxide /usr/local/bin/hydroxide
 
+VOLUME /root/.config/hydroxide
+
 ENTRYPOINT ["hydroxide", "-smtp-host", "0.0.0.0", "-imap-host", "0.0.0.0", "-carddav-host", "0.0.0.0"] 

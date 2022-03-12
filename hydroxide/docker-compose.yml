@@ -1,13 +1,15 @@
+volumes:
+  hydroxide:
+    external: true
 services:
   hydroxide:
     build: hydroxide
     restart: unless-stopped
-    command: serve
+    command: -debug serve
     ports: 
-      - 1025
-      - 1143
-  nginx:
-    build: nginx
-    restart: unless-stopped
-    ports:
-      - 8080:80
+# smtp
+      - 25:1025
+# imap
+      - 143:1143
+    volumes:
+      - hydroxide:/root/.config/hydroxide
