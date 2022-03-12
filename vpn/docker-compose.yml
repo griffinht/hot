@@ -17,6 +17,8 @@ services:
     volumes:
       - vpn:/config
     #  - /lib/modules:/lib/modules
+    healthcheck:
+      test: [ "CMD-SHELL", "$$(curl https://am.i.mullvad.net/json | jq .mullvad_exit_ip)" ]
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent
     restart: unless-stopped
