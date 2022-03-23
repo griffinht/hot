@@ -1,16 +1,17 @@
 networks:
-  internal:
-    driver: bridge
-    internal: true
+    internal:
+        driver: bridge
+        internal: true
 volumes:
-  data:
-    external: true
+    data:
+        external: true
 services:
-  webdav:
-    build:
-      context: .
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - data:/data
+    webdav:
+        build: webdav
+        restart: unless-stopped
+        working_dir: /data
+        networks:
+            - internal
+        volumes:
+            - data:/data
+        command: --port=80 --auth=false --prefix=/webdav
