@@ -1,5 +1,6 @@
 volumes:
   minecraft:
+    external: true
 services:
   minecraft:
     restart: unless-stopped
