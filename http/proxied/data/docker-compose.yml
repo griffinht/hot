@@ -6,13 +6,6 @@ volumes:
   data:
     external: true
 services:
-  filebrowser:
-    build: filebrowser
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - data:/data
   gossa:
     image: pldubouilh/gossa
     restart: unless-stopped
