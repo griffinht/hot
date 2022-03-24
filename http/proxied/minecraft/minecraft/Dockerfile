@@ -21,4 +21,4 @@ VOLUME ["/minecraft"]
 COPY --chown=minecraft:minecraft minecraft .
 COPY rcon-cli.yml /home/minecraft/.rcon-cli.yaml
 
-ENTRYPOINT entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
