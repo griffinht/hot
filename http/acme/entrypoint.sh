@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export CF_Token="$CERTBOT_CLOUDFLARE"
 

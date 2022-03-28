@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 CLOUDFLARE_API_TOKEN="$1"
 if [ -z "$CLOUDFLARE_API_TOKEN" ]; then

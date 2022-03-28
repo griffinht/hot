@@ -59,7 +59,7 @@ services:
       - CERTBOT_AWS_ACCESS_KEY_ID=${CERTBOT_AWS_ACCESS_KEY_ID?you forgot ./certbot/configure.sh}
       - CERTBOT_AWS_SECRET_ACCESS_KEY=${CERTBOT_AWS_SECRET_ACCESS_KEY?you forgot ./certbot/configure.sh}
     healthcheck:
-      test: [ "CMD-SHELL", "ls -f /certificates/griffinht.com/griffinht.com.cer" ]
+      test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.cer" ]
       interval: 1s
       timeout: 1s
       retries: 60

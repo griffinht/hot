@@ -1,12 +1,10 @@
-FROM debian
-
-RUN apt-get update && apt-get install -y curl
+FROM alpine
 
 ADD https://raw.githubusercontent.com/acmesh-official/acme.sh/8fcecd59a0fd991f1fb4248692af63889bb90d81/acme.sh /usr/local/bin/acme.sh
 
 
 RUN chmod +rx /usr/local/bin/acme.sh && \
-    useradd -m acme && \
+    adduser -D acme && \
     mkdir /certificates && \
     chown acme: /certificates
 
