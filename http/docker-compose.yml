@@ -13,8 +13,6 @@ networks:
     external: true
   vpn_default:
     external: true
-  test_internal:
-    external: true
 volumes:
   http_certificates:
     external: true
@@ -42,7 +40,6 @@ services:
       - speedtest_internal
       - webdav_internal
       - vpn_default
-      - test_internal
     volumes:
       - http_certificates:/certificates
       - http_passwd:/passwd
