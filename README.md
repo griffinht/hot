@@ -10,6 +10,7 @@ test
 - static ip for local devices and proxy :)
 
 ## hot dependencies
+debian
 
 ## misc
 
