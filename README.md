@@ -55,6 +55,10 @@ https://github.com/hacdias/webdav/releases.atom
 ### wireguard
 place1/wg-access-server
 
+### dendrite/matrix
+matrixdotorg/dendrite-monolith
+https://hub.docker.com/_/postgres/
+
 ## nas deps
 erichough/nfs-server
 dperson/samba
