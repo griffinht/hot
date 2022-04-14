@@ -12,4 +12,4 @@ services:
         networks:
             - internal
         volumes:
-            - git:/git
+            - git:/git:ro
