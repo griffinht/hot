@@ -16,4 +16,5 @@ services:
         environment:
             WEBSOCKET_ENABLED: true
             DOMAIN: https://cold.griffinht.com/bitwarden/
+            # needed for TOTP
             TZ: America/New_York
