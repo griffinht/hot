@@ -1,5 +1,7 @@
 networks:
-  git_internal:
+  git-backend_internal:
+    external: true
+  git-frontend_internal:
     external: true
   wireguard_default:
     external: true
@@ -35,7 +37,8 @@ services:
       - 443:443
     networks:
       - default
-      - git_internal
+      - git-backend_internal
+      - git-frontend_internal
       - wireguard_default
       - minecraft_default
       - data_internal

@@ -6,13 +6,6 @@ volumes:
     git:
         external: true
 services:
-    git-http-backend:
-        build: ./git-http-backend
-        restart: unless-stopped
-        networks:
-            - internal
-        volumes:
-            - git:/git
     git-http-frontend:
         build: ./git-http-frontend
         restart: unless-stopped
@@ -22,10 +15,10 @@ services:
             - 8080:80
         networks:
             - internal
-        volumes:
-            - git:/git
     php:
         build: ./php
         restart: unless-stopped
         networks:
             - internal
+        volumes:
+            - git:/git:ro

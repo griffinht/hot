@@ -1,0 +1,15 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    git:
+        external: true
+services:
+    nginx-git:
+        build: ./git
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - git:/git
