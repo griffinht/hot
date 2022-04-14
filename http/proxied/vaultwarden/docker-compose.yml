@@ -1,0 +1,19 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    vaultwarden:
+        external: true
+services:
+    vaultwarden:
+        image: vaultwarden/server:alpine
+        restart: unless-stopped
+        volumes:
+            - vaultwarden:/data
+        networks:
+            - internal
+        environment:
+            WEBSOCKET_ENABLED: true
+            DOMAIN: https://cold.griffinht.com/bitwarden/
+            TZ: America/New_York
