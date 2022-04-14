@@ -1,22 +1,31 @@
 networks:
-  internal:
-    driver: bridge
-    internal: true
+    internal:
+        driver: bridge
+        internal: true
 volumes:
-  git:
+    git:
+        external: true
 services:
-  git-http-backend:
-    build: ./git-http-backend
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - git:/git
-  git-http-frontend:
-    image: git-web-view:latest
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - git:/git
-    command: --directory /git
+    git-http-backend:
+        build: ./git-http-backend
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - git:/git
+    git-http-frontend:
+        build: ./git-http-frontend
+        restart: unless-stopped
+        depends_on:
+            - php
+        ports:
+            - 8080:80
+        networks:
+            - internal
+        volumes:
+            - git:/git
+    php:
+        build: ./php
+        restart: unless-stopped
+        networks:
+            - internal
