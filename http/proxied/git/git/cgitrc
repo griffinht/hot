@@ -1,0 +1,7 @@
+css=/cgit.css
+logo=/cgit.png
+
+
+scan-path=/git/
+
+virtual-root=/

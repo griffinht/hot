@@ -6,7 +6,7 @@ volumes:
     git:
         external: true
 services:
-    nginx-git:
+    git:
         build: ./git
         restart: unless-stopped
         networks:
