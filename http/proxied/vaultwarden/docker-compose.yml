@@ -18,3 +18,5 @@ services:
             DOMAIN: https://cold.griffinht.com/bitwarden/
             # needed for TOTP
             TZ: America/New_York
+            # no internet so this will fail anyway
+            DISABLE_ICON_DOWNLOAD: true
