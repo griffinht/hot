@@ -6,4 +6,4 @@ RUN apk --no-cache add spawn-fcgi fcgiwrap cgit py3-pip \
 COPY fcgi.sh /docker-entrypoint.d/fcgi.sh
 COPY nginx /etc/nginx/
 COPY cgitrc /etc/cgitrc
-COPY cgit.png /usr/share/webapps/cgit/cgit.png
+COPY cgit/ /usr/share/webapps/cgit/

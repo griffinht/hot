@@ -25,8 +25,8 @@ footer=
 # link to griffinh.com/
 logo-link=/
 root-title=griffinht.com/git/
-root-desc=a collection of git repositories I host - some are personal and some are mirrors
-# root-readme=README
+root-desc=my personal collection of git repositories I have created or stumbled upon
+root-readme=README.md
 
 
 
