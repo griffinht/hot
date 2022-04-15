@@ -1,7 +1,36 @@
+# https://git.zx2c4.com/cgit/tree/cgitrc.5.txt
+
+readme=:README.md
+readme=:readme.md
+readme=:README.mkd
+readme=:readme.mkd
+readme=:README.rst
+readme=:readme.rst
+readme=:README.html
+readme=:readme.html
+readme=:README.htm
+readme=:readme.htm
+readme=:README.txt
+readme=:readme.txt
+readme=:README
+readme=:readme
+
+footer=
+logo-link=/
+root-title=griffinht.com/git/
+root-desc=a collection of git repositories I host - some are personal and some are mirrors
+# root-readme=README
+
+
+
+
+
 css=/git/cgit.css
 logo=/git/cgit.png
 
+virtual-root=/git/
 
+# https://lists.zx2c4.com/pipermail/cgit/2017-February/003466.html
 scan-path=/git/
 
-virtual-root=/git/
+
