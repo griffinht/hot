@@ -20,7 +20,9 @@ readme=:readme.txt
 readme=:README
 readme=:readme
 
+# remove footer which contains cgit version
 footer=
+# link to griffinh.com/
 logo-link=/
 root-title=griffinht.com/git/
 root-desc=a collection of git repositories I host - some are personal and some are mirrors
