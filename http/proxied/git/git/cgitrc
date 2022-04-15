@@ -28,7 +28,7 @@ root-desc=a collection of git repositories I host - some are personal and some a
 
 
 
-
+# /git is from virtual-root
 css=/git/cgit.css
 logo=/git/cgit.png
 
