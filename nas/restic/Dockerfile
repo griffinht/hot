@@ -1,8 +1,7 @@
 FROM alpine
 
-RUN apk add restic
+RUN apk add --no-cache restic
 
 COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
