@@ -4,7 +4,7 @@ volumes:
   restic:
 services:
   nfs:
-    image: erichough/nfs-server
+    image: erichough/nfs-server:2.2.1@sha256:1efd4ece380c5ba27479417585224ef857006daa46ab84560a28c1224bc71e9e
     restart: unless-stopped
     cap_add:
       - SYS_ADMIN
@@ -17,7 +17,7 @@ services:
     ports:
       - 2049:2049
   samba:
-    image: dperson/samba
+    image: dperson/samba:latest@sha256:e1d2a7366690749a7be06f72bdbf6a5a7d15726fc84e4e4f41e967214516edfd
     restart: unless-stopped
     ports:
       - 139:139
