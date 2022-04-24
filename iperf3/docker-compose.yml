@@ -1,11 +1,13 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
 services:
-# iperf3 speedtest server
   iperf3:
-    image: mlabbe/iperf3
+    build: ./iperf3
     restart: unless-stopped
+    networks:
+        - internal
     ports:
       - 5201:5201/udp
       - 5201:5201/tcp
-# healthcheck not needed, just wastes resources
-    healthcheck:
-      disable: true
