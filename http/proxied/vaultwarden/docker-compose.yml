@@ -7,7 +7,7 @@ volumes:
         external: true
 services:
     vaultwarden:
-        image: vaultwarden/server:alpine
+        image: vaultwarden/server:alpine@sha256:f8e5df1a87cfb7ee180414dc53401694d27820c00ada7cd5f1d5804ab087db87
         restart: unless-stopped
         volumes:
             - vaultwarden:/data
