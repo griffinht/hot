@@ -7,7 +7,7 @@ volumes:
     external: true
 services:
   gossa:
-    image: pldubouilh/gossa:v0.2.1
+    image: pldubouilh/gossa:v0.2.1@sha256:62d26e1f0a36981b7a2939e93cb109180fa836a4fc76116a75c9968b18a0a9da
     restart: unless-stopped
     networks:
       - internal

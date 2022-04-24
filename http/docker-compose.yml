@@ -52,6 +52,7 @@ services:
       timeout: 5s
       retries: 5
   acme:
+    # pinning to sha256 cause exec user process caused: exec format error ????
     image: neilpang/acme.sh:3.0.2
     restart: unless-stopped
     volumes:
