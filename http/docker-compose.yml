@@ -15,6 +15,8 @@ networks:
     external: true
   vaultwarden_internal:
     external: true
+  wireguard_internal:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -43,6 +45,7 @@ services:
       - webdav_internal
       - vpn_default
       - vaultwarden_internal
+      - wireguard_internal
     volumes:
       - http_certificates:/certificates
       - http_passwd:/passwd
