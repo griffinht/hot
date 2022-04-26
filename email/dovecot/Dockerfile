@@ -7,4 +7,8 @@ RUN apk add --no-cache dovecot="$APK_DOVECOT_VERSION"
 # dovecot config
 COPY dovecot /etc/dovecot
 
+# todo https://doc.dovecot.org/configuration_manual/mail_location/#index-files
+
+VOLUME ["/mail"]
+
 ENTRYPOINT ["dovecot", "-F"]
