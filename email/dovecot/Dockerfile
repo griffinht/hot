@@ -1,0 +1,10 @@
+FROM alpine@sha256:a777c9c66ba177ccfea23f2a216ff6721e78a662cd17019488c417135299cd89
+
+ARG APK_DOVECOT_VERSION=2.3.17.1-r0
+
+RUN apk add --no-cache dovecot="$APK_DOVECOT_VERSION"
+
+# dovecot config
+COPY dovecot /etc/dovecot
+
+ENTRYPOINT ["dovecot", "-F"]

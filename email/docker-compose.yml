@@ -1,0 +1,15 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    mail:
+        external: true
+services:
+    dovecot:
+        build: dovecot
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - mail:/mail
