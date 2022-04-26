@@ -1,18 +1,8 @@
 #!/bin/sh
 set -e
 
-export B2_ACCOUNT_ID="$RESTIC_B2_ID"
-export B2_ACCOUNT_KEY="$RESTIC_B2_KEY"
-
-export RESTIC_PASSWORD="$RESTIC_PASSWORD"
-
-BUCKET='hot-griffinht-com'
-REPOSITORY='hot'
-export RESTIC_REPOSITORY='b2:'"$BUCKET"':'"$REPOSITORY"
-
 BACKUP='/data/public/docker'
 BACKUP2='/data/public/backup'
-CACHE='/restic/cache'
 
 check() {
   restic snapshots
@@ -40,6 +30,7 @@ backup() {
     --cleanup-cache \
     --verbose \
     backup "$BACKUP2"
+  restic forget --keep-daily 7 --keep-weekly 2 --keep-monthly 1 --prune
 }
 
 while true; do
