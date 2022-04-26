@@ -35,8 +35,6 @@ services:
       - nas_data:/data
       - restic:/restic
     environment:
-      - B2_ACCOUNT_ID=${RESTIC_B2_ID?you forgot to configure restic, see README}
-      - B2_ACCOUNT_KEY=${RESTIC_B2_KEY?you forgot to configure restic, see README}
+      - RESTIC_B2_ID=${RESTIC_B2_ID?you forgot to configure restic, see README}
+      - RESTIC_B2_KEY=${RESTIC_B2_KEY?you forgot to configure restic, see README}
       - RESTIC_PASSWORD=${RESTIC_PASSWORD?you forgot to configure restic, see README}
-      - RESTIC_REPOSITORY=b2:hot-griffinht-com:hot
-      - XDG_CACHE_HOME=/restic/cache
