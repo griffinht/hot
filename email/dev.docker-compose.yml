@@ -11,10 +11,10 @@ services:
             - internal
         volumes:
             - mail:/mail
-    postfix:
-        build: postfix
-        networks:
-            - internal
+#    postfix:
+#        build: postfix
+#        networks:
+#            - internal
     nginx:
         build: dev/nginx
         ports:
