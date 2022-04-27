@@ -11,9 +11,12 @@ services:
             - internal
         volumes:
             - mail:/mail
-    nginx:
-        build: dev/nginx
+    postfix:
+        build: postfix
         networks:
             - internal
+    nginx:
+        build: dev/nginx
         ports:
-            - 143:143
+            - 1143:143
+            - 2225:25

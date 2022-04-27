@@ -4,7 +4,7 @@ ARG APK_DOVECOT_VERSION=2.3.17.1-r0
 
 RUN apk add --no-cache dovecot="$APK_DOVECOT_VERSION"
 
-# dovecot config
+# config
 COPY dovecot /etc/dovecot
 
 # todo https://doc.dovecot.org/configuration_manual/mail_location/#index-files
