@@ -1,0 +1,19 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    mail:
+services:
+    dovecot:
+        build: dovecot
+        networks:
+            - internal
+        volumes:
+            - mail:/mail
+    nginx:
+        build: dev/nginx
+        networks:
+            - internal
+        ports:
+            - 143:143
