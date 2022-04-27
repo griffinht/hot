@@ -1,0 +1,4 @@
+# https://www.postfix.org/COMPATIBILITY_README.html
+compatibility_level=3.6
+
+maillog_file = /dev/stdout
