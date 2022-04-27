@@ -7,16 +7,20 @@ volumes:
 services:
     dovecot:
         build: dovecot
-        networks:
-            - internal
-        volumes:
-            - mail:/mail
-#    postfix:
-#        build: postfix
 #        networks:
 #            - internal
-    nginx:
-        build: dev/nginx
+        volumes:
+            - mail:/mail
         ports:
             - 1143:143
+    postfix:
+        build: postfix
+        ports:
             - 2225:25
+#        networks:
+#            - internal
+#    nginx:
+#        build: dev/nginx
+#        ports:
+#            - 1143:143
+#            - 2225:25
