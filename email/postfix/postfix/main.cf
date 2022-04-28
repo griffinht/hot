@@ -16,7 +16,7 @@ maillog_file = /dev/stdout
 # https://serverfault.com/a/164110/774940
 # http://www.postfix.org/rewrite.html
 # http://www.postfix.org/postconf.5.html#luser_relay
-luser_relay = all_user
+luser_relay = nobody
 local_recipient_maps =
 # https://serverfault.com/questions/913951/postfix-is-looking-for-etc-aliases-db-for-some-reason-instead-of-using-postgres
 alias_maps =
