@@ -1,4 +1,23 @@
+# see main.cf(5)
 # https://www.postfix.org/COMPATIBILITY_README.html
 compatibility_level=3.6
 
 maillog_file = /dev/stdout
+
+# this also sets many other domain related config values
+#myhostname = (appended by Dockerfile)
+
+# todo
+#mynetworks? has good default already, but might be good to set explicitly
+
+#
+# single user catch all
+#
+# https://serverfault.com/a/164110/774940
+# http://www.postfix.org/rewrite.html
+# http://www.postfix.org/postconf.5.html#luser_relay
+luser_relay = all_user
+local_recipient_maps =
+# https://serverfault.com/questions/913951/postfix-is-looking-for-etc-aliases-db-for-some-reason-instead-of-using-postgres
+alias_maps =
+#alias_database =
