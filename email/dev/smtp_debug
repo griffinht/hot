@@ -1,0 +1,9 @@
+ehlo localhost
+mail from: from@localhost
+rcpt to: to@localhost
+data
+hello
+
+test
+.
+quit

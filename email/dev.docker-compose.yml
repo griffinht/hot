@@ -13,12 +13,14 @@ services:
             - mail:/mail
         ports:
             - 1143:143
-    postfix:
-        build: postfix
+    chasquid:
+        build: chasquid
         ports:
             - 2225:25
 #        networks:
 #            - internal
+#        volumes:
+#            - mail:/mail
 #    nginx:
 #        build: dev/nginx
 #        ports:
