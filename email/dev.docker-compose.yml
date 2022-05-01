@@ -4,19 +4,32 @@ networks:
         internal: true
 volumes:
     mail:
+    certificates:
 services:
-    dovecot:
-        build: dovecot
-#        networks:
-#            - internal
-        volumes:
-            - mail:/mail
-        ports:
-            - 1143:143
-    chasquid:
-        build: chasquid
+    maddy:
+        build: maddy
         ports:
             - 2225:25
+            - 1443:143
+            - 5587:587
+            - 9993:993
+        depends_on:
+            certificates:
+                condition: service_completed_successfully
+        environment:
+            MADDY_HOSTNAME: mx.localhost
+            MADDY_DOMAIN: localhost
+            TLS_CERT: /certificates/cert.pem
+            TLS_KEY: /certificates/key.pem
+        volumes:
+            - mail:/data
+            - certificates:/certificates
+    # generate dummy certificate for maddy
+    certificates:
+        image: alpine
+        entrypoint: ["sh", "-c", "apk add openssl && cd /certificates && openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -subj /CN=localhost -nodes"]
+        volumes:
+            - certificates:/certificates
 #        networks:
 #            - internal
 #        volumes:
