@@ -9,8 +9,15 @@ services:
     maddy:
         build: maddy
         ports:
+            # smtp (external)
             - 25:25
-            - 587:587
+            # submission (starttls, this is bad)
+            #- 587:587
+            # submission (implict tls)
+            - 465:465
+            # imap (starttls, this is bad)
+            #- 143:143
+            # imap (implicit tls)
             - 993:993
         depends_on:
             certificates:
