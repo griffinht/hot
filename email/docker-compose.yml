@@ -1,7 +1,7 @@
 volumes:
     mail:
         external: true
-    certificates:
+    http_certificates:
         external: true
 services:
     maddy:
@@ -13,10 +13,10 @@ services:
             - 993:993
         volumes:
             - mail:/mail
-            - certificates:/certificates
+            - http_certificates:/certificates
         environment:
             MADDY_HOSTNAME: mx1.griffinht.com
             MADDY_DOMAIN: griffinht.com
-            TLS_CERT: /certificates/cert.pem
-            TLS_KEY: /certificates/key.pem
+            TLS_CERT: /certificates/griffinht.com/fullchain.cer
+            TLS_KEY: /certificates/griffinht.com/griffinht.com.key
 # todo ensure certificates exist before maddy starts
