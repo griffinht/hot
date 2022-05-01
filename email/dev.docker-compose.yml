@@ -33,7 +33,7 @@ services:
     # generate dummy certificate for maddy
     certificates:
         image: alpine
-        entrypoint: ["sh", "-c", "apk add openssl && cd /certificates && openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -subj /CN=localhost -nodes"]
+        entrypoint: ["sh", "-c", "cd /certificates && if [ -e 'key.pem' ]; then echo 'key already exists' && exit 0; fi && apk add openssl && openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -subj /CN=localhost -nodes"]
         volumes:
             - certificates:/certificates
 #        networks:
