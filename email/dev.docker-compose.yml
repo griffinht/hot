@@ -9,10 +9,9 @@ services:
     maddy:
         build: maddy
         ports:
-            - 2225:25
-            - 1443:143
-            - 5587:587
-            - 9993:993
+            - 25:25
+            - 587:587
+            - 993:993
         depends_on:
             certificates:
                 condition: service_completed_successfully
