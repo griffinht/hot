@@ -1,15 +1,22 @@
-networks:
-    internal:
-        driver: bridge
-        internal: true
 volumes:
     mail:
         external: true
+    certificates:
+        external: true
 services:
-    dovecot:
-        build: dovecot
+    maddy:
+        build: maddy
         restart: unless-stopped
-        networks:
-            - internal
+        ports:
+            - 25:25
+            - 465:465
+            - 993:993
         volumes:
             - mail:/mail
+            - certificates:/certificates
+        environment:
+            MADDY_HOSTNAME: mx1.griffinht.com
+            MADDY_DOMAIN: griffinht.com
+            TLS_CERT: /certificates/cert.pem
+            TLS_KEY: /certificates/key.pem
+# todo ensure certificates exist before maddy starts
