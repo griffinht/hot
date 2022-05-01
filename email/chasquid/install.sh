@@ -14,23 +14,26 @@
 
 BRANCH="$BRANCH"
 # github mirror is used because author's cgit repo https://blitiri.com.ar/repos/chasquid only supports git clone via HTTP dumb transport which is slow
-URL="https://github.com/albertito/chasquid/archive/refs/tags/$BRANCH.tar.gz"
+URL="https://github.com/albertito/chasquid/"
 
-curl -L "$URL" > chasquid.tar.gz
+git clone --branch "$BRANCH" "$URL" chasquid
+# idk if git rev-parse is cryptographically strong
+# todo find a diff way to check integrity
+# also tar -c | sha256sum doesn't work because git clone uses current last modified which changes hash
+SHA1='1a7c1cf60c1c058e2f1708d6f487fa70a73ab5d7'
 
-# curl -L "$URL" | sha256sum
-SHA256='84f2429e17832d3c381045bf600d47dc88d3b3f94b070307aa1b5e484e0694e6'
+cd chasquid
 
 # check integrity of source
-if ! echo "$SHA256  chasquid.tar.gz" | sha256sum -c; then
+if [ "$SHA1" != "$(git rev-parse $BRANCH)" ]; then
     echo "integrity compromised of $URL"
     exit 1
 fi
 
-mkdir chasquid
-cd chasquid
-tar -xz --strip-components=1 < ../chasquid.tar.gz
-make
+# compiling chasquid requires the git repository to get the version or something
+# otherwise an error will occur
+# panic: strconv.ParseInt: parsing "": invalid syntax
+#make
 
 # Install the binaries to /usr/local/bin.
 make install-binaries

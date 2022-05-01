@@ -5,7 +5,7 @@ ARG BRANCH=v1.9
 
 # install.sh
 WORKDIR /usr/src/
-RUN apk add --no-cache curl make go
+RUN apk add --no-cache curl git make go
 COPY install.sh .
 RUN ./install.sh
 
