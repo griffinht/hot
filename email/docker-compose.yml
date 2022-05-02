@@ -13,7 +13,7 @@ services:
             - 993:993
         volumes:
             - mail:/mail
-            - http_certificates:/certificates
+            - http_certificates:/certificates:ro
         environment:
             MADDY_HOSTNAME: mx1.stzups.net
             MADDY_DOMAIN: stzups.net
