@@ -47,8 +47,8 @@ services:
       - vaultwarden_internal
       - wireguard_internal
     volumes:
-      - http_certificates:/certificates
-      - http_passwd:/passwd
+      - http_certificates:/certificates:ro
+      - http_passwd:/passwd:ro
     healthcheck:
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
