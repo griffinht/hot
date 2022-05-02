@@ -15,8 +15,8 @@ services:
             - mail:/mail
             - http_certificates:/certificates
         environment:
-            MADDY_HOSTNAME: mx1.griffinht.com
-            MADDY_DOMAIN: griffinht.com
+            MADDY_HOSTNAME: mx1.stzups.net
+            MADDY_DOMAIN: stzups.net
             TLS_CERT: /certificates/griffinht.com/fullchain.cer
             TLS_KEY: /certificates/griffinht.com/griffinht.com.key
 # todo ensure certificates exist before maddy starts
