@@ -28,7 +28,8 @@ root-title=griffinht.com/git/
 root-desc=my personal collection of git repositories created or used by me
 root-readme=README.md
 
-
+branch-sort=age
+repository-sort=age
 
 # /git is from virtual-root
 css=/git/cgit.css
