@@ -17,6 +17,8 @@ networks:
     external: true
   wireguard_internal:
     external: true
+  registry_default:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -46,6 +48,7 @@ services:
       - vpn_default
       - vaultwarden_internal
       - wireguard_internal
+      - registry_default
     volumes:
       - http_certificates:/certificates:ro
       - http_passwd:/passwd:ro
