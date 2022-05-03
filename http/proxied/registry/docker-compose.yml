@@ -1,15 +1,23 @@
-networks:
-    internal:
-        driver: bridge
-        internal: true
 volumes:
     registry:
+        external: true
+    http_passwd:
         external: true
 services:
     registry:
         image: registry:2@sha256:6060f78eda124040cfeb19d2fcc9af417f5ee23dc05d0894fcfe21f24c9cbf9a
         restart: unless-stopped
-        networks:
-            - internal
+        volumes:
+            - registry:/var/lib/registry:ro
+        environment:
+            - REGISTRY_HTTP_HOST=https://registry.griffinht.com
+    registry_write:
+        image: registry:2@sha256:6060f78eda124040cfeb19d2fcc9af417f5ee23dc05d0894fcfe21f24c9cbf9a
+        restart: unless-stopped
         volumes:
             - registry:/var/lib/registry
+            - http_passwd:/passwd:ro
+        environment:
+            - AUTH_HTPASSWD_REALM=hot
+            - AUTH_HTPASSWD_PATH=/htpasswd/.htpasswd
+            - REGISTRY_HTTP_HOST=https://registry-write.griffinht.com
