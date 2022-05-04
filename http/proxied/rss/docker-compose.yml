@@ -19,6 +19,7 @@ services:
         environment:
             - BASE_URL=https://hot.griffinht.com/rss
             - DATABASE_URL=postgres://miniflux:passwordexample@db/miniflux?sslmode=disable
+            - AUTH_PROXY_HEADER=X-Forwarded-User
     db:
         image: postgres:alpine@sha256:2fb5718f2a23dbac9bd1258e886eee90250a5903785e3136d62dd65e19f34982
         environment:
