@@ -1,3 +1,7 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
 volumes:
     registry:
         external: true
@@ -9,6 +13,8 @@ services:
         restart: unless-stopped
         volumes:
             - registry:/var/lib/registry:ro
+        networks:
+            - internal
         environment:
             - REGISTRY_HTTP_HOST=https://registry.griffinht.com
     registry_write:
@@ -17,7 +23,14 @@ services:
         volumes:
             - registry:/var/lib/registry
             - http_passwd:/passwd:ro
+        networks:
+            - internal
         environment:
             - AUTH_HTPASSWD_REALM=hot
             - AUTH_HTPASSWD_PATH=/htpasswd/.htpasswd
             - REGISTRY_HTTP_HOST=https://registry-write.griffinht.com
+    registry_ui:
+        image: joxit/docker-registry-ui@sha256:88b3284a3c97b57591ca17f5b167b34a71ed2f5645f0fe9cd114e7684e136bea
+        restart: unless-stopped
+        networks:
+            - internal
