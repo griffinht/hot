@@ -1,0 +1,34 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    miniflux:
+        external: true
+services:
+    rss:
+        image: miniflux/miniflux:latest@sha256:3131917419c1ad1065796e628335fed6ae0cf68e4fb7af88746894354f070696
+        restart: unless-stopped
+        networks:
+            - default
+            - internal
+        depends_on:
+            db:
+                condition:
+                    service_started
+        environment:
+            - BASE_URL=https://hot.griffinht.com/rss
+            - DATABASE_URL=postgres://miniflux:passwordexample@db/miniflux?sslmode=disable
+    db:
+        image: postgres:alpine@sha256:2fb5718f2a23dbac9bd1258e886eee90250a5903785e3136d62dd65e19f34982
+        environment:
+            - POSTGRES_USER=miniflux
+            - POSTGRES_PASSWORD=passwordexample
+        volumes:
+            - miniflux:/var/lib/postgresql/data
+        networks:
+            - internal
+        healthcheck: 
+            test: ["CMD", "pg_isready", "-U", "miniflux"]
+            interval: 10s
+            start_period: 30s
