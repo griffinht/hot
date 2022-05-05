@@ -6,6 +6,7 @@ volumes:
     vaultwarden:
         external: true
 services:
+    # https://github.com/dani-garcia/vaultwarden/
     vaultwarden:
         image: vaultwarden/server:alpine@sha256:f8e5df1a87cfb7ee180414dc53401694d27820c00ada7cd5f1d5804ab087db87
         restart: unless-stopped
