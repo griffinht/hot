@@ -8,6 +8,8 @@ remove?:
 vpn
 
 nginx updates before tags??
+cgit maintain
+minecraft maintain
 
 cve scan
 
@@ -18,19 +20,8 @@ https://github.com/itzg/rcon-cli/releases
 https://hub.docker.com/_/eclipse-temurin
 https://hub.docker.com/_/alpine/
 
-### speedtest
-adolfintel/speedtest
-
-### webdav
-https://hub.docker.com/_/alpine/
-https://github.com/hacdias/webdav/releases.atom
-
 ### wireguard
 place1/wg-access-server
-
-### dendrite/matrix
-matrixdotorg/dendrite-monolith
-https://hub.docker.com/_/postgres/
 
 ## nas deps
 erichough/nfs-server - unmaintained
