@@ -2,13 +2,6 @@
 test
 2
 
-## todo
-- DNS - multiple cloud DNS that redirect to local DNS???
-- mullvad wireguard
-- https proxy for internal services
-- docker port to auto port forward???
-- static ip for local devices and proxy :)
-
 ## hot dependencies
 debian
 
@@ -22,7 +15,7 @@ stzups/ip-server
 
 ## proxy deps
 
-#### atom 
+#### acme.sh
 https://github.com/acmesh-official/acme.sh/releases.atom
 https://hub.docker.com/_/alpine/
 
@@ -61,7 +54,7 @@ https://hub.docker.com/_/postgres/
 
 ## nas deps
 erichough/nfs-server
-dperson/samba
+dperson/samba - unmaintained!!
 backblaze
 
 ## vpn deps
