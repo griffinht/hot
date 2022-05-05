@@ -31,6 +31,7 @@ volumes:
   http_passwd:
     external: true
 services:
+  # https://github.com/nginxinc/docker-nginx/
   nginx:
     build: ./nginx
     restart: unless-stopped
@@ -64,7 +65,8 @@ services:
       timeout: 5s
       retries: 5
   acme:
-    image: neilpang/acme.sh:3.0.2@sha256:6f5ba560f320cf91f33088cdcba93609b7d4b7418a19b85ac044d9ef6f1291fc
+    # https://github.com/acmesh-official/acme.sh/
+    image: neilpang/acme.sh:3.0.3@sha256:c7c66045b96bb72f75e592f861ddd173296269ad973cb1f297912c2fe4e0dd46
     restart: unless-stopped
     volumes:
       - http_certificates:/certificates
