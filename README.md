@@ -7,38 +7,9 @@ iperf3
 remove?:
 vpn
 
+nginx updates before tags??
 
-
-
-# hot
-test
-2
-
-## hot dependencies
-debian
-
-## misc
-
-### iperf3
-mlabbe/iperf3
-
-### ip-server
-stzups/ip-server
-
-## proxy deps
-
-#### acme.sh
-https://github.com/acmesh-official/acme.sh/releases.atom
-https://hub.docker.com/_/alpine/
-
-#### nginx
-https://hub.docker.com/_/nginx/
-stzups/griffin.ht:latest
-stzups/griffinht.com:latest
-stzups/stzups.net:latest
-stzups/realgmoney.com:latest
-
-## proxied deps
+cve scan
 
 ### minecraft
 https://purpurmc.org/
@@ -46,9 +17,6 @@ https://github.com/tsl0922/ttyd/releases
 https://github.com/itzg/rcon-cli/releases
 https://hub.docker.com/_/eclipse-temurin
 https://hub.docker.com/_/alpine/
-
-### gossa
-https://github.com/pldubouilh/gossa/releases.atom##
 
 ### speedtest
 adolfintel/speedtest
