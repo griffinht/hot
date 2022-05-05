@@ -21,6 +21,8 @@ networks:
     external: true
   rss_default:
     external: true
+  libreddit_default:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -52,6 +54,7 @@ services:
       - wireguard_internal
       - registry_internal
       - rss_default
+      - libreddit_default
     volumes:
       - http_certificates:/certificates:ro
       - http_passwd:/passwd:ro
