@@ -1,3 +1,15 @@
+todo:
+unmaintained:
+nas/samba
+nas/nfs
+iperf3
+
+remove?:
+vpn
+
+
+
+
 # hot
 test
 2
@@ -53,10 +65,10 @@ matrixdotorg/dendrite-monolith
 https://hub.docker.com/_/postgres/
 
 ## nas deps
-erichough/nfs-server
+erichough/nfs-server - unmaintained
 dperson/samba - unmaintained!!
 backblaze
 
-## vpn deps
+## vpn deps - unused, remove?
 lscr.io/linuxserver/wireguard
 lscr.io/linuxserver/qbittorrent
