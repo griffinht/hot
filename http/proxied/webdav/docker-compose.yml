@@ -6,6 +6,7 @@ volumes:
     data:
         external: true
 services:
+    # https://github.com/hacdias/webdav
     webdav:
         image: hacdias/webdav:v4.1.1@sha256:825bb55ba82a77b895d32b5e97775bda1b24c614bf3a6dda1b3cad89c6c15c12
         restart: unless-stopped
