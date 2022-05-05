@@ -4,9 +4,6 @@ nas/samba
 nas/nfs
 iperf3
 
-remove?:
-vpn
-
 nginx updates before tags??
 cgit maintain
 minecraft maintain
@@ -27,7 +24,3 @@ place1/wg-access-server
 erichough/nfs-server - unmaintained
 dperson/samba - unmaintained!!
 backblaze
-
-## vpn deps - unused, remove?
-lscr.io/linuxserver/wireguard
-lscr.io/linuxserver/qbittorrent
