@@ -8,6 +8,7 @@ volumes:
     http_passwd:
         external: true
 services:
+    # https://github.com/distribution/distribution
     registry:
         image: registry:2@sha256:6060f78eda124040cfeb19d2fcc9af417f5ee23dc05d0894fcfe21f24c9cbf9a
         restart: unless-stopped
