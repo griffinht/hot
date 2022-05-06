@@ -66,7 +66,7 @@ services:
       retries: 5
   acme:
     # https://github.com/acmesh-official/acme.sh/
-    image: neilpang/acme.sh:3.0.3@sha256:c7c66045b96bb72f75e592f861ddd173296269ad973cb1f297912c2fe4e0dd46
+    image: neilpang/acme.sh:3.0.4@sha256:c9b93d808ca8019ed9867f211f17bb5506d86bbb0d2e46b2ac26b368ce3fee95
     restart: unless-stopped
     volumes:
       - http_certificates:/certificates
