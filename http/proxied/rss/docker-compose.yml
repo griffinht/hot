@@ -15,8 +15,7 @@ services:
             - internal
         depends_on:
             db:
-                condition:
-                    service_started
+                condition: service_healthy
         environment:
             - BASE_URL=https://hot.griffinht.com/rss
             - DATABASE_URL=postgres://miniflux:passwordexample@db/miniflux?sslmode=disable
