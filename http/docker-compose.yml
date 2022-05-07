@@ -3,8 +3,6 @@ networks:
     external: true
   wireguard_default:
     external: true
-  minecraft_default:
-    external: true
   data_internal:
     external: true
   speedtest_internal:
@@ -46,7 +44,6 @@ services:
       - default
       - git_internal
       - wireguard_default
-      - minecraft_default
       - data_internal
       - speedtest_internal
       - webdav_internal
