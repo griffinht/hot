@@ -9,8 +9,6 @@ networks:
     external: true
   webdav_internal:
     external: true
-  vpn_default:
-    external: true
   vaultwarden_internal:
     external: true
   wireguard_internal:
@@ -47,7 +45,6 @@ services:
       - data_internal
       - speedtest_internal
       - webdav_internal
-      - vpn_default
       - vaultwarden_internal
       - wireguard_internal
       - registry_internal
