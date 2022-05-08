@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # check if wireguard kernel modules are loaded
 if ! grep wireguard < /proc/modules; then
