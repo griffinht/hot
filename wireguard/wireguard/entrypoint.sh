@@ -9,7 +9,7 @@ fi
 echo wireguard kernel modules are loaded
 
 # check for existing interface wg0
-if wg show wg0; then
+if wg show wg0 2> /dev/null; then
     echo interface wg0 already exists, exiting
     exit 1
 fi
