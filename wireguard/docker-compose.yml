@@ -3,16 +3,9 @@ volumes:
         external: true
 services:
     wireguard:
-        image: lscr.io/linuxserver/wireguard:latest@sha256:bb9371bb5874f34ecde89b2e0d1f8e5b9bd56f0d9e53a7a477d61f2b1f716f91
+        build: ./wireguard
         restart: unless-stopped
         cap_add:
             - NET_ADMIN
-        environment:
-            - SERVERURL=hot.griffinht.com
-            - PEERS=5
-        volumes:
-            - wireguard:/config
-        ports:
-            - 51280:51280/udp
-        devices:
-            - "/dev/net/tun:/dev/net/tun"
+#        sysctls:
+#            - net.ipv4.conf.all.src_valid_mark=1
