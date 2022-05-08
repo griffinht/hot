@@ -24,17 +24,31 @@ if ! ip link add dev wg0 type wireguard; then
     echo "ip link add dev wg0 type wireguard exited with $?, did you forget --cap-add=NET_ADMIN"
 fi
 
-# generates private key if it does not exist, then writes to /dev/stderr
-get_private_key() {
+# generates private key if it does not exist, then writes the file path of the private key to /dev/stdout
+generate_private_key() {
     if ! [ -e "$PRIVATE_KEY_FILE" ]; then
         echo generating new private key in "$PRIVATE_KEY_FILE" >&2
-        wg genkey > "$PRIVATE_KEY_FILE"
+        if ! wg genkey > "$PRIVATE_KEY_FILE"; then
+            echo couldn't generate new private key
+            return 1
+        fi
     fi
     ls -l "$PRIVATE_KEY_FILE" >&2
-    cat "$PRIVATE_KEY_FILE"
+    echo "$PRIVATE_KEY_FILE"
 }
 
 configure() {
+    # add $SUBNET to device wg0
+    if ! ip address add "$SUBNET" dev wg0; then
+        echo failed adding "$SUBNET" to device wg0, exiting
+        exit 1
+    fi
+
+    PRIVATE_KEY_FILE="$(generate_private_key)"
+    # set private-key to wg0
+    if ! wg set wg0 private-key "$PRIVATE_KEY_FILE"; then
+        echo failed generating private key
+    fi
     echo hello
     sleep 111100
 }
