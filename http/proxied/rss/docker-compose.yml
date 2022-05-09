@@ -23,6 +23,7 @@ services:
     # https://github.com/docker-library/postgres
     db:
         image: postgres:alpine@sha256:2fb5718f2a23dbac9bd1258e886eee90250a5903785e3136d62dd65e19f34982
+        restart: unless-stopped
         environment:
             - POSTGRES_USER=miniflux
             - POSTGRES_PASSWORD=passwordexample
