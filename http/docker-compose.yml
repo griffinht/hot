@@ -19,6 +19,8 @@ networks:
     external: true
   invidious_default:
     external: true
+  searx_default:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -50,6 +52,7 @@ services:
       - libreddit_default
       - nitter_default
       - invidious_default
+      - searx_default
     volumes:
       - http_certificates:/certificates:ro
       - http_passwd:/passwd:ro
