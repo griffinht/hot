@@ -2,4 +2,6 @@ services:
     invidious:
         image: quay.io/invidious/invidious@sha256:ed37269d183634ae8d1c198fc807488ad4701e8e34ee83fa541f43fe211053ca
         restart: unless-stopped
-        
+    postgres:
+        build: postgres
+        restart: unless-stopped
