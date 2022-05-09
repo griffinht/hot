@@ -1,5 +1,6 @@
 volumes:
     invidious:
+        external: true
 services:
     invidious:
         image: quay.io/invidious/invidious@sha256:ed37269d183634ae8d1c198fc807488ad4701e8e34ee83fa541f43fe211053ca
@@ -18,6 +19,8 @@ services:
         environment:
             # todo secret store? is this even needed?
             - POSTGRES_HOST_AUTH_METHOD=trust
+        # postgres takes a long time to start
         healthcheck:
             test: ["CMD", "pg_isready"]
             interval: 10s
+            retries: 20
