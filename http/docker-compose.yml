@@ -17,6 +17,8 @@ networks:
     external: true
   nitter_default:
     external: true
+  invidious_default:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -47,6 +49,7 @@ services:
       - rss_default
       - libreddit_default
       - nitter_default
+      - invidious_default
     volumes:
       - http_certificates:/certificates:ro
       - http_passwd:/passwd:ro
