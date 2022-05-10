@@ -1,0 +1,3 @@
+services:
+    image: griffinht/scribe
+    restart: unless-stopped
