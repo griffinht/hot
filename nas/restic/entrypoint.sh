@@ -30,6 +30,7 @@ backup() {
     --cleanup-cache \
     --verbose \
     backup "$BACKUP2"
+  restic forget --prune --keep-daily 3 --keep-weekly 1 --keep-monthly 1
 }
 
 while true; do
