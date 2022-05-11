@@ -37,6 +37,8 @@ services:
     volumes:
       - nas_data:/data
       - restic:/restic
+    # important for this not to change so restic can find the parent with a matching hostname
+    hostname: f3fcbdab57b4
     environment:
       - B2_ACCOUNT_ID=${RESTIC_B2_ID?you forgot to configure restic, see README}
       - B2_ACCOUNT_KEY=${RESTIC_B2_KEY?you forgot to configure restic, see README}
