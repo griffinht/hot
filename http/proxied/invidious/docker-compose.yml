@@ -7,7 +7,7 @@ volumes:
         external: true
 services:
     invidious:
-        image: quay.io/invidious/invidious@sha256:ed37269d183634ae8d1c198fc807488ad4701e8e34ee83fa541f43fe211053ca
+        image: quay.io/invidious/invidious@sha256:1c8b3a009ec4805688f7fff842ee4994a6dbf2732780ecaa9cbb2bd79113a579
         restart: unless-stopped
         networks:
             - default
