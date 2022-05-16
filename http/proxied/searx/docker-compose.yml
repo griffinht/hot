@@ -1,6 +1,6 @@
 services:
     searx:
-        image: searxng/searxng@sha256:7aff6179fa6025fc7b00d992b9ccd3e624eeda6a44af4fc5b89cec7082813a36
+        image: searxng/searxng
         restart: unless-stopped
         environment:
             - BASE_URL=https://hot.griffinht.com/searx/

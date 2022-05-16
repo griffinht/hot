@@ -1,4 +1,4 @@
 services:
     libreddit:
-        image: spikecodes/libreddit:lates@sha256:d7e7ce3d5642f995fd727c687aa208c6d10a5f3291563dc199505be78791344f
+        image: spikecodes/libreddit
         restart: unless-stopped
