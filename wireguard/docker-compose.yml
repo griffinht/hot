@@ -3,7 +3,7 @@ volumes:
         external: true
 services:
     wireguard:
-        image: lscr.io/linuxserver/wireguard@sha256:0ef7686a5be141649c0b34dbd47469f50632b55dff43bb85cb29c95c90dbdff1
+        image: lscr.io/linuxserver/wireguard:latest
         restart: unless-stopped
         cap_add:
             - NET_ADMIN
