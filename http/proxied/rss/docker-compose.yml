@@ -8,7 +8,7 @@ volumes:
 services:
     # https://github.com/miniflux/v2/
     rss:
-        image: miniflux/miniflux:latest@sha256:3131917419c1ad1065796e628335fed6ae0cf68e4fb7af88746894354f070696
+        image: miniflux/miniflux:latest
         restart: unless-stopped
         networks:
             - default
@@ -20,6 +20,7 @@ services:
             - BASE_URL=https://hot.griffinht.com/rss
             - DATABASE_URL=postgres://miniflux:passwordexample@db/miniflux?sslmode=disable
             - AUTH_PROXY_HEADER=X-Forwarded-User
+            - RUN_MIGRATIONS=1
     # https://github.com/docker-library/postgres
     db:
         image: postgres:alpine@sha256:2fb5718f2a23dbac9bd1258e886eee90250a5903785e3136d62dd65e19f34982
