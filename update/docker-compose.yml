@@ -1,0 +1,8 @@
+services:
+    update:
+        image: containrrr/watchtower@sha256:96b30ec08f8ae7da229f6cb912b5ab0d6e5fcb70ff9772c4d064429dec50dc1d
+        restart: unless-stopped
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - WATCHTOWER_POLL_INTERVAL=300
