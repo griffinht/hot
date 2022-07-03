@@ -33,7 +33,7 @@ services:
   # https://github.com/restic/restic/releases.atom
   restic:
     build: restic
-    restart: unless-stopped
+# restart - do not restart!!!
     volumes:
       - nas_data:/data
       - restic:/restic
