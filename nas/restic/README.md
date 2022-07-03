@@ -5,9 +5,9 @@ backblaze > `My Account` > `App Key` > `Add a New Application Key`
 - `bucketName`=`hot-griffinht-com`
 - `capabilities`=`Read and Write`
 
-Enter `applicationKey` here (`Copy to Clipboard`): ...
-
-done
+click the create key button or something
+then put the info in to a file called .env for docker compose environment
+note if some things have special characters then they may need to be escaped with ''
 
 `.env file`
 ```
