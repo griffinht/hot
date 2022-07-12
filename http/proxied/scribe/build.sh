@@ -3,8 +3,8 @@
 DIR="$(mktemp -d)"
 cd "$DIR" || exit 1
 
-GIT_REF='1dcded9153c482553538fdf9a4f80e7d9361b19c'
-SHA256='eea6614d566aebe22f575722f967a6779ff13715b47261f0023d7fda1d2eff90  tar.gz'
+GIT_REF='f05a12a880cbb1399925d9dc12317f6f5ce8a285'
+SHA256='714587d007a7fe4ce26a74062f6de0ccdb56e4f891fedcf334c5bad9fac852da  tar.gz'
 
 if ! (curl "https://git.sr.ht/~edwardloveall/scribe/archive/$GIT_REF.tar.gz" > tar.gz \
     && echo "$SHA256" | sha256sum -c \
