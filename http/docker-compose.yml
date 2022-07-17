@@ -23,6 +23,10 @@ networks:
     external: true
   scribe_default:
     external: true
+  rimgo_default:
+    external: true
+  quetre_default:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -56,6 +60,8 @@ services:
       - invidious_default
       - searx_default
       - scribe_default
+      - rimgo_default
+      - quetre_default
     volumes:
       - http_certificates:/certificates:ro
       - http_passwd:/passwd:ro
