@@ -73,7 +73,6 @@ services:
   acme:
     # https://github.com/acmesh-official/acme.sh/
     image: neilpang/acme.sh:3.0.4
-    restart: unless-stopped
     volumes:
       - http_certificates:/certificates
       - http_acme:/acme
@@ -81,7 +80,7 @@ services:
       - CF_Token=${CERTBOT_CLOUDFLARE?you forgot to configure Cloudflare see README}
       - AWS_ACCESS_KEY_ID=${CERTBOT_AWS_ACCESS_KEY_ID?you forgot to configure AWS Route53 see README}
       - AWS_SECRET_ACCESS_KEY=${CERTBOT_AWS_SECRET_ACCESS_KEY?you forgot to configure AWS Route53 see README}
-    command: daemon --issue --cert-home /certificates --config-home /acme --server letsencrypt -d 'griffinht.com' --dns dns_cf -d '*.griffinht.com' --dns dns_cf -d 'stzups.net' --dns dns_cf -d 'griffin.ht' --dns dns_aws
+    command: daemon --issue --debug --log --cert-home /certificates --config-home /acme --server letsencrypt -d 'griffinht.com' --dns dns_cf -d '*.griffinht.com' --dns dns_cf -d 'stzups.net' --dns dns_cf -d 'griffin.ht' --dns dns_aws
     healthcheck:
       test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.cer" ]
       interval: 1s
