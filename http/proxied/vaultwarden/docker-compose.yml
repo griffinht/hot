@@ -7,8 +7,9 @@ volumes:
         external: true
 services:
     # https://github.com/dani-garcia/vaultwarden/
+    # https://hub.docker.com/r/vaultwarden/server/tags
     vaultwarden:
-        image: vaultwarden/server:alpine@sha256:f8e5df1a87cfb7ee180414dc53401694d27820c00ada7cd5f1d5804ab087db87
+        image: vaultwarden/server:alpine@sha256:7011d4216a00fcd79785b8b31d61b897e05d959aa37681323dd9c0155655bbbc
         restart: unless-stopped
         volumes:
             - vaultwarden:/data
