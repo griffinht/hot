@@ -11,8 +11,6 @@ services:
         restart: unless-stopped
         networks:
             - internal
-              #        environment:
-            #- GROCY_BASE_PATH=/grocy
     backend:
         image: grocy/backend:v3.3.1 
         restart: unless-stopped
