@@ -20,7 +20,5 @@ services:
             - internal
         volumes:
             - grocy:/var/www/data
-              #        environment:
-            #            - GROCY_BASE_PATH=/grocy
-              #            - GROCY_BASE_URL=/grocy
-              #            - GROCY_BASE_URL=https://hot.griffinht.com/grocy
+        environment:
+            - GROCY_BASE_URL=https://hot.griffinht.com/grocy
