@@ -27,6 +27,8 @@ networks:
     external: true
   quetre_default:
     external: true
+  grocy_internal:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -62,6 +64,7 @@ services:
       - scribe_default
       - rimgo_default
       - quetre_default
+      - grocy_internal
     volumes:
       - http_certificates:/certificates:ro
       - http_passwd:/passwd:ro

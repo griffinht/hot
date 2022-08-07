@@ -1,0 +1,26 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    grocy:
+        external: true
+services:
+    grocy:
+        image: grocy/frontend:v3.3.1
+        restart: unless-stopped
+        networks:
+            - internal
+              #        environment:
+            #- GROCY_BASE_PATH=/grocy
+    backend:
+        image: grocy/backend:v3.3.1 
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - grocy:/var/www/data
+              #        environment:
+            #            - GROCY_BASE_PATH=/grocy
+              #            - GROCY_BASE_URL=/grocy
+              #            - GROCY_BASE_URL=https://hot.griffinht.com/grocy
