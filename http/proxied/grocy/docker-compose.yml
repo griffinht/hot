@@ -19,4 +19,6 @@ services:
         volumes:
             - grocy:/var/www/data
         environment:
+            - GROCY_AUTH_CLASS=Grocy\Middleware\ReverseProxyAuthMiddleware
+            - GROCY_REVERSE_PROXY_AUTH_HEADER=X-Forwarded-User 
             - GROCY_BASE_URL=https://hot.griffinht.com/grocy
