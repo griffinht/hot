@@ -1,0 +1,26 @@
+# note you must go in to container and /photoprism/storage/config/settings.yml
+# change library -> review to false
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    photoprism:
+# just a cache, no need to back up
+    media:
+        external: true
+services:
+    photoprism:
+        image: photoprism/photoprism
+        restart: unless-stopped
+        networks:
+            - internal
+        environment:
+            - PHOTOPRISM_SITE_URL=https://hot.griffinht.com/photoprism/
+            - PHOTOPRISM_AUTH_MODE=public
+            - PHOTOPRISM_READONLY=true
+            - PHOTOPRISM_DISABLE_WEBDAV=true
+            - PHOTOPRISM_DISABLE_SETTINGS=true
+        volumes:
+            - photoprism:/photoprism/storage
+            - media:/photoprism/originals:ro
