@@ -1,0 +1,19 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    grafana:
+        external: true
+services:
+    grafana:
+        image: grafana/grafana-oss
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - grafana:/var/lib/grafana
+        environment:
+            - GF_AUTH_ANONYMOUS_ENABLED=true
+            - GF_SERVER_ROOT_URL=https://hot.griffinht.com/grafana
+            - GF_SERVER_SERVE_FROM_SUB_PATH=true
