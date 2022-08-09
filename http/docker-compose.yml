@@ -31,6 +31,8 @@ networks:
     external: true
   photoprism_internal:
     external: true
+  authelia_internal:
+    external: true
 volumes:
   http_certificates:
     external: true
@@ -68,6 +70,7 @@ services:
       - quetre_default
       - grocy_internal
       - photoprism_internal
+      - authelia_internal
     volumes:
       - http_certificates:/certificates:ro
       - http_passwd:/passwd:ro

@@ -1,0 +1,33 @@
+default_redirection_url: https://hot.griffinht.com
+
+totp:
+    issuer: hot.griffinht.com
+
+webauthn:
+    display_name: hot.griffinht.com
+
+duo_api:
+    disable: true
+
+authentication_backend:
+    file:
+        path: /data/users_database.yml
+
+access_control:
+    default_policy: two_factor
+    rules:
+        - domain: griffinht.com
+          policy: bypass
+
+session:
+    # todo restrict so not every backend server gets the session cookie
+    domain: griffinht.com
+
+storage:
+    local:
+        path: /data/db.sqlite3
+
+notifier:
+    # todo use smtp
+    filesystem:
+        filename: /data/notification.txt

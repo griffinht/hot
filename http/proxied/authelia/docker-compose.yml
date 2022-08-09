@@ -1,0 +1,19 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    authelia:
+        external: true
+services:
+    authelia:
+        build: .
+        restart: unless-stopped
+        networks:
+            - internal
+        environment: 
+            - AUTHELIA_JWT_SECRET_FILE=/data/jwt_secret
+            - AUTHELIA_SESSION_SECRET_FILE=/data/session.secret
+            - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/data/storage.encryption_key
+        volumes:
+            - authelia:/data
