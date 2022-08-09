@@ -5,8 +5,6 @@ networks:
 volumes:
     registry:
         external: true
-    http_passwd:
-        external: true
 services:
     # https://github.com/distribution/distribution
     registry:

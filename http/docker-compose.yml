@@ -38,8 +38,6 @@ volumes:
     external: true
   http_acme:
     external: true
-  http_passwd:
-    external: true
 services:
   # https://github.com/nginxinc/docker-nginx/
   nginx:
@@ -73,7 +71,6 @@ services:
       - authelia_internal
     volumes:
       - http_certificates:/certificates:ro
-      - http_passwd:/passwd:ro
     healthcheck:
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
