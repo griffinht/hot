@@ -41,6 +41,9 @@ regulation:
 session:
     # todo restrict so not every backend server gets the session cookie
     domain: griffinht.com
+    redis:
+        host: redis
+        port: 6379
 
 storage:
     local:
@@ -50,3 +53,7 @@ notifier:
     # todo use smtp
     filesystem:
         filename: /data/notification.txt
+
+telemetry:
+    metrics:
+        enabled: true

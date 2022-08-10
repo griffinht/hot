@@ -1,4 +1,7 @@
 networks:
+    default:
+        driver: bridge
+        internal: true
     internal:
         driver: bridge
         internal: true
@@ -7,9 +10,13 @@ volumes:
         external: true
 services:
     authelia:
-        build: .
+        build: authelia
         restart: unless-stopped
+        depends_on:
+            redis:
+                condition: service_healthy
         networks:
+            - default
             - internal
         environment: 
             - AUTHELIA_JWT_SECRET_FILE=/data/jwt_secret
@@ -17,3 +24,15 @@ services:
             - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/data/storage.encryption_key
         volumes:
             - authelia:/data
+    redis:
+        image: redis:alpine
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - authelia:/data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
