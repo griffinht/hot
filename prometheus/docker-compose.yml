@@ -4,6 +4,8 @@ networks:
         internal: true
     http_default:
         external: true
+    authelia_internal:
+        external: true
 volumes:
     prometheus:
         external: true
@@ -13,6 +15,7 @@ services:
         restart: unless-stopped
         networks:
             - internal
+            - authelia_internal
         volumes:
             - prometheus:/prometheus
     node_exporter:
@@ -32,3 +35,17 @@ services:
             - internal
             - http_default
         command: -nginx.scrape-uri=http://nginx:8080
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor:v0.45.0
+        restart: unless-stopped
+        networks:
+            - internal
+        privileged: true
+        devices:
+            - /dev/msg
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:ro
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+            - /dev/disk/:/dev/disk:ro
