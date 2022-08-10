@@ -2,6 +2,8 @@ networks:
     internal:
         driver: bridge
         internal: true
+    http_default:
+        external: true
 volumes:
     prometheus:
         external: true
@@ -10,12 +12,9 @@ services:
         build: .
         restart: unless-stopped
         networks:
-            - default
             - internal
         volumes:
             - prometheus:/prometheus
-        ports:
-            - 9090:9090
     node_exporter:
         image: quay.io/prometheus/node-exporter:latest
         restart: unless-stopped
@@ -26,3 +25,10 @@ services:
         pid: host
         volumes:
           - '/:/host:ro,rslave'
+    nginx_exporter:
+        image: nginx/nginx-prometheus-exporter
+        restart: unless-stopped
+        networks:
+            - internal
+            - http_default
+        command: -nginx.scrape-uri=http://nginx:8080
