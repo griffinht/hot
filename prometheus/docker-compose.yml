@@ -1,0 +1,28 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    prometheus:
+        external: true
+services:
+    prometheus:
+        build: .
+        restart: unless-stopped
+        networks:
+            - default
+            - internal
+        volumes:
+            - prometheus:/prometheus
+        ports:
+            - 9090:9090
+    node_exporter:
+        image: quay.io/prometheus/node-exporter:latest
+        restart: unless-stopped
+        networks:
+            - internal
+        command:
+          - '--path.rootfs=/host'
+        pid: host
+        volumes:
+          - '/:/host:ro,rslave'
