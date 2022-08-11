@@ -2,7 +2,7 @@ networks:
     internal:
         driver: bridge
         internal: true
-    http_default:
+    http_nginx_exporter:
         external: true
     authelia_internal:
         external: true
@@ -15,6 +15,7 @@ services:
         restart: unless-stopped
         networks:
             - internal
+            - http_nginx_exporter
             - authelia_internal
         volumes:
             - prometheus:/prometheus
@@ -28,13 +29,6 @@ services:
         pid: host
         volumes:
           - '/:/host:ro,rslave'
-    nginx_exporter:
-        image: nginx/nginx-prometheus-exporter
-        restart: unless-stopped
-        networks:
-            - internal
-            - http_default
-        command: -nginx.scrape-uri=http://nginx:8080
     cadvisor:
         image: gcr.io/cadvisor/cadvisor:v0.45.0
         restart: unless-stopped

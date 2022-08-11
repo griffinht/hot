@@ -1,4 +1,7 @@
 networks:
+  nginx_exporter:
+    driver: bridge
+    internal: true
   git_internal:
     external: true
   data_internal:
@@ -79,6 +82,16 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  nginx_exporter:
+    image: nginx/nginx-prometheus-exporter
+    restart: unless-stopped
+    depends_on:
+        nginx:
+            condition: service_healthy
+    networks:
+      - default
+      - nginx_exporter
+    command: -nginx.scrape-uri=http://nginx:8080
   acme:
     # https://github.com/acmesh-official/acme.sh/
     image: neilpang/acme.sh:3.0.4
