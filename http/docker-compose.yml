@@ -1,115 +1,110 @@
 networks:
-  nginx_exporter:
-    driver: bridge
-    internal: true
-  git_internal:
-    external: true
-  data_internal:
-    external: true
-  speedtest_internal:
-    external: true
-  webdav_internal:
-    external: true
-  vaultwarden_internal:
-    external: true
-  registry_internal:
-    external: true
-  rss_default:
-    external: true
-  libreddit_default:
-    external: true
-  nitter_default:
-    external: true
-  invidious_default:
-    external: true
-  searx_default:
-    external: true
-  scribe_default:
-    external: true
-  rimgo_default:
-    external: true
-  quetre_default:
-    external: true
-  grocy_internal:
-    external: true
-  photoprism_internal:
-    external: true
-  authelia_default:
-    external: true
-  grafana_internal:
-    external: true
+    nginx_exporter:
+        driver: bridge
+        internal: true
+    git_internal:
+        external: true
+    data_internal:
+        external: true
+    speedtest_internal:
+        external: true
+    webdav_internal:
+        external: true
+    vaultwarden_internal:
+        external: true
+    registry_internal:
+        external: true
+    rss_default:
+        external: true
+    libreddit_default:
+        external: true
+    nitter_default:
+        external: true
+    invidious_default:
+        external: true
+    searx_default:
+        external: true
+    scribe_default:
+        external: true
+    rimgo_default:
+        external: true
+    quetre_default:
+        external: true
+    grocy_internal:
+        external: true
+    photoprism_internal:
+        external: true
+    authelia_default:
+        external: true
+    grafana_internal:
+        external: true
 volumes:
-  http_certificates:
-    external: true
-  http_acme:
-    external: true
+    http_certificates:
+        external: true
+    http_acme:
+        external: true
 services:
-  # https://github.com/nginxinc/docker-nginx/
-  nginx:
-    build: ./nginx
-    restart: unless-stopped
+    # https://github.com/nginxinc/docker-nginx/
+    nginx:
+        build: ./nginx
+        restart: unless-stopped
         #    depends_on:
         #      acme:
         #        condition: service_healthy
-#note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
-    ports:
-      - 80:80
-      - 443:443
-    networks:
-      - default
-      - git_internal
-      - data_internal
-      - speedtest_internal
-      - webdav_internal
-      - vaultwarden_internal
-      - registry_internal
-      - rss_default
-      - libreddit_default
-      - nitter_default
-      - invidious_default
-      - searx_default
-      - scribe_default
-      - rimgo_default
-      - quetre_default
-      - grocy_internal
-      - photoprism_internal
-      - authelia_default
-      - grafana_internal
-    volumes:
-      - http_certificates:/certificates:ro
-    healthcheck:
-      test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-  nginx_exporter:
-    image: nginx/nginx-prometheus-exporter
-    restart: unless-stopped
-    depends_on:
-        nginx:
-            condition: service_healthy
-    networks:
-      - default
-      - nginx_exporter
-    command: -nginx.scrape-uri=http://nginx:8080
-  acme:
-    # https://github.com/acmesh-official/acme.sh/
-    image: neilpang/acme.sh:3.0.4
-    volumes:
-      - http_certificates:/certificates
-      - http_acme:/acme
-    environment:
-      - CF_Token=${CERTBOT_CLOUDFLARE?you forgot to configure Cloudflare see README}
-      - AWS_ACCESS_KEY_ID=${CERTBOT_AWS_ACCESS_KEY_ID?you forgot to configure AWS Route53 see README}
-      - AWS_SECRET_ACCESS_KEY=${CERTBOT_AWS_SECRET_ACCESS_KEY?you forgot to configure AWS Route53 see README}
-    command: daemon --issue --debug --log --cert-home /certificates --config-home /acme --server letsencrypt -d 'griffinht.com' --dns dns_cf -d '*.griffinht.com' --dns dns_cf -d 'stzups.net' --dns dns_cf -d 'griffin.ht' --dns dns_aws
-    healthcheck:
-      test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.cer" ]
-      interval: 1s
-      timeout: 1s
-      retries: 60
-#  dynamic-ip:
-#    build: ./dynamic-ip
-#    restart: unless-stopped
-#    environment:
-#      - DYNAMIC-IP_CLOUDFLARE=${DYNAMIC-IP_CLOUDFLARE?you forgot ./dynamic-ip/configure.sh}
+        #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
+        ports:
+            - 80:80
+            - 443:443
+        networks:
+            - default
+            - git_internal
+            - data_internal
+            - speedtest_internal
+            - webdav_internal
+            - vaultwarden_internal
+            - registry_internal
+            - rss_default
+            - libreddit_default
+            - nitter_default
+            - invidious_default
+            - searx_default
+            - scribe_default
+            - rimgo_default
+            - quetre_default
+            - grocy_internal
+            - photoprism_internal
+            - authelia_default
+            - grafana_internal
+        volumes:
+            - http_certificates:/certificates:ro
+        healthcheck:
+            test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+    nginx_exporter:
+        image: nginx/nginx-prometheus-exporter
+        restart: unless-stopped
+        depends_on:
+            nginx:
+                condition: service_healthy
+        networks:
+            - default
+            - nginx_exporter
+        command: -nginx.scrape-uri=http://nginx:8080
+    acme:
+        # https://github.com/acmesh-official/acme.sh/
+        image: neilpang/acme.sh:3.0.4
+        volumes:
+            - http_certificates:/certificates
+            - http_acme:/acme
+        environment:
+            - CF_Token=${CERTBOT_CLOUDFLARE?you forgot to configure Cloudflare see README}
+            - AWS_ACCESS_KEY_ID=${CERTBOT_AWS_ACCESS_KEY_ID?you forgot to configure AWS Route53 see README}
+            - AWS_SECRET_ACCESS_KEY=${CERTBOT_AWS_SECRET_ACCESS_KEY?you forgot to configure AWS Route53 see README}
+        command: daemon --issue --debug --log --cert-home /certificates --config-home /acme --server letsencrypt -d 'griffinht.com' --dns dns_cf -d '*.griffinht.com' --dns dns_cf -d 'stzups.net' --dns dns_cf -d 'griffin.ht' --dns dns_aws
+        healthcheck:
+            test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.cer" ]
+            interval: 1s
+            timeout: 1s
+            retries: 60
