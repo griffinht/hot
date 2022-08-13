@@ -86,12 +86,20 @@ services:
         image: nginx/nginx-prometheus-exporter
         restart: unless-stopped
         depends_on:
-            nginx:
-                condition: service_healthy
+            - nginx
+                #                condition: service_healthy
         networks:
             - default
             - nginx_exporter
         command: -nginx.scrape-uri=http://nginx:8080
+    blackbox:
+        image: prom/blackbox-exporter
+        restart: unless-stopped
+        depends_on:
+            - nginx
+        networks:
+            - default
+            - nginx_exporter
     acme:
         # https://github.com/acmesh-official/acme.sh/
         image: neilpang/acme.sh:3.0.4
