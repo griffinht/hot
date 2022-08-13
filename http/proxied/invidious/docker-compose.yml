@@ -30,6 +30,6 @@ services:
             - POSTGRES_HOST_AUTH_METHOD=trust
         # postgres takes a long time to start
         healthcheck:
-            test: ["CMD", "pg_isready"]
+            test: ["CMD", "pg_isready", "-U", "postgres"]
             interval: 10s
             retries: 20
