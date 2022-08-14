@@ -38,6 +38,8 @@ networks:
         external: true
     grafana_internal:
         external: true
+    matrix_default:
+        external: true
 volumes:
     http_certificates:
         external: true
@@ -75,6 +77,7 @@ services:
             - photoprism_internal
             - authelia_default
             - grafana_internal
+            - matrix_default
         volumes:
             - http_certificates:/certificates:ro
         healthcheck:

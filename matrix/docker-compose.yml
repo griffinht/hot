@@ -1,0 +1,11 @@
+volumes:
+    matrix:
+        external: true
+services:
+    matrix: 
+        image: registry.gitlab.com/famedly/conduit/matrix-conduit
+        restart: unless-stopped
+        volumes:
+            - matrix:/var/lib/matrix-conduit
+        environment:
+            - CONDUIT_SERVER_NAME=griffinht.com
