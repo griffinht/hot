@@ -1,3 +1,7 @@
+networks:
+    internal:
+        driver: bridge
+        external: false
 volumes:
     matrix:
         external: true
@@ -5,7 +9,21 @@ services:
     matrix: 
         image: registry.gitlab.com/famedly/conduit/matrix-conduit
         restart: unless-stopped
+        networks:
+            - internal
         volumes:
             - matrix:/var/lib/matrix-conduit
+    postgres:
+        build: postgres
+        restart: unless-stopped
         environment:
-            - CONDUIT_SERVER_NAME=griffinht.com
+            - POSTGRES_USER=dendrite
+            - POSTGRES_PASSWORD=passwordexample
+        volumes:
+            - matrix:/var/lib/postgresql/data
+        networks:
+            - internal
+        healthcheck: 
+            test: ["CMD", "pg_isready", "-U", "dendrite"]
+            interval: 10s
+            start_period: 30s
