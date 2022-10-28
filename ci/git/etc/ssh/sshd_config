@@ -1,0 +1,2 @@
+AuthenticationMethods publickey
+HostKey /ssh/ssh_host_id_ed25519_key

@@ -1,4 +1,0 @@
-#AuthenticationMethods publickey
-AuthenticationMethods password
-PermitEmptyPasswords yes
-HostKey /ssh/ssh_host_id_ed25519_key
