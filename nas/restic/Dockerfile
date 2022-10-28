@@ -1,4 +1,4 @@
-FROM restic/restic:latest@sha256:2dabe80875cb32c3a8c029202f0fadb27d5e2192e0bf1fab377e7564b77cbbab
+FROM restic/restic:latest@sha256:ed8b59fa99d63cd516786c106aa50cb9173fe8ff7fc8c44001811f94196a4393
 
 COPY entrypoint.sh .
 
