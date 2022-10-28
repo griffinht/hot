@@ -1,0 +1,11 @@
+#volumes:
+#    ssh:
+#        external: true
+services:
+    git:
+        build: git
+        ports:
+            - 5343:22
+        volumes:
+#            - ssh:/home/git/.ssh/
+            - ./test:/home/git/.ssh/
