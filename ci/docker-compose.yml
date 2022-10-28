@@ -1,11 +1,16 @@
 volumes:
     ssh:
-    ssh_authorized:
+        external: true
+    ssh_authorized_keys:
+        external: true
+    git:
+        external: true
 services:
     git:
         build: git
         ports:
             - 5443:22
         volumes:
-            - ssh_authorized:/home/git/.ssh/:ro
+            - ssh_authorized_keys:/home/git/.ssh/:ro
             - ssh:/ssh
+            - git:/srv/git:ro
