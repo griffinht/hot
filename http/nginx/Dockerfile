@@ -1,4 +1,4 @@
-FROM nginx:alpine@sha256:186c79dc14ab93e43d315143ee4b0774506dc4fd952388c20e35d3d37058ab8d
+FROM nginx:alpine@sha256:0f4e03e4e0e854bafe7ce689a4c2476feb07a88a465bbc7d0f155dd89a6b00db
 
 COPY --from=griffinht/griffin.ht:latest /griffin.ht/ /griffin.ht/
 COPY --from=griffinht/griffinht.com:latest /griffinht.com/ /griffinht.com/
