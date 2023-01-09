@@ -1,3 +1,3 @@
-FROM prom/prometheus@sha256:8ab20bc5a8bee3b8107bb2f533deea35da5641a608f9b0c16e683d6c60d3ee84
+FROM prom/prometheus@sha256:32292863fd171f0dd8ab9634283ae00c1628c5eb8cd776e8b0155c49d8737d14
 
 COPY prometheus /etc/prometheus
