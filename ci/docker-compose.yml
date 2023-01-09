@@ -5,12 +5,20 @@ volumes:
         external: true
     git:
         external: true
+    ci:
 services:
     git:
         build: git
         ports:
             - 5443:22
+        restart: unless-stopped
         volumes:
             - ssh_authorized_keys:/home/git/.ssh/:ro
             - ssh:/ssh
-            - git:/srv/git:ro
+            - git:/git
+            - ci:/ci
+    ci:
+        image: griffinht/firestarter
+        restart: unless-stopped
+        volumes:
+            - ci:/ci
