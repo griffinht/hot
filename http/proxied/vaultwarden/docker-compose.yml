@@ -9,7 +9,7 @@ services:
     # https://github.com/dani-garcia/vaultwarden/
     # https://hub.docker.com/r/vaultwarden/server/tags
     vaultwarden:
-        image: vaultwarden/server:alpine@sha256:7011d4216a00fcd79785b8b31d61b897e05d959aa37681323dd9c0155655bbbc
+        image: vaultwarden/server:alpine@sha256:2c56fa96c27fb541f0318d8d3253c3acf5a418792d21994718fc72da6382570a
         restart: unless-stopped
         volumes:
             - vaultwarden:/data
