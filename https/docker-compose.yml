@@ -15,9 +15,9 @@ services:
   nginx:
     build: ./nginx
     restart: unless-stopped
-    #    depends_on:
-    #      acme:
-    #        condition: service_healthy
+    depends_on:
+      lego:
+        condition: service_healthy
     #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
       - 80:80
@@ -41,3 +41,8 @@ services:
     volumes: 
       - https_lego:/lego
       - https_certificates:/certificates
+    healthcheck:
+      test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.key" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5

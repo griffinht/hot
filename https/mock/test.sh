@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-docker volume create http_certificates
-docker volume create lego
+docker volume create https_certificates
+docker volume create https_lego
