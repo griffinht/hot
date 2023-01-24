@@ -1,17 +1,19 @@
 # https://stackoverflow.com/questions/53751168/docker-compose-secrets-without-swarm
 # todo mock https certs
 networks:
- http_default:
-      external: true
-volumes:
-  http_certificates:
+  hot_default:
     external: true
-  lego:
+  griffinht_default:
+    external: true
+volumes:
+  https_certificates:
+    external: true
+  https_lego:
     external: true
 services:
   # https://github.com/nginxinc/docker-nginx/
   nginx:
-  build: ./nginx
+    build: ./nginx
     restart: unless-stopped
     #    depends_on:
     #      acme:
@@ -22,9 +24,10 @@ services:
       - 443:443
     networks:
       - default
-      - http_default
+      - hot_default
+      - griffinht_default
     volumes:
-      - http_certificates:/certificates:ro
+      - https_certificates:/certificates:ro
     healthcheck:
     # todo this won't really work
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
@@ -32,8 +35,9 @@ services:
       timeout: 5s
       retries: 5
   lego:
-    image: goacme/lego
-    command: -H --path /lego
+    build: mock/lego 
+      # https://github.com/go-acme/lego/pull/1378
+      #    command: --accept-tos --email bruhacme@griffinht.com -dns cloudflare --domains griffinht.com todo *.griffinht.com --server=https://acme-staging-v02.api.letsencrypt.org/directory --path /lego run
     volumes: 
-      - lego:/lego
-        #https://go-acme.github.io/lego/usage/cli/obtain-a-certificate/
+      - https_lego:/lego
+      - https_certificates:/certificates
