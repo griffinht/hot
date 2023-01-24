@@ -7,12 +7,12 @@ volumes:
         external: true
 services:
     grocy:
-        image: grocy/frontend:v3.3.1
+        image: grocy/frontend:v3.3.2
         restart: unless-stopped
         networks:
             - internal
     backend:
-        image: grocy/backend:v3.3.1 
+        image: grocy/backend:v3.3.2
         restart: unless-stopped
         networks:
             - internal
