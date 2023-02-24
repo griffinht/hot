@@ -1,9 +1,9 @@
 # https://stackoverflow.com/questions/53751168/docker-compose-secrets-without-swarm
 # todo mock https certs
 networks:
-  hot_default:
+  hot_internal:
     external: true
-  griffinht_default:
+  griffinht_internal:
     external: true
 volumes:
   https_certificates:
@@ -24,8 +24,8 @@ services:
       - 443:443
     networks:
       - default
-      - hot_default
-      - griffinht_default
+      - hot_internal
+      - griffinht_internal
     volumes:
       - https_certificates:/certificates:ro
     healthcheck:
