@@ -2,8 +2,6 @@ networks:
     nginx_exporter:
         driver: bridge
         internal: true
-    git_internal:
-        external: true
     data_internal:
         external: true
     speedtest_internal:
@@ -38,8 +36,6 @@ networks:
         external: true
     grafana_internal:
         external: true
-    matrix_default:
-        external: true
 volumes:
     http_certificates:
         external: true
@@ -59,7 +55,6 @@ services:
             - 443:443
         networks:
             - default
-            - git_internal
             - data_internal
             - speedtest_internal
             - webdav_internal
@@ -77,7 +72,6 @@ services:
             - photoprism_internal
             - authelia_default
             - grafana_internal
-            - matrix_default
         volumes:
             - http_certificates:/certificates:ro
         healthcheck:
@@ -103,17 +97,3 @@ services:
         networks:
             - default
             - nginx_exporter
-    acme:
-        # https://github.com/acmesh-official/acme.sh/
-        image: neilpang/acme.sh:3.0.4
-        volumes:
-            - http_certificates:/certificates
-            - http_acme:/acme
-        environment:
-            - CF_Token=${CERTBOT_CLOUDFLARE?you forgot to configure Cloudflare see README}
-        command: --issue --debug --log --cert-home /certificates --config-home /acme --server letsencrypt -d 'griffinht.com' --dns dns_cf -d '*.griffinht.com'
-        healthcheck:
-            test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.cer" ]
-            interval: 1s
-            timeout: 1s
-            retries: 60
