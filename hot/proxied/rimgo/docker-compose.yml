@@ -1,4 +1,4 @@
 services:
     rimgo:
-        image: registry.gitlab.com/overtime-zone-wildfowl/rimgo
+        image: codeberg.org/video-prize-ranch/rimgo
         restart: unless-stopped
