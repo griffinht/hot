@@ -1,0 +1,43 @@
+# requires highlight
+# source-filter=/usr/lib/cgit/filters/syntax-highlighting.sh
+# requires python3-pygments
+source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
+# requires python-markdown
+about-filter=/usr/lib/cgit/filters/about-formatting.sh
+
+# https://git.zx2c4.com/cgit/tree/cgitrc.5.txt
+
+readme=:README.md
+readme=:readme.md
+readme=:README.mkd
+readme=:readme.mkd
+readme=:README.html
+readme=:readme.html
+readme=:README.htm
+readme=:readme.htm
+readme=:README.txt
+readme=:readme.txt
+readme=:README
+readme=:readme
+
+# remove footer which contains cgit version
+footer=
+# link to griffinh.com/
+logo-link=/
+root-title=griffinht.com/git/
+root-desc=my personal collection of git repositories created or used by me
+root-readme=README.md
+
+branch-sort=age
+repository-sort=age
+
+# /git is from virtual-root
+css=/git/cgit.css
+logo=/git/cgit.png
+
+virtual-root=/git/
+
+# https://lists.zx2c4.com/pipermail/cgit/2017-February/003466.html
+scan-path=/git/
+
+

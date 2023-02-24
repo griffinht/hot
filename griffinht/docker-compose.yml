@@ -1,3 +1,24 @@
+volumes:
+  git:
+    external: true
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
 services:
   griffinht:
     build: nginx
+    depends_on:
+      git:
+        condition: service_started
+    networks:
+      - default
+      - internal
+  git:
+    build: git
+    networks:
+      - internal
+    volumes:
+      - git:/git:ro
