@@ -1,0 +1,7 @@
+services:
+    scribe:
+        image: scribe
+        restart: unless-stopped
+        environment:
+            - SCRIBE_PORT=8080
+            - SCRIBE_HOST=0.0.0.0

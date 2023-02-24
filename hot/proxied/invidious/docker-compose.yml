@@ -1,0 +1,35 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    invidious:
+        external: true
+services:
+    invidious:
+        image: quay.io/invidious/invidious
+        restart: unless-stopped
+        networks:
+            - default
+            - internal
+        environment:
+            INVIDIOUS_CONFIG: |
+                database_url: postgres://postgres:@postgres
+        depends_on:
+            postgres:
+                condition: service_healthy
+    postgres:
+        build: postgres
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - invidious:/var/lib/postgresql/data
+        environment:
+            # todo secret store? is this even needed?
+            - POSTGRES_HOST_AUTH_METHOD=trust
+        # postgres takes a long time to start
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "postgres"]
+            interval: 10s
+            retries: 20

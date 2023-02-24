@@ -1,0 +1,24 @@
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    grocy:
+        external: true
+services:
+    grocy:
+        image: grocy/frontend:v3.3.2
+        restart: unless-stopped
+        networks:
+            - internal
+    backend:
+        image: grocy/backend:v3.3.2
+        restart: unless-stopped
+        networks:
+            - internal
+        volumes:
+            - grocy:/var/www/data
+        environment:
+            - GROCY_AUTH_CLASS=Grocy\Middleware\ReverseProxyAuthMiddleware
+            - GROCY_REVERSE_PROXY_AUTH_HEADER=X-Forwarded-User 
+            - GROCY_BASE_URL=https://hot.griffinht.com/grocy
