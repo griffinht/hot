@@ -15,9 +15,9 @@ services:
   nginx:
     build: ./nginx
     restart: unless-stopped
-      #    depends_on:
-      #      lego:
-      #  condition: service_healthy
+      #      depends_on:
+      #  lego:
+      #    condition: service_completed_successfully
     #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
       - 80:80

@@ -1,0 +1,14 @@
+services:
+  # https://github.com/nginxinc/docker-nginx/
+  nginx:
+    depends_on:
+      lego:
+        condition: service_healthy
+  lego:
+    build: mock/lego
+    command: ""
+    volumes: 
+      - https_lego:/lego
+    environment:
+      - CF_ZONE_API_TOKEN
+      - CF_DNS_API_TOKEN
