@@ -15,9 +15,9 @@ services:
   nginx:
     build: ./nginx
     restart: unless-stopped
-    depends_on:
-      lego:
-        condition: service_healthy
+      #    depends_on:
+      #      lego:
+      #  condition: service_healthy
     #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
       - 80:80
@@ -35,12 +35,15 @@ services:
       timeout: 5s
       retries: 5
   lego:
+    #todo automate cron??
     image: goacme/lego 
       # https://github.com/go-acme/lego/pull/1378
-    command: --accept-tos --email bruhacme@griffinht.com -dns cloudflare --domains "griffinht.com" --domains "*.griffinht.com" --server=https://acme-staging-v02.api.letsencrypt.org/directory --path /lego run
+    command: --accept-tos --email bruhacme@griffinht.com -dns cloudflare --domains "griffinht.com" --domains "*.griffinht.com" --server=https://acme-staging-v02.api.letsencrypt.org/directory --path /lego renew
     volumes: 
       - https_lego:/lego
-      - https_certificates:/certificates
+    environment:
+      - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN?you forgot to configure Cloudflare see README}
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN?you forgot to configure Cloudflare see README}
     healthcheck:
       test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.key" ]
       interval: 5s
