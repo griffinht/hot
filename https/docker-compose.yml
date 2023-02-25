@@ -45,7 +45,7 @@ services:
       - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN?you forgot to configure Cloudflare see README}
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN?you forgot to configure Cloudflare see README}
     healthcheck:
-      test: [ "CMD", "ls", "/certificates/griffinht.com/griffinht.com.key" ]
+      test: [ "CMD", "ls", "/certificates/griffinht.com.crt" ]
       interval: 5s
       timeout: 5s
       retries: 5

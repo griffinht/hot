@@ -3,7 +3,7 @@ services:
   nginx:
     depends_on:
       lego:
-        condition: service_healthy
+        condition: service_completed_successfully
   lego:
     build: mock/lego
     command: ""
