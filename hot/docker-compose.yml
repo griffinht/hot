@@ -1,99 +1,84 @@
 networks:
-    nginx_exporter:
-        driver: bridge
-        internal: true
-    data_internal:
-        external: true
-    speedtest_internal:
-        external: true
-    webdav_internal:
-        external: true
-    vaultwarden_internal:
-        external: true
-    registry_internal:
-        external: true
-    rss_default:
-        external: true
-    libreddit_default:
-        external: true
-    nitter_default:
-        external: true
-    invidious_default:
-        external: true
-    searx_default:
-        external: true
-    scribe_default:
-        external: true
-    rimgo_default:
-        external: true
-    quetre_default:
-        external: true
-    grocy_internal:
-        external: true
-    photoprism_internal:
-        external: true
-    authelia_default:
-        external: true
-    grafana_internal:
-        external: true
+  internal:
+    driver: bridge
+    internal: true
+  nginx_exporter:
+    driver: bridge
+    internal: true
+  data_internal:
+    external: true
+  speedtest_internal:
+    external: true
+  vaultwarden_internal:
+    external: true
+  rss_default:
+    external: true
+  libreddit_default:
+    external: true
+  nitter_default:
+    external: true
+  invidious_default:
+    external: true
+  searx_default:
+    external: true
+  scribe_default:
+    external: true
+  rimgo_default:
+    external: true
+  quetre_default:
+    external: true
+  grocy_internal:
+    external: true
+  photoprism_internal:
+    external: true
+  authelia_default:
+    external: true
+      #  grafana_internal:
+      #    external: true
 volumes:
-    http_certificates:
-        external: true
-    http_acme:
-        external: true
+  http_certificates:
+    external: true
+  http_acme:
+    external: true
 services:
-    # https://github.com/nginxinc/docker-nginx/
-    nginx:
-        build: ./nginx
-        restart: unless-stopped
-        #    depends_on:
-        #      acme:
-        #        condition: service_healthy
-        #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
-        ports:
-            - 80:80
-            - 443:443
-        networks:
-            - default
-            - data_internal
-            - speedtest_internal
-            - webdav_internal
-            - vaultwarden_internal
-            - registry_internal
-            - rss_default
-            - libreddit_default
-            - nitter_default
-            - invidious_default
-            - searx_default
-            - scribe_default
-            - rimgo_default
-            - quetre_default
-            - grocy_internal
-            - photoprism_internal
-            - authelia_default
-            - grafana_internal
-        volumes:
-            - http_certificates:/certificates:ro
-        healthcheck:
-            test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
-            interval: 5s
-            timeout: 5s
-            retries: 5
-    nginx_exporter:
-        image: nginx/nginx-prometheus-exporter
-        restart: unless-stopped
-        depends_on:
-            - nginx
-                #                condition: service_healthy
-        networks:
-            - default
-            - nginx_exporter
-        command: -nginx.scrape-uri=http://nginx:8080
-    blackbox:
-        image: prom/blackbox-exporter
-        restart: unless-stopped
-        depends_on:
-            - nginx
-        networks:
-            - default
-            - nginx_exporter
+  # https://github.com/nginxinc/docker-nginx/
+  hot:
+      build: ./nginx
+      restart: unless-stopped
+      networks:
+        - internal
+        - data_internal
+        - speedtest_internal
+        - vaultwarden_internal
+        - rss_default
+        - libreddit_default
+        - nitter_default
+        - invidious_default
+        - searx_default
+        - scribe_default
+        - rimgo_default
+        - quetre_default
+        - grocy_internal
+        - photoprism_internal
+        - authelia_default
+          #        - grafana_internal
+  nginx_exporter:
+      image: nginx/nginx-prometheus-exporter
+      restart: unless-stopped
+      depends_on:
+          - hot
+              #                condition: service_healthy
+      networks:
+        # why default network?
+          - default
+          - nginx_exporter
+      command: -nginx.scrape-uri=http://nginx:8080
+  blackbox:
+      image: prom/blackbox-exporter
+      restart: unless-stopped
+      depends_on:
+          - hot
+      networks:
+        # why default network?
+          - default
+          - nginx_exporter
