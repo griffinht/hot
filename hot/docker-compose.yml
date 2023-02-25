@@ -35,11 +35,6 @@ networks:
     external: true
       #  grafana_internal:
       #    external: true
-volumes:
-  http_certificates:
-    external: true
-  http_acme:
-    external: true
 services:
   # https://github.com/nginxinc/docker-nginx/
   hot:
