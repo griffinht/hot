@@ -35,9 +35,9 @@ services:
       timeout: 5s
       retries: 5
   lego:
-    build: mock/lego 
+    image: goacme/lego 
       # https://github.com/go-acme/lego/pull/1378
-      #    command: --accept-tos --email bruhacme@griffinht.com -dns cloudflare --domains griffinht.com todo *.griffinht.com --server=https://acme-staging-v02.api.letsencrypt.org/directory --path /lego run
+    command: --accept-tos --email bruhacme@griffinht.com -dns cloudflare --domains "griffinht.com" --domains "*.griffinht.com" --server=https://acme-staging-v02.api.letsencrypt.org/directory --path /lego run
     volumes: 
       - https_lego:/lego
       - https_certificates:/certificates
