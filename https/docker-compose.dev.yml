@@ -1,6 +1,13 @@
+volumes:
+  mock_lego:
+  https_lego:
+  https_certificates:
+
 services:
   # https://github.com/nginxinc/docker-nginx/
   nginx:
+    volumes:
+      - mock_lego:/certificates
     depends_on:
       lego:
         condition: service_completed_successfully
@@ -8,7 +15,7 @@ services:
     build: mock/lego
     command: ""
     volumes: 
-      - https_lego:/lego
+      - mock_lego:/lego/certificates
     environment:
       - CF_ZONE_API_TOKEN
       - CF_DNS_API_TOKEN
