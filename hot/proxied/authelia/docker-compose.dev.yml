@@ -1,0 +1,6 @@
+volumes:
+  authelia:
+    driver: local
+    driver_opts:
+      device: ./mock
+      o: bind
