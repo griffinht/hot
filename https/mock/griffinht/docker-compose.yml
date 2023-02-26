@@ -1,9 +1,0 @@
-networks:
-  internal:
-    driver: bridge
-    internal: true
-services:
-  griffinht:
-    build: nginx
-    networks:
-      - internal

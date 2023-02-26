@@ -1,9 +1,0 @@
-networks:
-  internal:
-    driver: bridge
-    internal: true
-services:
-  hot:
-    build: nginx
-    networks:
-      - internal
