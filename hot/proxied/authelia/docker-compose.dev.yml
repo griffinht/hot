@@ -1,6 +1,20 @@
+#https://forums.docker.com/t/top-level-volume-with-absolute-path/27552
+#https://stackoverflow.com/questions/53674725/how-to-create-top-level-named-volume-with-a-relative-path-for-the-source
+# i had to add type: volume for some reason idk why
 volumes:
   authelia:
+  authelia_secrets:
     driver: local
     driver_opts:
       device: ./mock
       o: bind
+      type: volume
+
+services:
+  authelia:
+    environment:
+      - AUTHELIA_SESSION_SECRET_FILE=/secrets/session.secret
+      - AUTHELIA_JWT_SECRET_FILE=/secrets/jwt_secret
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/secrets/storage.encryption_key
+    volumes:
+      - authelia_secrets:/secrets:ro

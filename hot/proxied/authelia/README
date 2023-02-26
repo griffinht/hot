@@ -1,2 +1,6 @@
 todo migrate authelia to main docker compose??
 its always needed so why not?
+
+default user is authelia:authelia
+
+todo bad to mix authelia with redis??
