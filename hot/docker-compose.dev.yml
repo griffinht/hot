@@ -1,0 +1,15 @@
+networks:
+  data_internal:
+  speedtest_internal:
+  vaultwarden_internal:
+  rss_default:
+  libreddit_default:
+  nitter_default:
+  invidious_default:
+  searx_default:
+  scribe_default:
+  rimgo_default:
+  quetre_default:
+  grocy_internal:
+  photoprism_internal:
+  authelia_default:
