@@ -6,33 +6,33 @@ networks:
     driver: bridge
     internal: true
   data_internal:
-    external: true
+    name: data_internal
   speedtest_internal:
-    external: true
+    name: speedtest_internal
   vaultwarden_internal:
-    external: true
+    name: vaultwarden_internal
   rss_default:
-    external: true
+    name: rss_default
   libreddit_default:
-    external: true
+    name: libreddit_default
   nitter_default:
-    external: true
+    name: nitter_default
   invidious_default:
-    external: true
+    name: invidious_default
   searx_default:
-    external: true
+    name: searx_default
   scribe_default:
-    external: true
+    name: scribe_default
   rimgo_default:
-    external: true
+    name: rimgo_default
   quetre_default:
-    external: true
+    name: quetre_default
   grocy_internal:
-    external: true
+    name: grocy_internal
   photoprism_internal:
-    external: true
+    name: photoprism_internal
   authelia_internal:
-    external: true
+    name: authelia_internal
       #  grafana_internal:
       #    external: true
 services:
