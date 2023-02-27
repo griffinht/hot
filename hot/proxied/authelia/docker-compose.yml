@@ -24,7 +24,7 @@ services:
             - AUTHELIA_SESSION_SECRET_FILE=/data/session.secret
             - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/data/storage.encryption_key
             # todo restrict so not every backend server gets the session cookie
-            - "AUTHELIA_SESSION_DOMAIN=${DOMAIN:-.localhost}"
+            - "AUTHELIA_SESSION_DOMAIN=${DOMAIN:-hot.localhost}"
         volumes:
             - authelia:/data
               # volume declared by authelia
