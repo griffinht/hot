@@ -1,5 +1,5 @@
 FROM nginx:alpine
 
-COPY . /etc/nginx
-
 ENV NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template.conf NGINX_ENVSUBST_FILTER=DOMAIN NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/
+
+COPY . /etc/nginx
