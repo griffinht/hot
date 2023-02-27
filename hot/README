@@ -1,7 +1,3 @@
-TODO make this mockable locallable
-needs better authelia
-needs beter domain configuration - dev domain vs production domain
-
 https://developers.cloudflare.com/api/tokens/create
 
 https://dash.cloudflare.com/login
