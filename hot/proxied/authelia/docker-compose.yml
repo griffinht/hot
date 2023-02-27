@@ -6,6 +6,7 @@ networks:
         driver: bridge
         internal: true
 volumes:
+    authelia_bruh:
     authelia:
         external: true
 services:
@@ -22,8 +23,12 @@ services:
             - AUTHELIA_JWT_SECRET_FILE=/data/jwt_secret
             - AUTHELIA_SESSION_SECRET_FILE=/data/session.secret
             - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/data/storage.encryption_key
+            # todo restrict so not every backend server gets the session cookie
+            - "AUTHELIA_SESSION_DOMAIN=${DOMAIN:-.localhost}"
         volumes:
             - authelia:/data
+              # volume declared by authelia
+            - authelia_bruh:/config
     redis:
         image: redis:alpine
         restart: unless-stopped
