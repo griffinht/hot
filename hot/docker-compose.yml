@@ -57,6 +57,8 @@ services:
         - photoprism_internal
         - authelia_default
           #        - grafana_internal
+      environment:
+        - "DOMAIN=${DOMAIN:-localhost}"
   nginx_exporter:
       image: nginx/nginx-prometheus-exporter
       restart: unless-stopped
