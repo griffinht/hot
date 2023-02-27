@@ -29,9 +29,6 @@ authentication_backend:
 
 access_control:
     default_policy: two_factor
-    rules:
-        - domain: griffinht.com
-          policy: bypass
 
 regulation:
     max_retries: 3
