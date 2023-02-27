@@ -1,4 +1,0 @@
-services:
-    quetre:
-        image: quay.io/pussthecatorg/quetre
-        restart: unless-stopped

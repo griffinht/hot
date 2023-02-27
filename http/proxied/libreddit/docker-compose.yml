@@ -1,4 +1,0 @@
-services:
-    libreddit:
-        image: spikecodes/libreddit
-        restart: unless-stopped

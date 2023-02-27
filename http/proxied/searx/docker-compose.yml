@@ -1,6 +1,0 @@
-services:
-    searx:
-        image: searxng/searxng
-        restart: unless-stopped
-        environment:
-            - BASE_URL=https://hot.griffinht.com/searx/

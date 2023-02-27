@@ -1,4 +1,0 @@
-services:
-    rimgo:
-        image: registry.gitlab.com/overtime-zone-wildfowl/rimgo
-        restart: unless-stopped
