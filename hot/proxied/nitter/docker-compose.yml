@@ -1,7 +1,11 @@
+volumes:
+  data_internal:
+
 networks:
     internal:
         driver: bridge
         internal: true
+
 services:
     nitter:
         build: ./nitter
@@ -14,3 +18,5 @@ services:
         restart: unless-stopped
         networks:
             - internal
+        volumes:
+          - data_internal:/data
