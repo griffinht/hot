@@ -13,7 +13,7 @@ volumes:
 services:
   # https://github.com/nginxinc/docker-nginx/
   nginx:
-    build: ./nginx
+    build: nginx
     restart: unless-stopped
       #      depends_on:
       #  lego:

@@ -6,6 +6,9 @@ volumes:
 services:
   # https://github.com/nginxinc/docker-nginx/
   nginx:
+    build:
+      args:
+        - DOMAIN=localhost
     volumes:
       - mock_lego:/certificates
     depends_on:
