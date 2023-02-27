@@ -7,7 +7,7 @@ networks:
     internal: true
 
 volumes:
-  authelia_bruh:
+  authelia_internal:
   authelia:
     external: true
 
@@ -30,7 +30,7 @@ services:
         volumes:
             - authelia:/data
               # volume declared by authelia
-            - authelia_bruh:/config
+            - authelia_internal:/config
     redis:
         image: redis:alpine
         restart: unless-stopped
