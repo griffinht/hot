@@ -1,18 +1,31 @@
 networks:
   data_internal:
+    name: data_internal
   speedtest_internal:
+    name: speedtest_internal
   vaultwarden_internal:
+    name: vaultwarden_internal
   rss_default:
+    name: rss_default
   libreddit_default:
+    name: libreddit_default
   nitter_default:
+    name: nitter_default
   invidious_default:
+    name: invidious_default
   searx_default:
+    name: searx_default
   scribe_default:
+    name: scribe_default
   rimgo_default:
+    name: rimgo_default
   quetre_default:
+    name: quetre_default
   grocy_internal:
+    name: grocy_internal
   photoprism_internal:
-    #  authelia_default:
+    name: photoprism_internal
+
 services:
   hot:
     depends_on:
