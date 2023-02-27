@@ -1,14 +1,16 @@
 networks:
-    default:
-        driver: bridge
-        internal: true
-    internal:
-        driver: bridge
-        internal: true
+  internal:
+    driver: bridge
+    internal: true
+  redis:
+    driver: bridge
+    internal: true
+
 volumes:
-    authelia_bruh:
-    authelia:
-        external: true
+  authelia_bruh:
+  authelia:
+    external: true
+
 services:
     authelia:
         build: authelia
@@ -17,8 +19,8 @@ services:
             redis:
                 condition: service_healthy
         networks:
-            - default
             - internal
+            - redis
         environment: 
             - AUTHELIA_JWT_SECRET_FILE=/data/jwt_secret
             - AUTHELIA_SESSION_SECRET_FILE=/data/session.secret
@@ -33,7 +35,7 @@ services:
         image: redis:alpine
         restart: unless-stopped
         networks:
-            - internal
+            - redis
         volumes:
             - authelia:/data
         healthcheck:

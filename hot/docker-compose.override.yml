@@ -25,6 +25,8 @@ networks:
     name: grocy_internal
   photoprism_internal:
     name: photoprism_internal
+  authelia_internal:
+    name: authelia_internal
 
 services:
   hot:

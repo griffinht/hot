@@ -31,7 +31,7 @@ networks:
     external: true
   photoprism_internal:
     external: true
-  authelia_default:
+  authelia_internal:
     external: true
       #  grafana_internal:
       #    external: true
@@ -55,7 +55,7 @@ services:
         - quetre_default
         - grocy_internal
         - photoprism_internal
-        - authelia_default
+        - authelia_internal
           #        - grafana_internal
       environment:
         - "DOMAIN=${DOMAIN:-localhost}"
