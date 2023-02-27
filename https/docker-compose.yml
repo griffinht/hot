@@ -24,9 +24,6 @@ services:
       - "${BIND_ADDRESS:-127.0.0.1}:443:443"
     environment:
       - DOMAIN="${DOMAIN:-localhost}"
-      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template.conf
-      - NGINX_ENVSUBST_FILTER=DOMAIN
-      - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/
     networks:
       - default
       - hot_internal
