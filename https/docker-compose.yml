@@ -20,8 +20,8 @@ services:
       #    condition: service_completed_successfully
     #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
-      - 80:80
-      - 443:443
+      - "${BIND_ADDRESS:-127.0.0.1}:80:80"
+      - "${BIND_ADDRESS:-127.0.0.1}:443:443"
     networks:
       - default
       - hot_internal
