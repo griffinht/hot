@@ -39,7 +39,7 @@ http {
         listen 443 ssl;
         include server.conf;
 
-        server_name localhost;
+        server_name ${DOMAIN};
 
         location / {
             resolver 127.0.0.11;
