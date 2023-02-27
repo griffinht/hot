@@ -12,4 +12,13 @@ networks:
   quetre_default:
   grocy_internal:
   photoprism_internal:
-  authelia_default:
+    #  authelia_default:
+services:
+  hot:
+    depends_on:
+      - vaultwarden
+
+  vaultwarden:
+    image: nginx:alpine
+    networks:
+      - vaultwarden_internal
