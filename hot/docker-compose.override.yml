@@ -1,9 +1,0 @@
-services:
-  hot:
-    depends_on:
-      - vaultwarden
-
-  vaultwarden:
-    image: nginx:alpine
-    networks:
-      - vaultwarden_internal
