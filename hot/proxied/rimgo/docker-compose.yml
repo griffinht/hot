@@ -1,4 +1,4 @@
 services:
     rimgo:
         image: codeberg.org/video-prize-ranch/rimgo
-        restart: unless-stopped
+        restart: always

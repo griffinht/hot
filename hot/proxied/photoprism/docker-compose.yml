@@ -12,7 +12,7 @@ volumes:
 services:
     photoprism:
         image: photoprism/photoprism
-        restart: unless-stopped
+        restart: always
         networks:
             - internal
         environment:

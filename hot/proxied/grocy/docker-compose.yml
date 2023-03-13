@@ -8,12 +8,12 @@ volumes:
 services:
     grocy:
         image: grocy/frontend:v3.3.2
-        restart: unless-stopped
+        restart: always
         networks:
             - internal
     backend:
         image: grocy/backend:v3.3.2
-        restart: unless-stopped
+        restart: always
         networks:
             - internal
         volumes:

@@ -10,7 +10,7 @@ volumes:
 services:
     grafana:
         image: grafana/grafana-oss
-        restart: unless-stopped
+        restart: always
         networks:
             - internal
             - prometheus_internal

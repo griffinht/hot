@@ -8,7 +8,7 @@ volumes:
 services:
     invidious:
         image: quay.io/invidious/invidious
-        restart: unless-stopped
+        restart: always
         networks:
             - default
             - internal
@@ -20,7 +20,7 @@ services:
                 condition: service_healthy
     postgres:
         build: postgres
-        restart: unless-stopped
+        restart: always
         networks:
             - internal
         volumes:
