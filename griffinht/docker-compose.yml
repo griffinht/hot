@@ -10,6 +10,7 @@ networks:
 services:
   griffinht:
     build: nginx
+    restart: always
     depends_on:
       git:
         condition: service_started
@@ -18,6 +19,7 @@ services:
       - internal
   git:
     build: git
+    restart: always
     networks:
       - internal
     volumes:

@@ -14,7 +14,7 @@ services:
   # https://github.com/nginxinc/docker-nginx/
   nginx:
     build: nginx
-    restart: unless-stopped
+    restart: always
       #      depends_on:
       #  lego:
       #    condition: service_completed_successfully
@@ -37,6 +37,7 @@ services:
       timeout: 5s
       retries: 5
   lego:
+    #todo restart policy?
     #todo automate cron??
     image: goacme/lego 
       # https://github.com/go-acme/lego/pull/1378

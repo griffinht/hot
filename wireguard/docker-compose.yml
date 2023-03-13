@@ -4,7 +4,7 @@ volumes:
 services:
     wireguard:
         image: lscr.io/linuxserver/wireguard:latest
-        restart: unless-stopped
+        restart: always
         cap_add:
             - NET_ADMIN
         environment:

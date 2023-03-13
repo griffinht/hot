@@ -14,7 +14,7 @@ volumes:
 services:
     authelia:
         build: authelia
-        restart: unless-stopped
+        restart: always
         depends_on:
             redis:
                 condition: service_healthy
@@ -33,7 +33,7 @@ services:
             - authelia_internal:/config
     redis:
         image: redis:alpine
-        restart: unless-stopped
+        restart: always
         networks:
             - redis
         volumes:

@@ -39,7 +39,7 @@ services:
   # https://github.com/nginxinc/docker-nginx/
   hot:
       build: ./nginx
-      restart: unless-stopped
+      restart: always
       networks:
         - internal
         - data_internal
@@ -61,7 +61,7 @@ services:
         - "DOMAIN=${DOMAIN:-localhost}"
   nginx_exporter:
       image: nginx/nginx-prometheus-exporter
-      restart: unless-stopped
+      restart: always
       depends_on:
           - hot
               #                condition: service_healthy
@@ -72,7 +72,7 @@ services:
       command: -nginx.scrape-uri=http://nginx:8080
   blackbox:
       image: prom/blackbox-exporter
-      restart: unless-stopped
+      restart: always
       depends_on:
           - hot
       networks:
