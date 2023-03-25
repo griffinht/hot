@@ -9,7 +9,7 @@ services:
             - NET_ADMIN
         environment:
             - SERVERURL=hot.griffinht.com
-            - PEERS=3
+            - PEERS=4
         volumes:
             - wireguard:/config
         ports:
