@@ -1,0 +1,13 @@
+---
+- name: the cloud
+  hosts: cloud
+  user: admin
+  become_method: sudo
+  become_user: root
+  become: true
+
+  tasks:
+    - name: install guix
+      apt:
+        name: guix
+        state: present
