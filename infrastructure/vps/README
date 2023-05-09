@@ -1,3 +1,6 @@
+ansible could be 100% more readable and portable if i wrote more of it as a shell script
+hurr durr durr declarative indepomtence but at the cost of 5x the unreadable yml
+
 i dont like this its too much work
 https://upcloud.com/resources/tutorials/automate-cloud-server-provisioning-ansible
 
