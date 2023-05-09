@@ -7,7 +7,22 @@
   become: true
 
   tasks:
-    - name: install guix
+    - name: install stuff
       apt:
-        name: guix
+        name: wireguard-tools
         state: present
+    - name: copy files todo remove
+      copy:
+        src: files
+        dest: /root
+    - name: wg-easy
+      #todo dont change dir
+      # error on undefined env
+      shell:
+        chdir: /root/files
+        cmd: echo "{{ lookup('ansible.builtin.env', 'PUBKEY', default=Undefined) }}" > pubkey
+        creates: pubkey
+    - name: fetch server public key
+      fetch:
+        dest: pubkey
+        src: /root/files/pubkey
