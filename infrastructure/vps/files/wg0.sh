@@ -12,8 +12,7 @@ cat > /etc/wireguard/wg0.conf << EOF
 [Interface]
 PrivateKey = $PRIVATE
 Address = 10.0.0.1
-# todo necessary?
-ListenPort = 51822
+ListenPort = 51820
 
 [Peer]
 PublicKey = $PUBLIC
