@@ -20,3 +20,5 @@ AllowedIPs = 10.0.0.2
 EOF
 
 chmod 022 /etc/wireguard/wg0.conf
+
+systemctl enable --now wg-quick@wg0

@@ -25,11 +25,3 @@
     - debug:
         msg: "{{ pubkey.stdout }}"
       when: pubkey.changed
-    - name: check wireguard
-      command: wg showconf wg0
-      register: wireguard_status
-      changed_when: False
-    - name: start wireguard
-      command: wg-quick up wg0
-      when: wireguard_status is failed
-
