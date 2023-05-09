@@ -1,14 +1,12 @@
 #!/usr/bin/env sh
 
-if [ -f /etc/wireguard/wg0.conf ]; then
-    exit 0
-fi
+set -e
 
 PRIVATE="$(wg genkey)"
 PUBLIC="$1"
 
 # print server public key
-"$(echo PRIVATE)" | wg pubkey > pubkey
+echo "$PRIVATE" | wg pubkey
 
 cat > /etc/wireguard/wg0.conf << EOF
 [Interface]

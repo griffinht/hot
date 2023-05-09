@@ -7,22 +7,20 @@
   become: true
 
   tasks:
-    - name: install stuff
+    - name: install tools
       apt:
         name: wireguard-tools
         state: present
-    - name: copy files todo remove
+    - name: copy files
       copy:
         src: files
         dest: /root
-    - name: wg-easy
-      #todo dont change dir
-      # error on undefined env
-      shell:
-        chdir: /root/files
-        cmd: echo "{{ lookup('ansible.builtin.env', 'PUBKEY', default=Undefined) }}" > pubkey
-        creates: pubkey
-    - name: fetch server public key
-      fetch:
-        dest: pubkey
-        src: /root/files/pubkey
+        mode: preserve
+    - name: configure wireguard
+      register: pubkey
+      command:
+        chdir: /root
+        cmd: ./files/wg0.sh "{{ lookup('ansible.builtin.env', 'PUBKEY', default=Undefined) }}"
+        creates: /etc/wireguard/wg0.conf
+    - debug:
+        msg: "{{ pubkey.stdout }}"
