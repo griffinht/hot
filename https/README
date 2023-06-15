@@ -1,3 +1,4 @@
+UPDATED FOR LEGO AT THE BOTTOM
 todo add default things to nginx
 
 https://go-acme.github.io/lego/dns/cloudflare/
@@ -69,3 +70,44 @@ CERTBOT_AWS_SECRET_ACCESS_KEY =
 CERTBOT_CLOUDFLARE=
 CERTBOT_AWS_ACCESS_KEY_ID=
 CERTBOT_AWS_SECRET_ACCESS_KEY=
+
+
+
+
+
+LEGO
+this doc is up to date fr fr
+CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN?you forgot to configure Cloudflare see README}
+CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN?you forgot to configure Cloudflare see README}
+
+https://dash.cloudflare.com/login
+Log in to cloudflare
+
+https://dash.cloudflare.com/profile/api-tokens
+Go to Cloudflare dashboard > Person Icon (top right) > My Profile > API Tokens > Create Token > Custom Custom Token (Get Started button)
+
+Token name: hot_certbot_zone
+Permissions: Zone Zone Read
+Zone Resources: Include Specific Zone griffinht.com
+Client IP Address Filtering: Include <ip address>
+Continue to summary > Create Token > enter secret token in .env - make sure to quote!
+# why cant lego just use zone ids
+CF_ZONE_API_TOKEN='secret token'
+
+
+Token name: hot_certbot_dns
+Permissions: Zone DNS Edit
+Zone Resources: Include Specific Zone griffinht.com
+Client IP Address Filtering: Include <ip address>
+Continue to summary > Create Token > enter secret token in .env - make sure to quote!
+CF_DNS_API_TOKEN='secret token'
+
+
+
+
+
+
+
+
+# TODO
+use https://github.com/ndilieto/uacme
