@@ -1,0 +1,15 @@
+[auth]
+type = http_x_remote_user
+
+[rights]
+type = owner_only
+
+[storage]
+filesystem_folder = /home/griffin/test
+
+[web]
+# todo change to none?
+type = internal
+
+[logging]
+level = info
