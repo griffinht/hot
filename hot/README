@@ -13,4 +13,4 @@ todo this is a great place to unit test!!!! please!!
 TODO UNIT TESTS
 TESTING
 requires https hot authelia
-curl -v -U authelia:authelia --url https://localhost:4430 -k
+curl -v -U authelia:authelia --url https://hot.localhost:4430 -k
