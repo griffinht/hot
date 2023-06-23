@@ -11,11 +11,9 @@ USERNAME_PASSWORD_BASE64="$(echo -n $USERNAME:$PASSWORD | base64)"
 test_unauthorized() {
     # -k accept self signed cert
     # -D dump headers to stderr
-    curl -k \
-        -D /dev/stderr \
-        "$URL"
-    #HTTP/1.1 302 Moved Temporarily
-    #Location: ${URL}login/?rd=${URL}
+    local headers="$(curl -ks -D /dev/stdout --output /dev/null $URL)"
+    echo "$headers" | grep --quiet 'HTTP/1.1 302 Moved Temporarily' || (echo "$headers"; return 1)
+    echo "$headers" | grep --quiet "Location: ${URL}login/?rd=${URL}" || (echo "$headers"; return 1)
 }
 
 # tries to login and returns cookie
@@ -23,12 +21,9 @@ login_cookie() {
     #todo env var expansion
     # --data-binary read data from stdin
     echo '{"username":"authelia","password":"authelia","keepMeLoggedIn":false,"targetURL":"https://hot.localhost:4430/"}' \
-        | curl -k \
-            -D /dev/stdout \
+        | curl -ks -D /dev/stdout --output /dev/null \
             -X POST \
             --data-binary @- \
-            -s \
-            --output /dev/null \
             "${URL}login/api/firstfactor" | \
                 grep Set-Cookie | cut -d ';' -f 1 | cut -d ' ' -f 2
 }
@@ -50,7 +45,7 @@ test_basic() {
         -H "Proxy-Authorization: Basic $USERNAME_PASSWORD_BASE64" \
         "$URL"
 
-    exit $?
+    return "$?"
     # these don't work i also don't think they are supposed to work
     curl -k \
         -I \
