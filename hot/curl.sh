@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
-source ./curl.env
+USERNAME=authelia
+PASSWORD=authelia
+URL=https://hot.localhost:4430/
 USERNAME_PASSWORD_BASE64="$(echo -n $USERNAME:$PASSWORD | base64)"
 
 
