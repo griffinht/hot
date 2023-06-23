@@ -14,25 +14,36 @@ test_unauthorized() {
     curl -k \
         -D /dev/stderr \
         "$URL"
-    HTTP/1.1 302 Moved Temporarily
-    Location: ${URL}login/?rd=${URL}
+    #HTTP/1.1 302 Moved Temporarily
+    #Location: ${URL}login/?rd=${URL}
 }
 
 # tries to login and returns cookie
-login() {
+login_cookie() {
     #todo env var expansion
     # --data-binary read data from stdin
     echo '{"username":"authelia","password":"authelia","keepMeLoggedIn":false,"targetURL":"https://hot.localhost:4430/"}' \
         | curl -k \
-            -D /dev/stderr \ 
+            -D /dev/stdout \
             -X POST \
-            --data-binary @- \ 
-            "${URL}login/api/firstfactor"
-
-    cat testfile | grep Set-Cookie | cut -d ';' -f 1 | cut -d ' ' -f 2
+            --data-binary @- \
+            -s \
+            --output /dev/null \
+            "${URL}login/api/firstfactor" | \
+                grep Set-Cookie | cut -d ';' -f 1 | cut -d ' ' -f 2
 }
 
-test_login_basic() {
+test_cookie() {
+    # todo what is local? am i using it right? is it being overridden by global cookie var?
+    local cookie="$1"
+
+    curl -k \
+        -I \
+        -H "Cookie: $cookie" \
+        "$URL"
+}
+
+test_basic() {
     # -I because we don't care about page content
     curl -k \
         -I \
@@ -50,4 +61,12 @@ test_login_basic() {
         --user $USER:$PASSWORD "$URL"
 }
 
-test_login_basic
+echo test unauthorized
+test_unauthorized || (echo unauthorized auth failed; exit 1)
+# todo awful/missing error checking
+echo test cookie login
+cookie="$(login_cookie)"
+echo test cookie
+test_cookie "$cookie" || (echo cookie auth failed; exit 1)
+echo test basic
+test_basic || (echo basic auth failed; exit 1)
