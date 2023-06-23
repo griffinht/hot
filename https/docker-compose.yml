@@ -2,9 +2,9 @@
 # todo mock https certs
 networks:
   hot_internal:
-    external: true
+    name: hot_internal
   griffinht_internal:
-    external: true
+    name: griffinht_internal
 volumes:
   https_certificates:
     external: true
@@ -20,12 +20,14 @@ services:
       #    condition: service_completed_successfully
     #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
-      - "${BIND_ADDRESS:-127.0.0.1}:80:80"
-      - "${BIND_ADDRESS:-127.0.0.1}:443:443"
+      - "${BIND_ADDRESS:-127.0.0.1}:8000:80"
+      - "${BIND_ADDRESS:-127.0.0.1}:4430:443"
     environment:
-      - "DOMAIN=${DOMAIN:-localhost}"
+      - "NGINX_DOMAIN=${DOMAIN:-localhost}"
+      - "NGINX_RESOLVER=${RESOLVER:-10.89.0.1}"
     networks:
-      - default
+      #todo what is this
+      #- default
       - hot_internal
       - griffinht_internal
     volumes:
