@@ -1,3 +1,17 @@
+# DEVELOPMENT
+note for development everything should work by default - just visit hot.localhost:8080
+do note you need localhost to support subdomains, which firefox does i thiunk
+
+
+
+
+
+
+
+
+
+# old config?
+
 https://developers.cloudflare.com/api/tokens/create
 
 https://dash.cloudflare.com/login

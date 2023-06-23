@@ -58,7 +58,9 @@ services:
         - authelia_internal
           #        - grafana_internal
       environment:
-        - "DOMAIN=${DOMAIN:-localhost}"
+        - "NGINX_DOMAIN=${DOMAIN:-localhost}"
+          # use podman default dns server
+        - "NGINX_RESOLVER=${RESOLVER:-10.89.0.1}"
   nginx_exporter:
       image: nginx/nginx-prometheus-exporter
       restart: always
@@ -67,7 +69,8 @@ services:
               #                condition: service_healthy
       networks:
         # why default network?
-          - default
+        #- default
+        # - podman
           - nginx_exporter
       command: -nginx.scrape-uri=http://nginx:8080
   blackbox:
@@ -77,5 +80,6 @@ services:
           - hot
       networks:
         # why default network?
-          - default
+        #- default
+        #  - podman
           - nginx_exporter
