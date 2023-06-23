@@ -1,8 +1,12 @@
 #!/usr/bin/env sh
 
+set -e
+
 USERNAME=authelia
 PASSWORD=authelia
-URL=https://hot.localhost:4430/
+PROTO=https://
+HOST=hot.localhost:4430/
+URL="$PROTO$HOST"
 USERNAME_PASSWORD_BASE64="$(echo -n $USERNAME:$PASSWORD | base64)"
 
 
@@ -30,18 +34,35 @@ login_cookie() {
                 grep Set-Cookie | cut -d ';' -f 1 | cut -d ' ' -f 2
 }
 
-test_cookie() {
+get_cookie_head() {
     # todo what is local? am i using it right? is it being overridden by global cookie var?
     local cookie="$1"
+    local uri="$2"
+    local subdomain="$3"
 
-    curl -k \
+    url="$PROTO$subdomain$HOST$uri"
+    printf 'head %s\n\tcookie: %s\n\n' \
+        "$url" \
+        "$cookie" \
+        1>&2
+
+    curl -ks \
         -I \
         -H "Cookie: $cookie" \
-        "$URL"
+        "$url"
+}
+
+get_cookie_get() {
+    local cookie="$1"
+    local uri="$2"
+
+    curl -k \
+        -H "Cookie: $cookie" \
+        "$URL$uri"
 }
 
 test_basic() {
-    # -I because we don't care about page content
+    # -I (head) because we don't care about page content
     curl -k \
         -I \
         -H "Proxy-Authorization: Basic $USERNAME_PASSWORD_BASE64" \
@@ -64,6 +85,32 @@ test_unauthorized || (echo unauthorized auth failed; exit 1)
 echo test cookie login
 cookie="$(login_cookie)"
 echo test cookie
-test_cookie "$cookie" || (echo cookie auth failed; exit 1)
+get_cookie_head "$cookie" || (echo cookie auth failed; exit 1)
 echo test basic
 test_basic || (echo basic auth failed; exit 1)
+
+echo auth tests done, now testing individual services
+
+# 302 is generic redirect for unauthorized
+# todo use a real test framework!!!! also parallelize
+# declarative vs imperative
+# you should be able to write a list of protected and unprototected domains
+
+# hot.domain
+get_cookie_head "" "" "" | grep -q 302
+get_cookie_head "$cookie" "" "" | grep -q 200
+# hot.domain/doesnotexist
+get_cookie_head "" doesnotexist | grep -q 302
+get_cookie_head "$cookie" doesnotexist | grep -q 404
+# doesnotexist.hot.domain, within protected hot domain
+get_cookie_head "" "" doesnotexist. | grep -q 404 # todo make this 302
+get_cookie_head "$cookie" "" doesnotexist. | grep -q 404
+# invidious.hot.domain
+get_cookie_head "" "" invidious. | grep -q 302 # todo make this 302
+get_cookie_head "$cookie" "" invidious. | grep -q 502 # actually a 200 when the service is up
+# bruh.invidious.hot.domain
+get_cookie_head "" "" bruh.invidious. | grep -q 404 # todo make this 302
+get_cookie_head "$cookie" "" bruh.invidious. | grep -q 404
+# doesnotexisthot.domain
+get_cookie_head "" "" doesnotexit | grep -q 404
+get_cookie_head "$cookie" "" doesnotexit | grep -q 404
