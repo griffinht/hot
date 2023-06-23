@@ -11,3 +11,6 @@ or run with the https proxy
 https has the authoitative proper headers
 todo this is a great place to unit test!!!! please!!
 TODO UNIT TESTS
+TESTING
+requires https hot authelia
+curl -v -U authelia:authelia --url https://localhost:4430 -k
