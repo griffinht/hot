@@ -1,5 +1,5 @@
 # DEVELOPMENT
-note for development everything should work by default - just visit hot.localhost:8080
+note for development everything should work by default - just visit hot.localhost but you need to expose the port!
 do note you need localhost to support subdomains, which firefox does i thiunk
 
 headers required
