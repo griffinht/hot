@@ -37,9 +37,8 @@ test_unauthorized() {
 
 # tries to login and returns cookie
 login_cookie() {
-    #todo env var expansion
     # --data-binary read data from stdin
-    echo '{"username":"authelia","password":"authelia","keepMeLoggedIn":false,"targetURL":"https://hot.localhost:4430/"}' \
+    echo "{\"username\":\"$USERNAME\",\"password\":\"$PASSWORD\",\"keepMeLoggedIn\":false,\"targetURL\":\"$URL\"}" \
         | curl -ks -D /dev/stdout --output /dev/null \
             -X POST \
             --data-binary @- \
@@ -56,7 +55,7 @@ get_cookie_head() {
     url="$PROTO$subdomain$HOST/$uri"
     printf 'head %s\n\tcookie: %s\n\n' \
         "$url" \
-        "$cookie" \
+        "$(echo $cookie | head -c 20)(truncated)" \
         1>&2
 
     curl -ks \
@@ -112,9 +111,9 @@ run_tests() {
     echo test cookie login
     cookie="$(login_cookie)"
     echo test cookie
-    get_cookie_head "$cookie" || (echo cookie auth failed; exit 1)
+    get_cookie_head "$cookie" | grep -q 200 || (echo cookie auth failed; exit 1)
     echo test basic
-    test_basic || (echo basic auth failed; exit 1)
+    test_basic | grep -q 200 || (echo basic auth failed; exit 1)
 
     echo auth tests done, now testing individual services
 
@@ -142,5 +141,6 @@ run_tests() {
     # doesnotexisthot.domain
     get_cookie_head "" "" "$EXISTS_NOT" | grep -q 404
     get_cookie_head "$cookie" "" "$EXISTS_NOT" | grep -q 404
+    #todo logout with cookie? on failure?
 }
 run_tests
