@@ -24,3 +24,9 @@ place1/wg-access-server
 erichough/nfs-server - unmaintained
 dperson/samba - unmaintained!!
 backblaze
+
+
+
+TODO
+docker go ahead and use secrets! its pretty easy! no swarm required!
+https://docs.docker.com/compose/use-secrets/
