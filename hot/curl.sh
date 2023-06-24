@@ -6,7 +6,18 @@ USERNAME=authelia
 PASSWORD=authelia
 PROTO=https://
 HOST=hot.localhost:4430/
+# a subdomain of the host that exists (eg $EXISTS.$HOST)
+EXISTS=invidious # invidious is at invidious.hot.griffinht.com
+# a subdomain of the host that does not exist
+EXISTS_NOT=doesnotexist
+# the path to the login page
+LOGIN_PATH=login/
+
+
+
+
 URL="$PROTO$HOST"
+LOGIN_URL="$URL$LOGIN_PATH"
 USERNAME_PASSWORD_BASE64="$(echo -n $USERNAME:$PASSWORD | base64)"
 
 
@@ -79,38 +90,47 @@ test_basic() {
         --user $USER:$PASSWORD "$URL"
 }
 
-echo test unauthorized
-test_unauthorized || (echo unauthorized auth failed; exit 1)
-# todo awful/missing error checking
-echo test cookie login
-cookie="$(login_cookie)"
-echo test cookie
-get_cookie_head "$cookie" || (echo cookie auth failed; exit 1)
-echo test basic
-test_basic || (echo basic auth failed; exit 1)
+#echo "${LOGIN_URL}?rd=${PROTO}invidious.${HOST}"
+#get_cookie_head "" "" invidious. | grep -e 302 -e "Location: "
 
-echo auth tests done, now testing individual services
+#exit $?
 
-# 302 is generic redirect for unauthorized
-# todo use a real test framework!!!! also parallelize
-# declarative vs imperative
-# you should be able to write a list of protected and unprototected domains
+run_tests() {
+    echo test unauthorized
+    test_unauthorized || (echo unauthorized auth failed; exit 1)
+    # todo awful/missing error checking
+    echo test cookie login
+    cookie="$(login_cookie)"
+    echo test cookie
+    get_cookie_head "$cookie" || (echo cookie auth failed; exit 1)
+    echo test basic
+    test_basic || (echo basic auth failed; exit 1)
 
-# hot.domain
-get_cookie_head "" "" "" | grep -q 302
-get_cookie_head "$cookie" "" "" | grep -q 200
-# hot.domain/doesnotexist
-get_cookie_head "" doesnotexist | grep -q 302
-get_cookie_head "$cookie" doesnotexist | grep -q 404
-# doesnotexist.hot.domain, within protected hot domain
-get_cookie_head "" "" doesnotexist. | grep -q 404 # todo make this 302
-get_cookie_head "$cookie" "" doesnotexist. | grep -q 404
-# invidious.hot.domain
-get_cookie_head "" "" invidious. | grep -q 302 # todo make this 302
-get_cookie_head "$cookie" "" invidious. | grep -q 502 # actually a 200 when the service is up
-# bruh.invidious.hot.domain
-get_cookie_head "" "" bruh.invidious. | grep -q 404 # todo make this 302
-get_cookie_head "$cookie" "" bruh.invidious. | grep -q 404
-# doesnotexisthot.domain
-get_cookie_head "" "" doesnotexit | grep -q 404
-get_cookie_head "$cookie" "" doesnotexit | grep -q 404
+    echo auth tests done, now testing individual services
+
+    # 302 is generic redirect for unauthorized
+    # todo use a real test framework!!!! also parallelize
+    # declarative vs imperative
+    # you should be able to write a list of protected and unprototected domains
+
+    # hot.domain
+    get_cookie_head "" "" "" | grep -q 302
+    get_cookie_head "$cookie" "" "" | grep -q 200
+    # hot.domain/doesnotexist
+    get_cookie_head "" "$EXISTS_NOT" | grep -q 302
+    get_cookie_head "$cookie" "$EXISTS_NOT" | grep -q 404
+    # doesnotexist.hot.domain, within protected hot domain
+    get_cookie_head "" "" "$EXISTS_NOT." | grep -q 404 # todo make this 302 and check the location!
+    get_cookie_head "$cookie" "" "$EXISTS_NOT." | grep -q 404
+    # exists.hot.domain
+    get_cookie_head "" "" "$EXISTS." | grep -q 302 # todo make this 302
+    #TODO check location header - its wrong!
+    get_cookie_head "$cookie" "" "$EXISTS." | grep -q 502 # actually a 200 when the service is up
+    # bruh.exists.hot.domain
+    get_cookie_head "" "" "$EXISTS_NOT.$EXISTS." | grep -q 404 # todo make this 302 and check the location!
+    get_cookie_head "$cookie" "" "$EXISTS_NOT.$EXISTS." | grep -q 404
+    # doesnotexisthot.domain
+    get_cookie_head "" "" "$EXISTS_NOT" | grep -q 404
+    get_cookie_head "$cookie" "" "$EXISTS_NOT" | grep -q 404
+}
+run_tests
