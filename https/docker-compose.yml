@@ -1,5 +1,9 @@
 # https://stackoverflow.com/questions/53751168/docker-compose-secrets-without-swarm
-# todo mock https certs
+#      todo
+      #      depends_on:
+      #  lego:
+      #    condition: service_completed_successfully
+  #note that propogating source IP addressed to nginx requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
 networks:
   hot_internal:
     name: hot_internal
@@ -15,25 +19,24 @@ services:
   nginx:
     build: nginx
     restart: always
-      #      depends_on:
-      #  lego:
-      #    condition: service_completed_successfully
-    #note that propogating source IP addressed requires "DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
     ports:
-      - "${BIND_ADDRESS:-127.0.0.1}:8000:80"
-      - "${BIND_ADDRESS:-127.0.0.1}:4430:443"
+      - "${BIND_ADDRESS:-127.0.0.1}:${BIND_PORT_HTTP:-8000}:80"
+      - "${BIND_ADDRESS:-127.0.0.1}:${BIND_PORT_HTTPS:-4430}:443"
     environment:
       - "NGINX_DOMAIN=${DOMAIN:-localhost}"
       - "NGINX_RESOLVER=${RESOLVER:-10.89.0.1}"
     networks:
       #todo what is this
-      #- default
+      #its needed for docker (ports don't expose without it)
+      #but podman it breaks things (it doesn't exist)
+      - default
       - hot_internal
       - griffinht_internal
     volumes:
       - https_certificates:/certificates:ro
     healthcheck:
     # todo this won't really work
+    # actually it does, why wouldn't it work?
       test: [ "CMD-SHELL", "curl -f https://griffinht.com:443" ]
       interval: 5s
       timeout: 5s
