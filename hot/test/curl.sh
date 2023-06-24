@@ -18,7 +18,6 @@ LOGIN_PATH=login/
 
 URL="$PROTO$HOST/"
 LOGIN_URL="$URL$LOGIN_PATH"
-USERNAME_PASSWORD_BASE64="$(echo -n $USERNAME:$PASSWORD | base64)"
 
 
 
@@ -75,20 +74,11 @@ get_cookie_get() {
 
 test_basic() {
     # -I (head) because we don't care about page content
+    local USERNAME_PASSWORD_BASE64="$(echo -n $USERNAME:$PASSWORD | base64)"
     curl -k \
         -I \
         -H "Proxy-Authorization: Basic $USERNAME_PASSWORD_BASE64" \
         "$URL"
-
-    return "$?"
-    # these don't work i also don't think they are supposed to work
-    curl -k \
-        -I \
-        -vv \
-        --proxy-anyauth --proxy-user $USER:$PASSWORD "$URL"
-
-    curl -k \
-        --user $USER:$PASSWORD "$URL"
 }
 
 testting() {
@@ -108,12 +98,17 @@ run_tests() {
     echo test unauthorized
     test_unauthorized || (echo unauthorized auth failed; exit 1)
     # todo awful/missing error checking
-    echo test cookie login
-    cookie="$(login_cookie)"
+    if [ -z "$COOKIE" ]; then
+        echo getting cookie using credentials
+        cookie="$(login_cookie)"
+        echo test basic
+        test_basic | grep -q 200 || (echo basic auth failed; exit 1)
+    else
+        echo using given cookie
+        cookie="authelia_session=$COOKIE"
+    fi
     echo test cookie
     get_cookie_head "$cookie" | grep -q 200 || (echo cookie auth failed; exit 1)
-    echo test basic
-    test_basic | grep -q 200 || (echo basic auth failed; exit 1)
 
     echo auth tests done, now testing individual services
 
