@@ -5,7 +5,7 @@ set -e
 USERNAME=authelia
 PASSWORD=authelia
 PROTO=https://
-HOST=hot.localhost:4430/
+HOST=hot.localhost:4430
 # a subdomain of the host that exists (eg $EXISTS.$HOST)
 EXISTS=invidious # invidious is at invidious.hot.griffinht.com
 # a subdomain of the host that does not exist
@@ -16,7 +16,7 @@ LOGIN_PATH=login/
 
 
 
-URL="$PROTO$HOST"
+URL="$PROTO$HOST/"
 LOGIN_URL="$URL$LOGIN_PATH"
 USERNAME_PASSWORD_BASE64="$(echo -n $USERNAME:$PASSWORD | base64)"
 
@@ -51,7 +51,7 @@ get_cookie_head() {
     local uri="$2"
     local subdomain="$3"
 
-    url="$PROTO$subdomain$HOST$uri"
+    url="$PROTO$subdomain$HOST/$uri"
     printf 'head %s\n\tcookie: %s\n\n' \
         "$url" \
         "$cookie" \
@@ -90,10 +90,18 @@ test_basic() {
         --user $USER:$PASSWORD "$URL"
 }
 
-#echo "${LOGIN_URL}?rd=${PROTO}invidious.${HOST}"
-#get_cookie_head "" "" invidious. | grep -e 302 -e "Location: "
+testting() {
+    # grep -c return number of lines matched, which needs to be 2
+    local result="$(get_cookie_head "" "" "$EXISTS".)" 
+    local expected="Location: $LOGIN_URL?rd=$PROTO$EXISTS.$HOST/"
+    if [ "$(echo "$result" | grep -c -e "302" -e "$expected")" -ne 2 ]; then
+        printf 'error got the wrong thing:\n%s\nexpected to find\n%s\n' "$result" "$expected"
+    else
+        echo nice
+    fi
 
-#exit $?
+    exit 1
+}
 
 run_tests() {
     echo test unauthorized
@@ -123,8 +131,8 @@ run_tests() {
     get_cookie_head "" "" "$EXISTS_NOT." | grep -q 404 # todo make this 302 and check the location!
     get_cookie_head "$cookie" "" "$EXISTS_NOT." | grep -q 404
     # exists.hot.domain
-    get_cookie_head "" "" "$EXISTS." | grep -q 302 # todo make this 302
-    #TODO check location header - its wrong!
+    testting
+    #get_cookie_head "" "" "$EXISTS." | grep -q 302
     get_cookie_head "$cookie" "" "$EXISTS." | grep -q 502 # actually a 200 when the service is up
     # bruh.exists.hot.domain
     get_cookie_head "" "" "$EXISTS_NOT.$EXISTS." | grep -q 404 # todo make this 302 and check the location!

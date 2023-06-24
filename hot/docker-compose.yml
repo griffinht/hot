@@ -59,6 +59,8 @@ services:
           #        - grafana_internal
       environment:
         - "NGINX_DOMAIN=${DOMAIN:-localhost}"
+          # from upstream hot/https/nginx dev proxy
+        - "NGINX_HOST=${HOST:-localhost:4430}"
           # use podman default dns server
         - "NGINX_RESOLVER=${RESOLVER:-10.89.0.1}"
   nginx_exporter:
