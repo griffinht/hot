@@ -136,6 +136,18 @@ run_tests() {
     # doesnotexisthot.domain
     get_cookie_head "" "" "$EXISTS_NOT" | grep -q 404
     get_cookie_head "$cookie" "" "$EXISTS_NOT" | grep -q 404
+    echo TODO LOG OUT TEST
+    return 0
+
+    echo logging out
     #todo logout with cookie? on failure?
+    echo '{}' | \
+        curl -ks -D /dev/stdout --output /dev/null \
+            -X POST \
+            --data-binary @- \
+            "${URL}login/api/logout" | grep -q 200 # this is always 200 for security so you can't tell if a token was valid
+    echo logged out, verifying with stale session cookie
+    get_cookie_head "$cookie" | grep -q 200 && (echo sucess, this should have failed because we logged out!; return 1)
+    return 0
 }
 run_tests
