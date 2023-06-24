@@ -2,10 +2,10 @@
 
 set -e
 
-USERNAME=authelia
-PASSWORD=authelia
+#USERNAME=authelia
+#PASSWORD=authelia
 PROTO=https://
-HOST=hot.localhost:4430
+#HOST=hot.localhost:4430
 # a subdomain of the host that exists (eg $EXISTS.$HOST)
 EXISTS=invidious # invidious is at invidious.hot.griffinht.com
 # a subdomain of the host that does not exist
@@ -29,6 +29,8 @@ test_unauthorized() {
     # -k accept self signed cert
     # -D dump headers to stderr
     local headers="$(curl -ks -D /dev/stdout --output /dev/null $URL)"
+    # todo error handling straight non existant
+    # use a real language! python would probably be fine
     echo "$headers" | grep --quiet 'HTTP/1.1 302 Moved Temporarily' || (echo "$headers"; return 1)
     echo "$headers" | grep --quiet "Location: ${URL}login/?rd=${URL}" || (echo "$headers"; return 1)
 }
