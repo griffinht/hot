@@ -87,11 +87,11 @@ testting() {
     local expected="Location: $LOGIN_URL?rd=$PROTO$EXISTS.$HOST/"
     if [ "$(echo "$result" | grep -c -e "302" -e "$expected")" -ne 2 ]; then
         printf 'error got the wrong thing:\n%s\nexpected to find\n%s\n' "$result" "$expected"
+        return 1
     else
         echo nice
+        return 0
     fi
-
-    exit 1
 }
 
 run_tests() {
@@ -129,7 +129,7 @@ run_tests() {
     # exists.hot.domain
     testting
     #get_cookie_head "" "" "$EXISTS." | grep -q 302
-    get_cookie_head "$cookie" "" "$EXISTS." | grep -q 502 # actually a 200 when the service is up
+    get_cookie_head "$cookie" "" "$EXISTS." | grep -q -e 502 -e 200 # 502 when service is down (dev) or 200 when service is up - either way we are authenticated!
     # bruh.exists.hot.domain
     get_cookie_head "" "" "$EXISTS_NOT.$EXISTS." | grep -q 404 # todo make this 302 and check the location!
     get_cookie_head "$cookie" "" "$EXISTS_NOT.$EXISTS." | grep -q 404
