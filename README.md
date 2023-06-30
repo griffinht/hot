@@ -28,5 +28,7 @@ backblaze
 
 
 TODO
-docker go ahead and use secrets! its pretty easy! no swarm required!
+secrets use and delete .env files
 https://docs.docker.com/compose/use-secrets/
+
+

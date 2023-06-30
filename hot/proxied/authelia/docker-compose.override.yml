@@ -10,12 +10,20 @@ volumes:
       o: bind
       type: volume
 
+secrets:
+  authelia_session:
+    external: false
+    file: ./mock/authelia_session
+  authelia_jwt:
+    external: false
+    file: ./mock/authelia_jwt
+  authelia_storage:
+    external: false
+    file: ./mock/authelia_storage
+
 services:
   authelia:
     environment:
-      - AUTHELIA_SESSION_SECRET_FILE=/secrets/session.secret
-      - AUTHELIA_JWT_SECRET_FILE=/secrets/jwt_secret
-      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/secrets/storage.encryption_key
       - AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY=one_factor
     volumes:
       - authelia_secrets:/secrets:ro
