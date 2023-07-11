@@ -13,8 +13,11 @@ services:
             - default
             - internal
         environment:
-            INVIDIOUS_CONFIG: |
+          # https://github.com/iv-org/invidious/issues/3854
+          # is this supposed to be secret lol? todo!
+          INVIDIOUS_CONFIG: |
                 database_url: postgres://postgres:@postgres
+                hmac_key: b7377837040574d07a254cb89b6f7e014b14386c
         depends_on:
             postgres:
                 condition: service_healthy
