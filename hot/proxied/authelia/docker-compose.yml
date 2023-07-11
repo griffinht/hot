@@ -29,13 +29,13 @@ services:
         networks:
             - internal
             - redis
-        environment: 
           # todo undo
+        environment: 
           - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/authelia_session
           - AUTHELIA_JWT_SECRET_FILE=/run/secrets/authelia_jwt
           - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/authelia_storage
+          - "AUTHELIA_SESSION_DOMAIN=${DOMAIN:-hot.localhost}"
             # todo restrict so not every backend server gets the session cookie
-            - "AUTHELIA_SESSION_DOMAIN=${DOMAIN:-hot.localhost}"
         volumes:
             - authelia:/data
               # volume declared by authelia
