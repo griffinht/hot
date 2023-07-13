@@ -4,3 +4,6 @@ its always needed so why not?
 default user is authelia:authelia
 
 todo bad to mix authelia with redis??
+todo use smtp for notificatinos, then use smtp->whatever notification you want bridge :) actually smtp would work the best
+EMAIL
+start by using an internal email - maybe on a subdomain?
