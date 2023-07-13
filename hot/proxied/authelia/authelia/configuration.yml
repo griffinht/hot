@@ -1,7 +1,4 @@
 #default_redirection_url: https://hot.localhost
-#session- AUTHELIA_SESSION_SECRET_FILE=/run/secrets/authelia_session
-#jwt_secret_file: /run/secrets/authelia_jwt
-#- AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/authelia_storage
 
 server:
     path: login
@@ -42,12 +39,10 @@ session:
     redis:
         host: redis
         port: 6379
-    secret_file: /run/secrets/authelia_session
 
 storage:
     local:
         path: /data/db.sqlite3
-    encryption_key_file: /run/secrets/authelia_storage
 
 notifier:
     # todo use smtp
