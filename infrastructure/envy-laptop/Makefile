@@ -9,7 +9,7 @@ http: envylaptop.ign
 	python3 -m http.server
 
 envylaptop.ign: envylaptop.yml
-	podman run --rm -i quay.io/coreos/butane:release --pretty --strict < '$<' > '$@'
+	source ./envylaptop.env; envsubst < '$<' | podman run --rm -i quay.io/coreos/butane:release --pretty --strict > '$@'
 
 clean:
 	rm -r envylaptop.ign
