@@ -1,0 +1,15 @@
+variant: fcos
+version: 1.4.0
+passwd:
+  users:
+    # admin with group sudo
+    - name: core
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID5K55Ua7ShZDHxASblOCCdG9q71cR1YGAauKnbq46VB griffin@smart-laptop
+          #    - name: docker-user
+      # todo add docker group
+      #ssh_authorized_keys:
+      #  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID5K55Ua7ShZDHxASblOCCdG9q71cR1YGAauKnbq46VB griffin@smart-laptop
+#echo "net.ipv4.ip_unprivileged_port_start = 0" > /etc/sysctl.d/hot.conf
+#static ip 192.168.0.6
+#Created symlink /var/home/docker-user/.config/systemd/user/sockets.target.wants/podman.socket → /usr/lib/systemd/user/podman.socket.
