@@ -1,33 +1,37 @@
-docker: envy-laptop.scm
+guix.docker: bootstrap.scm
 	# --network flag is important!
 	#  tells guix not to enable networking services which would conflict with docker causing ssh-daemon to fail to start!
 	guix system image --image-type=docker --network '$<' > '$@'
 
-loaddocker: docker
+load.docker: guix.docker
 	# assume the container tag is localhost/guix:latest
 	# unfortunately docker load doesn't seem to output this without extra formatting
 	# (which i'd rather not parse)
 	#docker load < "$$(cat $<)" && echo localhost/guix:latest > '$@' || rm -f '$@'
 	docker load < "$$(cat $<)" && echo guix:latest > '$@' || rm -f '$@'
 
-rundocker: loaddocker
+run.docker: load.docker
 	# note control+c does not really work to stop the container :(
-	docker run --rm -d -it -p 2222:22 "$$(cat $<)" > rundocker 
-	#docker run --rm -d -it --network=none "$$(cat $<)" > rundocker && docker attach "$$(cat $@)"; rm -f '$@'
+	docker run --rm -d -it -p 2222:22 "$$(cat $<)" > '$@' 
+	#docker run --rm -d -it --network=none "$$(cat $<)" > '$@' && docker attach "$$(cat $@)"; rm -f '$@'
 
-monitordocker: rundocker
+monitor.docker: run.docker
 	docker attach "$$(cat $<)"; rm -f '$<'
 
-debugdocker: rundocker
+debug.docker: run.docker
 	docker exec -it "$$(cat $<)" /run/current-system/profile/bin/bash --login
 
-sshdocker: rundocker
+ssh.docker: run.docker
 	ssh -p 2222 root@localhost
 
-stopdocker: rundocker
+stop.docker: run.docker
 	docker stop "$$(cat $<)"
 
-image: envy-laptop.scm
+deploy.docker: run.docker
+	#todo
+	guix deploy
+
+image: bootstrap.scm
 	guix system image --save-provenance '$<'
 
 clean:
