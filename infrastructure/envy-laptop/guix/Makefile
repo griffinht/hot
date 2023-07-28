@@ -1,47 +1,60 @@
-bootstrap.scm: my-system.scm
-deploy.scm: my-system.scm
+# port to expose ssh on host (when testing locally)
+SSH_PORT=2222
 
-guix.docker: bootstrap.scm
+bootstrap.scm: system.scm
+deploy.scm: system.scm
+
+build.docker: bootstrap.scm
 	# --network flag is important!
 	#  tells guix not to enable networking services which would conflict with docker causing ssh-daemon to fail to start!
+	#  --save-provenance isn't needed maybe? idk todo
 	guix system image --image-type=docker --network '$<' > '$@' || rm '$@'
 
-load.docker: guix.docker
-	# assume the container tag is localhost/guix:latest
-	# unfortunately docker load doesn't seem to output this without extra formatting
-	# (which i'd rather not parse)
-	#docker load < "$$(cat $<)" && echo localhost/guix:latest > '$@' || rm -f '$@'
-	docker load < "$$(cat $<)" && echo guix:latest > '$@' || rm -f '$@'
+image.docker: build.docker
+	docker image load
 
-run.docker: load.docker
-	# note control+c does not really work to stop the container :(
-	docker run --rm -d -it -p 2222:22 "$$(cat $<)" > '$@' 
-	#docker run --rm -d -it --network=none "$$(cat $<)" > '$@' && docker attach "$$(cat $@)"; rm -f '$@'
+# todo don't use prereq files which can be out of date??
+run.docker: image.docker
+	docker run --rm -it -p '$(SSH_PORT):22' '$$(cat $<)'
 
 monitor.docker: run.docker
-	docker attach "$$(cat $<)"; rm -f '$<'
+	docker attach "$$(cat $<)"; rm '$<'
 
-debug.docker: run.docker
-	docker exec -it "$$(cat $<)" /run/current-system/profile/bin/bash --login
-
-ssh.docker: run.docker
-	ssh -p 2222 root@localhost
-
+# todo shouldn't have stop prereq??
 stop.docker: run.docker
 	docker stop "$$(cat $<)"
 
-# its a docker image you can't do that - just redeploy
-deploy.docker: deploy.scm run.docker
+# isn't this debug.docker????
+debug.docker: guix.docker
+	docker exec -it "$$(cat $<)" /run/current-system/profile/bin/bash --login
+
+guix.vm: bootstrap.scm
+	# --save-provenance?
+	# --no-graphic no need for graphics here
+	# C-a h for help
+	# C-a x to exit
+	guix system vm --no-graphic --persistent '$<' > '$@' || rm '$@'
+
+run.vm: guix.vm
+	# share host networking and port forward
+	# https://guix.gnu.org/manual/en/html_node/Running-Guix-in-a-VM.html
+	# see 12.17.1 Connecting Through SSH
+	"$$(cat $<)" \
+		-nic 'user,model=virtio-net-pci,hostfwd=tcp::$(SSH_PORT)-:22' \
+
+# todo this should probably have a run prereq??
+deploy: deploy.scm
 	guix deploy "$<"
 
-guix.vm: system.scm
-	guix system image --image-type=vm '$<' > '$@'
+# todo this should probably have a run prereq??
+ssh:
+	# ignore host's known hosts so we don't mess up localhost with temporary keys
+	ssh -p '$(SSH_PORT)' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost
 
 load.vm:
 	#todo
 
-image: system.scm
-	guix system image --save-provenance '$<'
+#guix.bin
 
 clean:
 	rm -f *.docker

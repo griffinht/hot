@@ -1,4 +1,5 @@
 (add-to-load-path (string-append (dirname (current-filename)) "/"))
-(use-modules (my-system))
+(use-modules (system))
 
-my-system
+; guix expects this file to evaluate to an (operating-system ...) declaration
+%system
