@@ -27,9 +27,8 @@ ssh.docker: run.docker
 stop.docker: run.docker
 	docker stop "$$(cat $<)"
 
-deploy.docker: run.docker
-	#todo
-	guix deploy
+deploy.docker: system.scm run.docker
+	guix deploy "$<"
 
 image: bootstrap.scm
 	guix system image --save-provenance '$<'

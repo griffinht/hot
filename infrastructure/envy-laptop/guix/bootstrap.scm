@@ -1,3 +1,4 @@
+; barebones guix operating system which can be deployed then sshed in to with guix deploy
 (use-modules (gnu))
 (use-service-modules networking ssh)
 (use-package-modules bootloaders ssh)
@@ -6,6 +7,7 @@
 ; https://guix.gnu.org/manual/en/html_node/operating_002dsystem-Reference.html
 (operating-system
  (host-name "envy-laptop")
+  ;todo remove timezone not necessary? defaults are fine?
  (timezone "Etc/UTC")
  (bootloader (bootloader-configuration
               (bootloader grub-efi-bootloader)
