@@ -1,7 +1,10 @@
+bootstrap.scm: my-system.scm
+deploy.scm: my-system.scm
+
 guix.docker: bootstrap.scm
 	# --network flag is important!
 	#  tells guix not to enable networking services which would conflict with docker causing ssh-daemon to fail to start!
-	guix system image --image-type=docker --network '$<' > '$@'
+	guix system image --image-type=docker --network '$<' > '$@' || rm '$@'
 
 load.docker: guix.docker
 	# assume the container tag is localhost/guix:latest
@@ -27,11 +30,18 @@ ssh.docker: run.docker
 stop.docker: run.docker
 	docker stop "$$(cat $<)"
 
-deploy.docker: system.scm run.docker
+# its a docker image you can't do that - just redeploy
+deploy.docker: deploy.scm run.docker
 	guix deploy "$<"
 
-image: bootstrap.scm
+guix.vm: system.scm
+	guix system image --image-type=vm '$<' > '$@'
+
+load.vm:
+	#todo
+
+image: system.scm
 	guix system image --save-provenance '$<'
 
 clean:
-	rm -f docker loaddocker rundocker
+	rm -f *.docker

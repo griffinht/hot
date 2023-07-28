@@ -1,44 +1,18 @@
+(add-to-load-path (string-append (dirname (current-filename)) "/"))
+(use-modules (my-system))
 ; full guix operating system which can be deployed with guix deploy to target which is already running guix
 ; todo a lot of this is duplicated from bootstrap.scm why not do some scheme guile magic to avoid repeating myself
 ; too bad i don't really know guile
 ;(use-modules (gnu))
-(use-service-modules networking ssh)
-(use-package-modules bootloaders ssh)
-
+;(use-service-modules networking ssh)
+;(use-package-modules bootloaders ssh)
+;(define %bruh2 (include "./deploy.scm"))
 ; https://stumbles.id.au/getting-started-with-guix-deploy.html 
 ; https://guix.gnu.org/manual/en/html_node/operating_002dsystem-Reference.html
-(define %system
-  (operating-system
-    (host-name "envy-laptop")
-    (locale "en_US.utf8")
-    (timezone "America/New_York")
-    (bootloader (bootloader-configuration
-                  (bootloader grub-efi-bootloader)
-                  ; use targets
-                  (targets "/boot/efi")
-                  ;(terminal-outputs '(console))
-                  ))
-    (file-systems (cons (file-system
-                          (mount-point "/")
-                          ;(device "/dev/sda1")
-                          ;(device (file-system-label "my-root"))
-                          (device "/dev/null")
-                          (type "dummy"))
-                        %base-file-systems))
-    (services
-      (append (list (service dhcp-client-service-type)
-                    (service openssh-service-type
-                             (openssh-configuration
-                               (openssh openssh-sans-x)
-                               (permit-root-login #t)
-                               (password-authentication? #f)
-                               (use-pam? #f)
-                               (authorized-keys
-                                 `(("root" ,(local-file "id_ed25519.pub")))))))
-              %base-services))))
 (list (machine
-        (operating-system %system)
         ; 'managed-host is a machine that is already running the Guix system and available over the network (via ssh)
+        ;(operating-system (include "./deploy.scm"))
+        (operating-system my-system)
         (environment managed-host-environment-type)
         (configuration (machine-ssh-configuration 
                          ;; this is the domain or ip address of the target machine
