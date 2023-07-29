@@ -8,3 +8,7 @@ sudo guix archive --generate-key
 ```
 https://stumbles.id.au/getting-started-with-guix-deploy.html
 https://www.thedroneely.com/posts/guix-in-a-linux-container/
+
+
+better variable templating! scheme include variable from other file! or something idk
+just use (define %system with args)

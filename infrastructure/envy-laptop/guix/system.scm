@@ -20,20 +20,51 @@
                  ;todo remove timezone not necessary? defaults are fine?
                  (timezone "Etc/UTC")
                  (bootloader (bootloader-configuration
-                              (bootloader grub-efi-bootloader)
+                               ; https://guix.gnu.org/manual/en/html_node/Building-the-Installation-Image.html
+                              ;(bootloader grub-efi-bootloader) ; vm
+                              (bootloader grub-bootloader) ; bootable iso9066
                               ; use targets
-                              (targets "/boot/efi")
+                              ; from guix source tree gnu/system/install.scm
+                              (targets '("/dev/sda")) ; bootable iso9066
+                              ;todo test with vm??
+                              ; also see guix gnu/system/vm.scm
+                              ;(targets "/boot/efi") ; vm
                               ;(terminal-outputs '(console))
                               ))
                  ; not specifying this causes
                  ; guix deploy: error: failed to deploy envy-laptop: missing root file system
-                 (file-systems (cons (file-system
+                 ;(file-systems (cons (file-system
+                 ;                      (mount-point "/")
+                 ;                      (device "/dev/sda1")
+                 ;                      (type "ext4"))
+                 ;                    %base-file-systems))
+                 (swap-devices (list (swap-space
+                        (target (uuid
+                                 "dc7b01d4-9397-4d65-bb55-42624b99788e")))))
+                 (file-systems (cons* (file-system
+                                       (mount-point "/boot/efi")
+                                       (device (uuid "BC0D-7922"
+                                                     'fat16))
+                                       (type "vfat"))
+                                     (file-system
                                        (mount-point "/")
-                                       (device "/dev/sda1")
-                                       (type "ext4"))
-                                     %base-file-systems))
+                                       ; /dev/sda4
+                                       (device (uuid "30d92fd9-8068-46c6-94b8-8770bc24494d"
+                                                     'ext4))
+                                       (type "ext4")) %base-file-systems))
                  (services
-                  (append (list (service dhcp-client-service-type)
+                  (append (list ;(service dhcp-client-service-type)
+                                (service static-networking-service-type
+                                         (list (static-networking
+                                                (addresses
+                                                 (list (network-address
+                                                        (device "eno1")
+                                                        (value "192.168.0.6/24"))))
+                                                (routes
+                                                 (list (network-route
+                                                        (destination "default")
+                                                        (gateway "192.168.0.1"))))
+                                                (name-servers '("192.168.0.1")))))
                                 (service openssh-service-type
                                          (openssh-configuration
                                           (openssh openssh-sans-x)

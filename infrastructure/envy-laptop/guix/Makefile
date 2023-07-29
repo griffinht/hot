@@ -1,8 +1,12 @@
 # port to expose ssh on host (when testing locally)
-SSH_PORT=2222
+SSH_PORT=22
+HOST=192.168.0.6
 
 bootstrap.scm: system.scm
+	touch '$@'
+
 deploy.scm: system.scm
+	touch '$@'
 
 build.docker.bin: bootstrap.scm
 	# --network flag is important!
@@ -62,11 +66,13 @@ deploy: deploy.scm
 # todo this should probably have a run prereq??
 ssh:
 	# ignore host's known hosts so we don't mess up localhost with temporary keys
-	ssh -p '$(SSH_PORT)' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost
+	ssh -p '$(SSH_PORT)' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 'root@$(HOST)'
 
-image: bootstrap.scm
+# todo transitive deps don't work bootstrap.scm: system.scm - maybe touch '$@'
+image.bin: bootstrap.scm
 	# todo save provenance
-	guix system image '$<' . '$@' || rm '$@'
+	# https://guix.gnu.org/manual/en/html_node/Building-the-Installation-Image.html
+	guix system image -t iso9660 '$<' > '$@' || rm '$@'
 
 clean:
 	rm -f *.bin

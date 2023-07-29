@@ -9,7 +9,8 @@
         (environment managed-host-environment-type)
         (configuration (machine-ssh-configuration 
                          ;; this is the domain or ip address of the target machine
-                         (host-name "localhost")
+                         (host-name "192.168.0.6")
+                         ;(host-name "localhost")
                          ;; why is system required?
                          (system "x86_64-linux")
                          ;; what user to login as, default root
@@ -25,9 +26,10 @@
                          ;; the right thing is to log in via ssh and then add the fingerprint
                          ;; todo configure via .env? shouldn't really be in vcs... actually maybe it should
                          ;; obtain with `ssh-keyscan -p 2222 hostname`
-                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILnuVd2tmq6/XpE7MxdookTkByErZF8s3kD1KjGHUzyK")
+                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILVNdmLV0QcqU8Z4apBeO58eWLYq2BPlvNzDiZs999Ve")
                          ;; private key of host machine to authenticate with
                          ;; leave default its fine i think
                          ;;(identity "id_ed25519.pub")
                          ;; ssh server port, default 22
-                         (port 2222)))))
+                         ;(port 2222)))))
+                         (port 22)))))
