@@ -1,1 +1,3 @@
 *.bin
+# ssh public keys
+*.pub
