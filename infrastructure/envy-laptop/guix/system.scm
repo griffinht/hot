@@ -84,5 +84,6 @@
                                    (append (list (local-file "/etc/guix/signing-key.pub"))
                                            %default-authorized-guix-keys)))))
                           ))))
-                    ; also do full upgradfe??
-                    ;(service unattended-upgrade-service-type)
+                    ; unattended upgrades - why not i suppose todo hopefully this doesn't break anything
+                    ; https://guix.gnu.org/manual/en/html_node/Unattended-Upgrades.html
+                    (service unattended-upgrade-service-type)
