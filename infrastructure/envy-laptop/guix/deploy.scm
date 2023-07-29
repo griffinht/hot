@@ -25,7 +25,7 @@
                          ;; the right thing is to log in via ssh and then add the fingerprint
                          ;; todo configure via .env? shouldn't really be in vcs... actually maybe it should
                          ;; obtain with `ssh-keyscan -p 2222 hostname`
-                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHtFq93lTGFEabiQ9Gi4UKLbijRAJQDPkgLMNJprNsN")
+                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILnuVd2tmq6/XpE7MxdookTkByErZF8s3kD1KjGHUzyK")
                          ;; private key of host machine to authenticate with
                          ;; leave default its fine i think
                          ;;(identity "id_ed25519.pub")

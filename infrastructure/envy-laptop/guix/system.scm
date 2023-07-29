@@ -25,12 +25,13 @@
                               (targets "/boot/efi")
                               ;(terminal-outputs '(console))
                               ))
-                 ;(file-systems (cons (file-system
-                 ;                      (mount-point "/")
-                 ;                      (device "/dev/vda1")
-                 ;                      (type "ext4"))
-                 ;                    %base-file-systems))
-                 (file-systems %base-file-systems)
+                 ; not specifying this causes
+                 ; guix deploy: error: failed to deploy envy-laptop: missing root file system
+                 (file-systems (cons (file-system
+                                       (mount-point "/")
+                                       (device "/dev/sda1")
+                                       (type "ext4"))
+                                     %base-file-systems))
                  (services
                   (append (list (service dhcp-client-service-type)
                                 (service openssh-service-type
@@ -41,4 +42,16 @@
                                           (use-pam? #f)
                                           (authorized-keys
                                            `(("root" ,(local-file "id_ed25519.pub")))))))
-                          %base-services))))
+            (modify-services %base-services
+              ;; The server must trust the Guix packages you build. If you add the signing-key
+              ;; manually it will be overridden on next `guix deploy` giving
+              ;; "error: unauthorized public key". This automatically adds the signing-key.
+              (guix-service-type config =>
+                                 (guix-configuration
+                                  (inherit config)
+                                  (authorized-keys
+                                   (append (list (local-file "/etc/guix/signing-key.pub"))
+                                           %default-authorized-guix-keys)))))
+                          ))))
+                    ; also do full upgradfe??
+                    ;(service unattended-upgrade-service-type)
