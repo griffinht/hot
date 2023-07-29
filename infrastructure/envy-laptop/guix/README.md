@@ -6,3 +6,5 @@ if not, then run this command on the host machine
 ```
 sudo guix archive --generate-key
 ```
+https://stumbles.id.au/getting-started-with-guix-deploy.html
+https://www.thedroneely.com/posts/guix-in-a-linux-container/
