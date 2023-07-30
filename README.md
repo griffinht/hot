@@ -42,3 +42,7 @@ fix nginx timeouts
 when authelia takes too long i should see a nice 502 error or 529 error
 make sure the outermost proxy has the longest timeout
 search the internet for proxy timeout guidelines 
+
+
+
+
