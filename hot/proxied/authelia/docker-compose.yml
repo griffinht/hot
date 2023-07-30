@@ -11,13 +11,14 @@ volumes:
   authelia:
     external: true
 
+
 secrets:
   authelia_session:
-    external: true
+    file: /home/docker-user/secrets/authelia_session
   authelia_jwt:
-    external: true
+    file: /home/docker-user/secrets/authelia_jwt
   authelia_storage:
-    external: true
+    file: /home/docker-user/secrets/authelia_storage
 
 services:
     authelia:

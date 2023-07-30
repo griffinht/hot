@@ -12,13 +12,10 @@ volumes:
 
 secrets:
   authelia_session:
-    external: false
     file: ./mock/authelia_session
   authelia_jwt:
-    external: false
     file: ./mock/authelia_jwt
   authelia_storage:
-    external: false
     file: ./mock/authelia_storage
 
 services:
