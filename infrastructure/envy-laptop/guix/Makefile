@@ -1,6 +1,8 @@
 # port to expose ssh on host (when testing locally)
+#SSH_PORT=2222
 SSH_PORT=22
 HOST=192.168.0.6
+#HOST=localhost
 
 bootstrap.scm: system.scm
 	touch '$@'
@@ -37,7 +39,7 @@ guix.vm.bin: bootstrap.scm
 	# --no-graphic no need for graphics here
 	# C-a h for help
 	# C-a x to exit
-	guix system vm --save-provenance --no-graphic --persistent '$<' > '$@' || rm '$@'
+	guix system vm --no-graphic --persistent '$<' > '$@' || rm '$@'
 
 run.vm: guix.vm.bin
 	# share host networking and port forward

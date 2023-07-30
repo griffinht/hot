@@ -18,3 +18,11 @@ BARE METAL DEPLOY
 manually install guix system
 manually copy disk/bootloader config to system.scm
 guix deploy!
+
+todo use podman!
+https://docs.podman.io/en/latest/markdown/podman-system-service.1.html
+
+todo unit tests?
+    fastest deployment method
+    test ssh login with correct and incorrect keys
+    test users exist

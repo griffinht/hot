@@ -5,9 +5,13 @@
                ;#:use-module (gnu bootloader grub)
                ;#:use-module (gnu system file-systems)
                #:use-module (gnu)
-               #:use-module (gnu services networking)
-               #:use-module (gnu services ssh)
-               #:use-module (gnu packages bootloaders)
+               #:use-module (gnu services networking) ; dhcp or static ip configuration
+               #:use-module (gnu services ssh) ; ssh daemon
+               #:use-module (gnu services admin) ; unattended upgrades
+               #:use-module (gnu services desktop) ; elogind (for docker)
+               #:use-module (gnu services dbus) ; dbus (for docker)
+               #:use-module (gnu services docker) ; docker
+               #:use-module (gnu packages bootloaders) ; grub
                #:use-module (gnu packages ssh))
 ; https://stumbles.id.au/getting-started-with-guix-deploy.html 
 ; https://guix.gnu.org/manual/en/html_node/operating_002dsystem-Reference.html
@@ -52,6 +56,11 @@
                                        (device (uuid "30d92fd9-8068-46c6-94b8-8770bc24494d"
                                                      'ext4))
                                        (type "ext4")) %base-file-systems))
+                 (users (cons (user-account
+                                (name "docker-user")
+                                (group "users")
+                                (supplementary-groups '("docker")))
+                              %base-user-accounts))
                  (services
                   (append (list ;(service dhcp-client-service-type)
                                 (service static-networking-service-type
@@ -65,25 +74,34 @@
                                                         (destination "default")
                                                         (gateway "192.168.0.1"))))
                                                 (name-servers '("192.168.0.1")))))
+                                ; unattended upgrades - why not i suppose todo hopefully this doesn't break anything
+                                ; https://guix.gnu.org/manual/en/html_node/Unattended-Upgrades.html
+                                (service unattended-upgrade-service-type)
                                 (service openssh-service-type
                                          (openssh-configuration
                                           (openssh openssh-sans-x)
-                                          (permit-root-login #t)
+                                          (permit-root-login `prohibit-password)
                                           (password-authentication? #f)
-                                          (use-pam? #f)
+                                          ; defaults
+                                          ;(challenge-response-authentication? #f) ; not needed?
+                                          ;(use-pam? #t) ; allows login for locked user accounts
                                           (authorized-keys
-                                           `(("root" ,(local-file "id_ed25519.pub")))))))
-            (modify-services %base-services
-              ;; The server must trust the Guix packages you build. If you add the signing-key
-              ;; manually it will be overridden on next `guix deploy` giving
-              ;; "error: unauthorized public key". This automatically adds the signing-key.
-              (guix-service-type config =>
-                                 (guix-configuration
-                                  (inherit config)
-                                  (authorized-keys
-                                   (append (list (local-file "/etc/guix/signing-key.pub"))
-                                           %default-authorized-guix-keys)))))
-                          ))))
-                    ; unattended upgrades - why not i suppose todo hopefully this doesn't break anything
-                    ; https://guix.gnu.org/manual/en/html_node/Unattended-Upgrades.html
-                    (service unattended-upgrade-service-type)
+                                           `(("root" ,(local-file "id_ed25519.pub"))
+                                             ("docker-user" ,(local-file "id_ed25519.pub"))))))
+                                (service elogind-service-type) ; (for docker)
+                                ; todo configure lid switch ignore?
+                                ; https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
+                                ; https://www.reddit.com/r/GUIX/comments/w5w15p/comment/ihbh4zs/
+                                (service dbus-root-service-type) ; (for docker)
+                                (service docker-service-type))
+                          (modify-services %base-services
+                          ;; The server must trust the Guix packages you build. If you add the signing-key
+                          ;; manually it will be overridden on next `guix deploy` giving
+                          ;; "error: unauthorized public key". This automatically adds the signing-key.
+                          (guix-service-type config =>
+                                             (guix-configuration
+                                              (inherit config)
+                                              (authorized-keys
+                                               (append (list (local-file "/etc/guix/signing-key.pub"))
+                                                       %default-authorized-guix-keys)))))
+                                      ))))
