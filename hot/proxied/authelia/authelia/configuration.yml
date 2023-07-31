@@ -40,6 +40,9 @@ session:
     redis:
         host: redis
         port: 6379
+    #consider increasing this
+    #https://www.authelia.com/configuration/session/introduction/
+    #remember_me_duration:  1M
 
 storage:
     local:
