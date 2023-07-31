@@ -10,7 +10,7 @@ hot.service: \
 	nitter.proxied.service \
 	photoprism.proxied.service \
 	quetre.proxied.service \
-	rimgo.proxided.service \
+	rimgo.proxied.service \
 	rss.proxied.service \
 	scribe.proxied.service \
 	searx.proxied.service \
@@ -31,7 +31,7 @@ hot.service: \
 	docker compose up -d '$*'
 	touch '$@'
 
-scribe.service: scribe.image.service
+scribe.proxied.service: scribe.image.service
 
 scribe.image.service:
 	./proxied/scribe/build.sh
