@@ -5,8 +5,8 @@ networks:
   nginx_exporter:
     driver: bridge
     internal: true
-  data_internal:
-    name: data_internal
+  gossa_internal:
+    name: gossa_internal
   speedtest_internal:
     name: speedtest_internal
   vaultwarden_internal:
@@ -42,7 +42,7 @@ services:
       restart: always
       networks:
         - internal
-        - data_internal
+        - gossa_internal
         - speedtest_internal
         - vaultwarden_internal
         - rss_default
