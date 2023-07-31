@@ -12,6 +12,8 @@
                #:use-module (gnu services dbus) ; dbus (for docker)
                #:use-module (gnu services docker) ; docker
                #:use-module (gnu packages bootloaders) ; grub
+               #:use-module (gnu packages curl) ; curl
+               #:use-module (gnu packages certs) ; nss-certs
                #:use-module (gnu packages ssh))
 ; https://stumbles.id.au/getting-started-with-guix-deploy.html 
 ; https://guix.gnu.org/manual/en/html_node/operating_002dsystem-Reference.html
@@ -61,6 +63,11 @@
                                 (group "users")
                                 (supplementary-groups '("docker")))
                               %base-user-accounts))
+                 (packages
+                   (append (list nss-certs ; tls certs from mozilla, required for https to work
+                                 curl ; helpful for occasional debugging
+                                 )
+                           %base-packages))
                  (services
                   (append (list ;(service dhcp-client-service-type)
                                 (service static-networking-service-type
@@ -88,6 +95,9 @@
                                           (authorized-keys
                                            `(("root" ,(local-file "id_ed25519.pub"))
                                              ("docker-user" ,(local-file "id_ed25519.pub"))))))
+                                ;todo wireguard
+                                ;todo sysctl
+                                ; https://guix.gnu.org/manual/en/html_node/Services.html
                                 (service elogind-service-type) ; (for docker)
                                 ; todo configure lid switch ignore?
                                 ; https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
