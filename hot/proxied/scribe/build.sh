@@ -5,8 +5,8 @@ cd "$DIR" || exit 1
 
 #todo broken
 
-GIT_REF='761e4ef170da87a36160a024e1cf1a1275751b56'
-SHA256='326e77a96ef586174d2c00bdf4b76dc812a1bec8e4cc0e4271915c95a722ed85  tar.gz'
+GIT_REF='7dc577eff0af4fd75d70b8e27d29af0333caf944'
+SHA256='64e3c10656c218fe37ca13f634c6669bac9c2472c14ce39ce13b0148e0d0309e  tar.gz'
 
 if ! (curl "https://git.sr.ht/~edwardloveall/scribe/archive/$GIT_REF.tar.gz" > tar.gz \
     && echo "$SHA256" | sha256sum -c \
