@@ -13,6 +13,9 @@ services:
         networks:
             - default
             - internal
+        depends_on:
+          redis:
+            condition: service_started
     redis:
         image: redis:alpine@sha256:a22bc2d15940ae67680611827b3e9b69150d7c11c063415c3775c35d163bb555
         restart: always

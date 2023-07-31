@@ -11,6 +11,9 @@ services:
         restart: always
         networks:
             - internal
+        depends_on:
+          backend:
+            condition: service_started
     backend:
         image: grocy/backend:v3.3.2
         restart: always
