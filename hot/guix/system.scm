@@ -12,5 +12,11 @@
   (packages (append (list nss-certs ; tls certs from mozilla, required for https to work
                           curl) ; helpful for occasional debugging
                     %base-packages))
-  (services (append (list (service nginx-service-type))
+  (services (append (list (service nginx-service-type
+                                   (nginx-configuration
+                                     (server-blocks
+                                       (list (nginx-server-configuration
+                                               (listen '("8080"))
+                                               ;(root "/srv/http/www.example.com")
+                                               ))))))
                     %base-services)))
