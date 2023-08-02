@@ -19,3 +19,10 @@ require vpn to use
 set up vpn on hot
 ansible all the things???
 https://news.ycombinator.com/item?id=28327694
+
+# TODO
+todo guixify
+
+https://guix.gnu.org/manual/en/html_node/DNS-Services.html
+knot server ?
+
