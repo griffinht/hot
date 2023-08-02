@@ -6,6 +6,7 @@
                ;#:use-module (gnu system file-systems)
                #:use-module (gnu)
                #:use-module (gnu services networking) ; dhcp or static ip configuration
+               #:use-module (gnu services vpn) ; wireguard
                #:use-module (gnu services ssh) ; ssh daemon
                #:use-module (gnu services admin) ; unattended upgrades
                #:use-module (gnu services desktop) ; elogind (for docker)
@@ -103,7 +104,23 @@
                                 ; https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
                                 ; https://www.reddit.com/r/GUIX/comments/w5w15p/comment/ihbh4zs/
                                 (service dbus-root-service-type) ; (for docker)
-                                (service docker-service-type))
+                                (service docker-service-type)
+                                ; todo https://www.procustodibus.com/blog/2022/11/wireguard-jumphost/
+                                (service wireguard-service-type
+                                         (wireguard-configuration
+                                           (addresses '("10.0.0.1/32"))
+                                           (port 51820)
+                                           (peers
+                                             (list
+                                               (wireguard-peer
+                                                 (name "smart-laptop")
+                                                 (public-key "X+xOySbHLKpA5j4Wo0Aw+VjeJOVruaSWLnknRwsrGAg=")
+                                                 (allowed-ips '("10.0.0.2/32")))
+                                               (wireguard-peer
+                                                 (name "phone")
+                                                 (public-key "dp4CzK/A0cZIha5Z9tsCsUZhEbyhicNFMiWDF7Mgf1g=")
+                                                 (allowed-ips '("10.0.0.3/32")))
+                                               )))))
                           (modify-services %base-services
                           ;; The server must trust the Guix packages you build. If you add the signing-key
                           ;; manually it will be overridden on next `guix deploy` giving
