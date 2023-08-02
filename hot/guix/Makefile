@@ -39,6 +39,7 @@ vm.bin: system.scm
 		-m 1024 \
 		-nic 'user,model=virtio-net-pci,hostfwd=tcp::$(HOST_PORT)-:$(CLIENT_PORT)'
 
+#https://guix.gnu.org/manual/en/html_node/Invoking-guix-pack.html
 # todo https://github.com/pjotrp/guix-notes/blob/master/CONTAINERS.org
 %.pack.bin:
 	#--entry-point=
