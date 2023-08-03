@@ -26,3 +26,5 @@ todo guixify
 https://guix.gnu.org/manual/en/html_node/DNS-Services.html
 knot server ?
 
+https://lowendtalk.com/discussion/174724/custom-iso-arch-linux-on-racknerd-vps
+https://dns.he.net/

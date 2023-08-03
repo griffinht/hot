@@ -32,3 +32,14 @@ todo unit tests?
 
 
 # TODO
+monitoring
+https://github.com/MindFlavor/prometheus_wireguard_exporter
+
+ci
+https://guix.gnu.org/manual/en/html_node/Continuous-Integration.html
+
+samba
+https://guix.gnu.org/manual/en/html_node/Samba-Services.html
+
+nfs
+https://alexdelorenzo.dev/linux/2020/01/28/nfs-over-wireguard.html
