@@ -98,10 +98,7 @@
                                              ("docker-user" ,(local-file "id_ed25519.pub"))))))
                                 ;todo wireguard
                                 ;todo sysctl
-                                ; https://guix.gnu.org/manual/en/html_node/Services.html
                                 (service elogind-service-type) ; (for docker)
-                                ; todo configure lid switch ignore?
-                                ; https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
                                 ; https://www.reddit.com/r/GUIX/comments/w5w15p/comment/ihbh4zs/
                                 (service dbus-root-service-type) ; (for docker)
                                 (service docker-service-type)
