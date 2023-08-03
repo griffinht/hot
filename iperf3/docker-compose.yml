@@ -1,13 +1,8 @@
-networks:
-  internal:
-    driver: bridge
-    internal: true
 services:
   iperf3:
-    build: ./iperf3
+    image: griffinht/iperf
+    command: -s # server mode
     restart: unless-stopped
-    networks:
-        - internal
     ports:
       - 5201:5201/udp
       - 5201:5201/tcp
