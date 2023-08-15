@@ -1,0 +1,35 @@
+#https://www.cyrusimap.org/sasl/
+#docker run --rm -it --network=ldap_internal mbentley/ldap-utils ldapwhoami -x -H ldap://ldap -D "cn=admin,dc=example,dc=com" -w password
+#https://github.com/i-core/werther
+#https://github.com/majewsky/portunus
+#https://github.com/glauth/glauth
+#https://github.com/gitphill/ldap-alpine
+#https://github.com/lldap/lldap
+#https://github.com/lldap/lldap/blob/main/example_configs/vaultwarden.md
+#https://www.authelia.com/reference/guides/ldap/#implementation-guide
+#https://www.authelia.com/configuration/first-factor/ldap/
+# https://github.com/lldap/lldap#with-docker
+networks:
+    internal:
+        driver: bridge
+        internal: true
+volumes:
+    ldap:
+        external: true
+services:
+    lldap:
+        image: nitnelave/lldap
+        restart: always
+        ports:
+          - 3890:3890
+          - 6360:6360
+          - 17170:17170
+        networks:
+            - internal
+        volumes:
+          - ldap:/data
+    ldap:
+      # port 389
+      build: ldap
+      networks:
+        - internal
