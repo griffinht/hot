@@ -5,6 +5,8 @@ networks:
   redis:
     driver: bridge
     internal: true
+  #ldap_internal:
+    #external: true
 
 volumes:
   authelia_internal:
@@ -30,6 +32,7 @@ services:
         networks:
             - internal
             - redis
+            #- ldap_internal
           # todo undo
         environment: 
           - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/authelia_session
