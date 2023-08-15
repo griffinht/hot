@@ -8,5 +8,5 @@
                          (host-name "nerd-vps.griffinht.com")
                          (system "x86_64-linux")
                          (user "root")
-                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEYgDBZArT6Yv22sNHZqXPujGCyeZhAvzq+hRjElGNk")
+                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGsP1i8TV3+b/AiWidM5Yg5jMmkc/yfnMUG6yHFz+zfs")
                          (port 22)))))
