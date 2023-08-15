@@ -1,6 +1,8 @@
 # allow parallelism
 MAKEFLAGS := --jobs
 
+default: hot.service
+
 hot.service: \
 	authelia.proxied.service \
 	gossa.proxied.service \
@@ -17,10 +19,14 @@ hot.service: \
 	speedtest.proxied.service \
 	vaultwarden.proxied.service
 
-	
 %.proxied.service: proxied/%/docker-compose.yml \
 	proxied/%/production.env
 	cd 'proxied/$*' && source ./production.env && docker compose up -d '$*'
+	touch '$@'
+
+%.service: docker-compose.yml \
+	production.env
+	source ./production.env && docker compose up -d '$*'
 	touch '$@'
 
 %.proxied.service: proxied/%/docker-compose.yml
