@@ -25,8 +25,22 @@ ntp:
     disable_startup_check: true
 
 authentication_backend:
-    file:
+  file:
         path: /data/users_database.yml
+  #ldap:
+    #implementation: custom
+    #url: ldap://ldap
+    #base_dn: dc=example,dc=com
+    #additional_users_dn: ou=Users
+    #users_filter: (&({username_attribute}={input})(objectClass=inetOrgPerson))
+    #username_attribute: uid
+    #mail_attribute: mail
+      #display_name_attribute: displayName
+      #additional_groups_dn: ou=groups
+    #groups_filter: (&(member={dn})(objectClass=groupofnames))
+    #group_name_attribute: cn
+    #user: cn=admin,dc=example,dc=com
+    #password: password
 
 access_control:
     default_policy: two_factor
