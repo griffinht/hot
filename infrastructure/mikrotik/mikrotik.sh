@@ -4,6 +4,10 @@
 
 HOST=192.168.0.6
 EXTERNAL_ADDRESS=98.21.42.147
+# todo ansible??? probably more trouble than worth
+#https://stackoverflow.com/questions/68846248/how-can-i-add-my-ssh-public-key-to-a-mikrotik-router-device-using-the-command-li
+#todo disable winbox roman telnet
+#todo make sure ssh password login is disabled
 
 cat << EOF
 # http with nat hairpin
