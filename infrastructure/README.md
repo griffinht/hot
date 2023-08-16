@@ -1,35 +1,35 @@
-todo google wireguard dns internal network
+todo dns!
+https://www.youtube.com/watch?v=7MWhwdbKW5c
+update dns record, then ci tests to make sure dns is correct???
+but also whats the point if we know its correct :/
+
+local tests if you really want them
+point the tests at a guix machine
+
+
+
+
+
+
+domain nameservers:
+doug.ns.cloudflare.com
+marjory.ns.cloudflare.com
+#todo add your own! knot dns!
+#todo add non cloudflare which works as slave! hurricane electric? im sure there are many others
 
 griffinht.com
-    hot - 98.21.42.147 via dynamic ip
-        192.168.0.1 router
-        192.168.0.5 hot-desktop
-        192.168.0.6 envy-laptop
-    wg (provide alternate dns??)
-        10.0.0.1 nerd-vps
-        10.0.0.2 hot-desktop
-        10.0.0.3 envy-laptop
-        10.0.0.4 smart-laptop
-        10.0.0.5 phone
-        10.0.0.6 other-phone
-
-
-
-griffinht.com
-    todo what if dynamic ip was lost?
-    todo mikrotik auto config scripts
-
-    (root), hot, \*.hot - 98.21.42.147 (dynamic ip)
+    windy -> (dynamic ip manually updated) todo auto update script
         :80 -> 192.168.0.6
         :443 -> 192.168.0.6
         :51820 -> 192.168.0.6
         (internet accessible via nat)
         (internally accessible via hairpin nat)
+    (root), hot, \*.hot -> windy 
     nerd-vps - 198.46.248.168 (static ip)
-        :22 (todo no internet??)
+        :22 (todo remove internet access, allow only via wg???)
         :51820
-    lan - (mikrotik static dns on 192.168.0.1)
-        router      192.168.0.1
+    lan - (lil-tik static dns on 192.168.0.1)
+        lil-tik     192.168.0.1
         hot-desktop 192.168.0.5
         envy-laptop 192.168.0.6
 
