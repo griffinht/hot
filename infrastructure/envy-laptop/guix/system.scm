@@ -95,16 +95,17 @@
                                          (wireguard-configuration
                                            (addresses '("10.0.0.1/32"))
                                            (port 51820)
+                                           ; todo postup postdown iptables nftable!?!?
                                            (peers
                                              (list
                                                (wireguard-peer
                                                  (name "smart-laptop")
                                                  (public-key "V//LVPk6jLy6tQWxIyqDapeP7kj2bZ84YAsmCoigdQ4=")
-                                                 (allowed-ips '("10.0.0.2/32")))
+                                                 (allowed-ips '("10.0.0.4/32")))
                                                (wireguard-peer
                                                  (name "phone")
-                                                 (public-key "dp4CzK/A0cZIha5Z9tsCsUZhEbyhicNFMiWDF7Mgf1g=")
-                                                 (allowed-ips '("10.0.0.3/32")))
+                                                 (public-key "wYQ3XafEpdjMIdkbjRFm4iVAF8v0sIYzLrcxgkLHTjI=")
+                                                 (allowed-ips '("10.0.0.5/32")))
                                                )))))
                           (modify-services %base-services
                           ;; The server must trust the Guix packages you build. If you add the signing-key
