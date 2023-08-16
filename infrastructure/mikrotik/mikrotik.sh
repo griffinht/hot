@@ -37,6 +37,8 @@ cat << EOF
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.6 protocol=tcp
 # wireguard
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51820 to-addresses=192.168.0.6 protocol=udp
+# wire2
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51821 to-addresses=192.168.0.5 protocol=udp
 
 
 
