@@ -9,9 +9,20 @@ cat << EOF
 
 # static local dns
 /ip dns static add name=lil-tik.lan.griffinht.com address=192.168.0.1
+#/ip dns static add name=fruit-pi.lan.griffinht.com address=192.168.0.2
+#/ip dns static add name=tp-wap.lan.griffinht.com address=192.168.0.3
 /ip dns static add name=hot-desktop.lan.griffinht.com address=192.168.0.5
 /ip dns static add name=envy-laptop.lan.griffinht.com address=192.168.0.6
+
+#something like this
 #todo static dhcp lease
+#/ip dhcp-server lease make-static
+#
+#192.168.0.1 lil-tik static
+#192.168.0.2 fruit-pi static
+#/ip dhcp-server lease add address=192.168.0.3 mac-address=E4:11:5B:61:70:DD server=defconf
+#/ip dhcp-server lease add address=192.168.0.5 mac-address=fc:aa:14:b0:1b:64 server=defconf
+/ip dhcp-server lease add address=192.168.0.6 mac-address=E4:11:5B:61:70:DD server=defconf
 
 # dynamic dns for hairpin nat external ip
 /ip firewall address-list add address=windy.griffinht.com list=WANIP
@@ -35,3 +46,4 @@ EOF
 
 #away
 #ip dns static add name=big-tik.lan.griffinht.com address=192.168.0.1
+#ip dns static add name=tp2-wap.lan.griffinht.com address=192.168.0.4

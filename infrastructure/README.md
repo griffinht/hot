@@ -28,11 +28,15 @@ griffinht.com
     nerd-vps - 198.46.248.168 (static ip)
         :22 (todo remove internet access, allow only via wg???)
         :51820
-    lan - (lil-tik static dns on 192.168.0.1)
+    lan - (lil-tik static dns on 192.168.0.1 (actually might move this to fruit-pi??))
         lil-tik     192.168.0.1
+        fruit-pi    192.168.0.2
+        tp-wap      192.168.0.3
         hot-desktop 192.168.0.5
         envy-laptop 192.168.0.6
 
+#todo read this interesting and very complex setup https://dev.to/tangramvision/what-they-don-t-tell-you-about-setting-up-a-wireguard-vpn-1h2g 
+#todo rethink ip for conflicts! https://en.wikipedia.org/wiki/Reserved_IP_addresses
     wg (dnsmasq on 10.0.0.1)
         envy-laptop     10.0.0.1
         hot-desktop     10.0.0.2
