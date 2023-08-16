@@ -1,2 +1,2 @@
 up:
-	source ./production.env; docker compose up -d griffinht
+	source ./production.env; docker compose up --detach --build griffinht
