@@ -43,14 +43,14 @@
                                 ; todo https://www.procustodibus.com/blog/2022/11/wireguard-jumphost/
                                 (service wireguard-service-type
                                          (wireguard-configuration
-                                           (addresses '("10.0.0.1/32"))
+                                           (addresses '("10.0.0.3/32"))
                                            (port 51820)
                                            (peers
                                              (list
                                                (wireguard-peer
                                                  (name "smart-laptop")
                                                  (public-key "V//LVPk6jLy6tQWxIyqDapeP7kj2bZ84YAsmCoigdQ4=")
-                                                 (allowed-ips '("10.0.0.2/32")))
+                                                 (allowed-ips '("10.0.0.4/32")))
                                                )))))
                           (modify-services %base-services
                           ;; The server must trust the Guix packages you build. If you add the signing-key
