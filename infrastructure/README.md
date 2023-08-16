@@ -39,3 +39,4 @@ griffinht.com
         smart-laptop    10.0.0.4
         phone           10.0.0.5
         other-phone     10.0.0.6
+        ugly-laptop     10.0.0.7
