@@ -26,7 +26,7 @@ hot.service: \
 
 %.service: docker-compose.yml \
 	production.env
-	source ./production.env && docker compose up -d '$*'
+	source ./production.env && docker compose up --build --detach '$*'
 	touch '$@'
 
 %.proxied.service: proxied/%/docker-compose.yml
@@ -34,7 +34,7 @@ hot.service: \
 	touch '$@'
 
 %.service: docker-compose.yml
-	docker compose up -d '$*'
+	docker compose up --build --detach '$*'
 	touch '$@'
 
 scribe.proxied.service: scribe.image.service
