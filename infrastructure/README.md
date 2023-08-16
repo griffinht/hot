@@ -1,13 +1,8 @@
-todo dns!
-https://www.youtube.com/watch?v=7MWhwdbKW5c
-update dns record, then ci tests to make sure dns is correct???
-but also whats the point if we know its correct :/
-
-local tests if you really want them
-point the tests at a guix machine
 
 
 
+https://blog.miyuru.lk/setup-wireguard-with-global-ipv6/
+https://www.hardill.me.uk/wordpress/2021/04/20/setting-up-wireguard-ipv6/
 
 
 
