@@ -1,9 +1,12 @@
 #!/usr/bin/env sh
 
+#todo use local hostnames
+#todo use wireguard
+#
 #this script is bascially indempotent, run it multiple times and you should be fine
 #(won't delete old volumes)
 
-#todo remove prefix http_
+#todo remove prefix http_??
 #docker volume create --driver local --opt type=nfs --opt o=nfsvers=4,addr=192.168.0.5,rw --opt device=:/docker/http_acme http_acme
 docker volume create --driver local --opt type=nfs --opt o=nfsvers=4,addr=192.168.0.5,rw --opt device=:/docker/https_lego https_lego
 docker volume create --driver local --opt type=nfs --opt o=nfsvers=4,addr=192.168.0.5,rw --opt device=:/docker/https_lego/certificates https_certificates
