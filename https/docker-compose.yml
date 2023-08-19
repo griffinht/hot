@@ -46,9 +46,9 @@ services:
     #todo automate cron??
     image: goacme/lego 
       # https://github.com/go-acme/lego/pull/1378
-    command: --accept-tos --email bruhacme@griffinht.com -dns cloudflare --domains "griffinht.com" --domains "*.griffinht.com" --domains "*.hot.griffinht.com" --path /lego renew
+    command: --accept-tos --email bruhacme@griffinht.com -dns cloudflare --domains "griffinht.com" --domains "*.griffinht.com" --domains "*.hot.griffinht.com" --path /https_lego renew
     volumes: 
-      - https_lego:/lego
+      - https_lego:/https_lego
     environment:
       - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN?you forgot to configure Cloudflare see README}
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN?you forgot to configure Cloudflare see README}
