@@ -1,10 +1,7 @@
 #!/usr/bin/env sh
 
-set -e
-
-inotifywait -m -e modify conf |
+inotifywait -m -e modify nginx |
     while read -r direct event file; do
         docker compose exec --no-TTY nginx \
-            nginx -s reload
-        echo reloaded
+            nginx -s reload 2>> log
     done
