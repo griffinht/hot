@@ -1,6 +1,3 @@
 #!/usr/bin/env sh
 
-podman run --rm -it \
-    --name nginxtest \
-    -v ./conf:/etc/nginx/ \
-    nginx:alpine
+docker compose run --rm -it nginx

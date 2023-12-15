@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-podman exec -it \
-    nginxtest nginx "$@"
+docker compose exec -it \
+    nginx nginx "$@"
