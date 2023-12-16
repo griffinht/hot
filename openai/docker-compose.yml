@@ -3,6 +3,7 @@ services:
     build: .
     volumes: 
       - ./nginx:/workdir:ro
+      - ./secrets:/secrets:ro
     working_dir: /workdir
     ports:
       - 8080:80
