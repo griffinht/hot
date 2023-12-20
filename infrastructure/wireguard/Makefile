@@ -2,12 +2,12 @@
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-/etc/wireguard/%.privatekey:
-	wg genkey > '$@'
-	chmod 400 '$@'
+%.privatekey:
+	wg genkey | sudo tee '$@' > /dev/null
+	sudo chmod 400 '$@'
 
 %.pubkey: /etc/wireguard/%.privatekey
-	@wg pubkey < '$<'
+	@sudo cat '$<' | wg pubkey
 
 phone: /etc/wireguard/phone-client.privatekey \
 	/etc/wireguard/phone-client.conf.qrcode
@@ -21,9 +21,15 @@ smart-laptop: \
 	/etc/wireguard/envy_laptop.conf \
 	/etc/wireguard/nerd_vps.conf
 
-/etc/wireguard/%.conf: /etc/wireguard/smart-laptop.privatekey
-	source ./config.env; ./wg-generate-client-conf.sh "$$$*_publickey" 10.0.0.4 "$$$*_endpoint" "$$$*_allowed" '$<' > '$@'
-	chmod 400 '$@'
+cool-laptop: \
+	/etc/wireguard/hot_desktop.conf \
+	/etc/wireguard/envy_laptop.conf \
+	/etc/wireguard/nerd_vps.conf
+
+#todo pipe fail??
+/etc/wireguard/%.conf: /etc/wireguard/local.privatekey
+	source ./config.env; ./wg-generate-client-conf.sh "$$$*_publickey" 10.0.0.9 "$$$*_endpoint" "$$$*_allowed" '$<' | sudo tee '$@' > /dev/null
+	sudo chmod 400 '$@'
 
 # todo set dns?
 /etc/wireguard/%-client.conf: /etc/wireguard/%-client.privatekey
@@ -40,8 +46,8 @@ smart-laptop: \
 	qrencode -t ansiutf8 < '$*'
 
 clean:
-	rm -f /etc/wireguard/envy_laptop.conf
-	rm -f /etc/wireguard/hot_desktop.conf
-	rm -f /etc/wireguard/nerd_vps.conf
-	rm -f /etc/wireguard/phone-client.conf
-	rm -f /etc/wireguard/other-phone-client.conf
+	sudo rm -f /etc/wireguard/envy_laptop.conf
+	sudo rm -f /etc/wireguard/hot_desktop.conf
+	sudo rm -f /etc/wireguard/nerd_vps.conf
+	sudo rm -f /etc/wireguard/phone-client.conf
+	sudo rm -f /etc/wireguard/other-phone-client.conf
