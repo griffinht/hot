@@ -1,7 +1,7 @@
 # port to expose ssh on host (when testing locally)
 #SSH_PORT=2222
 SSH_PORT=22
-HOST=192.168.0.6
+HOST=envy-laptop.lan.griffinht.com
 #HOST=localhost
 
 bootstrap.scm: system.scm
