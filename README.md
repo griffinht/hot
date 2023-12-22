@@ -48,3 +48,28 @@ https://guix.gnu.org/en/cookbook/en/html_node/Container-Networking.html
 
 
 
+
+
+
+
+
+
+
+
+# XMAS
+backblaze monitoring
+btrfs monitoring - health info!
+
+BACK UP REPOS
+    csc481
+
+syncthing deploy for mom and me smart-laptop
+migrate cold to cold.hot
+
+can't send files to phone because gossa broke
+- gossa pwa is interesting and kind of doesn't work
+- gossa has a tendency to overwrite files when out of sync/leave empty files
+- couldn't upload 2.2m file from pc
+- control+U took several tries to make work
+- investigate gossa
+
