@@ -6,15 +6,11 @@
                ;#:use-module (gnu system file-systems)
                #:use-module (gnu)
                #:use-module (gnu services networking) ; dhcp or static ip configuration
+               #:use-module (gnu services virtualization) ; libvirt
                #:use-module (gnu services vpn) ; wireguard
                #:use-module (gnu services ssh) ; ssh daemon
-               #:use-module (gnu services admin) ; unattended upgrades
-               #:use-module (gnu services desktop) ; elogind (for docker)
-               #:use-module (gnu services dbus) ; dbus (for docker)
-               #:use-module (gnu services docker) ; docker
                #:use-module (gnu packages bootloaders) ; grub
-               #:use-module (gnu packages curl) ; curl
-               #:use-module (gnu packages certs) ; nss-certs
+               ;#:use-module (gnu packages certs) ; nss-certs
                #:use-module (gnu packages ssh))
 ; https://stumbles.id.au/getting-started-with-guix-deploy.html 
 ; https://guix.gnu.org/manual/en/html_node/operating_002dsystem-Reference.html
@@ -59,16 +55,13 @@
                                        (device (uuid "30d92fd9-8068-46c6-94b8-8770bc24494d"
                                                      'ext4))
                                        (type "ext4")) %base-file-systems))
+                 #|
                  (users (cons (user-account
                                 (name "docker-user")
                                 (group "users")
                                 (supplementary-groups '("docker")))
                               %base-user-accounts))
-                 (packages
-                   (append (list nss-certs ; tls certs from mozilla, required for https to work
-                                 curl ; helpful for occasional debugging
-                                 )
-                           %base-packages))
+                 |#
                  (services
                   (append (list (service dhcp-client-service-type)
                                 ; unattended upgrades - why not i suppose todo hopefully this doesn't break anything
@@ -85,12 +78,7 @@
                                           ;(use-pam? #t) ; allows login for locked user accounts
                                           (authorized-keys
                                            `(("root" ,(local-file "id_ed25519.pub"))
-                                             ("docker-user" ,(local-file "id_ed25519.pub"))))))
-                                (service elogind-service-type) ; (for docker)
-                                ; https://www.reddit.com/r/GUIX/comments/w5w15p/comment/ihbh4zs/
-                                (service dbus-root-service-type) ; (for docker)
-                                (service docker-service-type)
-                                ; todo https://www.procustodibus.com/blog/2022/11/wireguard-jumphost/
+                                             ))))
                                 (service wireguard-service-type
                                          (wireguard-configuration
                                            (addresses '("10.0.0.1/32"))
@@ -102,10 +90,6 @@
                                                  (name "smart-laptop")
                                                  (public-key "V//LVPk6jLy6tQWxIyqDapeP7kj2bZ84YAsmCoigdQ4=")
                                                  (allowed-ips '("10.0.0.4/32")))
-                                               (wireguard-peer
-                                                 (name "phone")
-                                                 (public-key "wYQ3XafEpdjMIdkbjRFm4iVAF8v0sIYzLrcxgkLHTjI=")
-                                                 (allowed-ips '("10.0.0.5/32")))
                                                )))))
                           (modify-services %base-services
                           ;; The server must trust the Guix packages you build. If you add the signing-key

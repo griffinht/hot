@@ -43,3 +43,10 @@ https://guix.gnu.org/manual/en/html_node/Samba-Services.html
 
 nfs
 https://alexdelorenzo.dev/linux/2020/01/28/nfs-over-wireguard.html
+
+
+
+
+
+
+root password is password lmao?
