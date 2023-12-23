@@ -1,3 +1,5 @@
+
+
 todo auto update? todo ci git hash update keep everything in vcs instead of random versions
 https://docs.docker.com/docker-hub/builds/
 https://docs.docker.com/docker-hub/webhooks/
