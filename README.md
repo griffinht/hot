@@ -56,9 +56,15 @@ https://guix.gnu.org/en/cookbook/en/html_node/Container-Networking.html
 
 
 
+# BACKUPS
+https://github.com/s3fs-fuse/s3fs-fuse
+
 # XMAS
 backblaze monitoring
 btrfs monitoring - health info!
+    syslog output!
+if btrfs detects errors they will be logged..
+https://linuxnatives.net/2015/using-raid-btrfs-recovering-broken-disks
 
 BACK UP REPOS
     csc481
@@ -73,3 +79,16 @@ can't send files to phone because gossa broke
 - control+U took several tries to make work
 - investigate gossa
 
+
+# VIRT
+https://blog.doublej472.com/post/libvirt-cluster/index.html
+
+# BACKUP
+https://tech.cccp.io/post/how-to-backup-a-btrfs-filesystem-using-amazon-s3-and-s3backer/
+
+PLAY SOME GAMES WITH CLOUD COMPUTE LMAO - self host this!
+https://lg.io/2015/04/12/run-your-own-high-end-cloud-gaming-service-on-ec2.html
+
+
+# AI
+https://github.com/mudler/LocalAI
