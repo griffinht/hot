@@ -1,19 +1,11 @@
-;; todo is there a more terse way to write this? like ;(use-package-modules bootloaders ssh)
 (define-module (system)
-               ;#:use-module (gnu system)
-               ;#:use-module (gnu bootloader)
-               ;#:use-module (gnu bootloader grub)
-               ;#:use-module (gnu system file-systems)
                #:use-module (gnu)
                #:use-module (gnu services networking) ; dhcp or static ip configuration
                #:use-module (gnu services ssh) ; ssh daemon
                #:use-module (gnu services virtualization) ; ssh daemon
-               ;#:use-module (gnu packages bootloaders) ; grub
-               ;#:use-module (gnu packages curl) ; curl
                ;#:use-module (gnu packages certs) ; nss-certs
                #:use-module (gnu packages ssh))
 ; https://stumbles.id.au/getting-started-with-guix-deploy.html 
-; https://guix.gnu.org/manual/en/html_node/operating_002dsystem-Reference.html
 (define-public %system
                (operating-system
                  (host-name "hot-desktop")
@@ -21,8 +13,23 @@
                  (timezone "Etc/UTC")
                  ; legaciy bios instead of uefi - hot-desktop doesn't support uefi
                  (bootloader (bootloader-configuration (bootloader grub-bootloader)))
-                 ; todo btrfs
-                 (file-systems %base-file-systems)
+                 (file-systems (cons*
+                                 (file-system
+                                   (mount-point "/")
+                                   (type "ext4")
+                                   (device (file-system-label "Guix_image")))
+                                 (file-system
+                                   (mount-point "/mnt/data")
+                                   (type "btrfs")
+                                   (options "compress=zstd")
+                                   (device (file-system-label "btrfs_data")))
+                                 %base-file-systems))
+                 ; https://issues.guix.gnu.org/34255
+                 ; note the swap file must be manually created
+                 ; fallocate --length 16G /swapfile
+                 ; chmod 0600 /swapfile
+                 ; mkswap /swapfile
+                 (swap-devices (list (swap-space (target "/swapfile"))))
                  #|
                  (packages
                    (append (list nss-certs ; tls certs from mozilla, required for https to work
