@@ -19,7 +19,9 @@
                  (host-name "hot-desktop")
                  ;todo remove timezone not necessary? defaults are fine?
                  (timezone "Etc/UTC")
+                 ; legaciy bios instead of uefi - hot-desktop doesn't support uefi
                  (bootloader (bootloader-configuration (bootloader grub-bootloader)))
+                 ; todo btrfs
                  (file-systems %base-file-systems)
                  #|
                  (packages
