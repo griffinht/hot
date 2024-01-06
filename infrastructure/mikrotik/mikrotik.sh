@@ -19,6 +19,7 @@ cat << EOF
 #/ip dhcp-server lease add address=192.168.0.3 mac-address=E4:11:5B:61:70:DD server=defconf
 /ip dhcp-server lease add address=192.168.0.5 mac-address=fc:aa:14:b0:1b:64 server=defconf
 /ip dhcp-server lease add address=192.168.0.6 mac-address=E4:11:5B:61:70:DD server=defconf
+/ip dhcp-server lease add address=192.168.0.7 mac-address=04:7c:16:d1:b4:97 server=defconf
 
 # dynamic dns for hairpin nat external ip
 /ip firewall address-list add address=windy.griffinht.com list=WANIP
@@ -30,13 +31,22 @@ cat << EOF
 #would need to be udp for wg????
 #/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.6 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
 
+
+
 # nginx
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.5 protocol=tcp
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.5 protocol=tcp
 # wireguard
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51820 to-addresses=192.168.0.5 protocol=udp
 # wire2
-/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51821 to-addresses=192.168.0.6 protocol=udp
+#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51821 to-addresses=192.168.0.6 protocol=udp
+
+
+
+# cool-desktop
+/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.7 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
+# terraria
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=7777 to-addresses=192.168.0.7 protocol=tcp
 
 
 
