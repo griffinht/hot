@@ -1,3 +1,8 @@
+nginx???
+https://github.com/traefik/traefik/wiki/Awesome-Traefik
+
+
+
 todo:
 unmaintained:
 nas/samba
@@ -57,7 +62,7 @@ https://guix.gnu.org/en/cookbook/en/html_node/Container-Networking.html
 
 
 # BACKUPS
-https://github.com/s3fs-fuse/s3fs-fuse
+https://www.rath.org/s3ql-vs-zfs-on-nbd.html
 
 # XMAS
 backblaze monitoring
@@ -65,9 +70,6 @@ btrfs monitoring - health info!
     syslog output!
 if btrfs detects errors they will be logged..
 https://linuxnatives.net/2015/using-raid-btrfs-recovering-broken-disks
-
-BACK UP REPOS
-    csc481
 
 syncthing deploy for mom and me smart-laptop
 migrate cold to cold.hot
@@ -78,6 +80,9 @@ can't send files to phone because gossa broke
 - couldn't upload 2.2m file from pc
 - control+U took several tries to make work
 - investigate gossa
+
+migrate to helm charts/kubernetes!
+    blog post about this!?!?! :)
 
 
 # VIRT
@@ -92,3 +97,9 @@ https://lg.io/2015/04/12/run-your-own-high-end-cloud-gaming-service-on-ec2.html
 
 # AI
 https://github.com/mudler/LocalAI
+
+
+# kubernetes
+
+kubernetes
+https://lars.hupel.info/articles/routing-the-interview/
