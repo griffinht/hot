@@ -18,12 +18,14 @@
                  (timezone "Etc/UTC")
                  (bootloader (bootloader-configuration
                               (bootloader grub-bootloader)))
-                 ; todo https://guix.gnu.org/manual/en/html_node/Swap-Space.html
+                 ; fallocate --length=1G /swappy
+                 ; todo doesn't work?????
                  (swap-devices (list (swap-space
                         (target "/swappy"))))
                  (file-systems (cons (file-system
                                        (mount-point "/")
-                                       (device "/dev/vda2")
+                                       (device (file-system-label "Guix_image"))
+                                       ;(device "/dev/vda2")
                                        (type "ext4"))
                                %base-file-systems))
                  (packages
@@ -39,8 +41,9 @@
                                           (permit-root-login `prohibit-password)
                                           (password-authentication? #f)
                                           (authorized-keys
-                                           `(("root" ,(local-file "id_ed25519.pub"))))))
+                                           `(("root" ,(local-file "id_ed25519.pub")))))))
                                 ; todo https://www.procustodibus.com/blog/2022/11/wireguard-jumphost/
+                                #|
                                 (service wireguard-service-type
                                          (wireguard-configuration
                                            (addresses '("10.0.0.3/32"))
@@ -51,7 +54,7 @@
                                                  (name "smart-laptop")
                                                  (public-key "V//LVPk6jLy6tQWxIyqDapeP7kj2bZ84YAsmCoigdQ4=")
                                                  (allowed-ips '("10.0.0.4/32")))
-                                               )))))
+                                               )))))|#
                           (modify-services %base-services
                           ;; The server must trust the Guix packages you build. If you add the signing-key
                           ;; manually it will be overridden on next `guix deploy` giving
