@@ -1,3 +1,12 @@
+https://blog.wikichoon.com/2016/01/qemusystem-vs-qemusession.html
+
+
+
+
+
+
+
+
 https://guix.gnu.org/manual/devel/en/html_node/Invoking-guix-deploy.html
 
 make sure the host machine's guix archive has already generated a key before deploying
