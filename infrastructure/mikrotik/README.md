@@ -10,3 +10,8 @@ GET ssh
 ```
 ### depends
 - a physical mikrotik router
+
+
+# guix router
+https://timmydouglas.com/2021/02/07/guix-router.html
+https://francis.begyn.be/blog/nixos-home-router
