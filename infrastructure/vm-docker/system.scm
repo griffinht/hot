@@ -1,13 +1,13 @@
 (define-module (system)
                #:use-module (gnu)
-               #:use-module (gnu services networking) ; dhcp or static ip configuration
-               #:use-module (gnu services ssh) ; ssh daemon
-               #:use-module (gnu services virtualization) ; ssh daemon
-               ;#:use-module (gnu packages certs) ; nss-certs
+               #:use-module (gnu services networking)
+               #:use-module (gnu services ssh)
+               #:use-module (gnu services sysctl)
+               #:use-module (gnu services vpn)
                #:use-module (gnu packages ssh))
-(define-public %system
+(define-public (make-system ssh-public-key wireguard-public-key)
                (operating-system
-                 (host-name "hot-desktop")
+                 (host-name "hot-desktop-vm-docker")
                  ;todo remove timezone not necessary? defaults are fine?
                  (timezone "Etc/UTC")
                  (bootloader (bootloader-configuration (bootloader grub-bootloader)))
@@ -17,7 +17,7 @@
                  ; fallocate --length 16G /swapfile
                  ; chmod 0600 /swapfile
                  ; mkswap /swapfile
-                 (swap-devices (list (swap-space (target "/swapfile"))))
+                 ;(swap-devices (list (swap-space (target "/swapfile"))))
                  #|
                  (packages
                    (append (list nss-certs ; tls certs from mozilla, required for https to work
@@ -33,15 +33,24 @@
                                           (permit-root-login `prohibit-password)
                                           (password-authentication? #f)
                                           (authorized-keys
-                                           `(("root" ,(local-file "id_ed25519.pub"))
-                                             ;("libvirt" ,(local-file "id_ed25519.pub"))
+                                           `(("root" ,ssh-public-key)
                                              ))))
-                                (service libvirt-service-type
-                                         (libvirt-configuration
-                                           ;(unix-sock-group "libvirt")
-                                           ))
+                                (service wireguard-service-type
+                                  (wireguard-configuration
+                                    (peers
+                                      (list
+                                        (wireguard-peer
+                                          (name "smart-laptop")
+                                          (public-key wireguard-public-key)
+                                          (allowed-ips '("10.0.0.4/32")))))))
                                 )
-                          (modify-services %base-services
+                          (modify-services
+                            %base-services
+                            (sysctl-service-type config =>
+                                    (sysctl-configuration
+                                      (settings
+                                        (append '(("net.ipv4.ip_forward" . "1"))
+                                                %default-sysctl-settings))))
                           ;; The server must trust the Guix packages you build. If you add the signing-key
                           ;; manually it will be overridden on next `guix deploy` giving
                           ;; "error: unauthorized public key". This automatically adds the signing-key.
@@ -50,7 +59,4 @@
                                               (inherit config)
                                               (authorized-keys
                                                (append (list (local-file "/etc/guix/signing-key.pub"))
-                                                       %default-authorized-guix-keys)))))
-                          ))
-                 )
-               )
+                                                       %default-authorized-guix-keys)))))))))

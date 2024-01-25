@@ -1,5 +1,7 @@
 (add-to-load-path (string-append (dirname (current-filename)) "/"))
-(use-modules (system))
+(use-modules (system)
+             (guix gexp))
 
-; guix expects this file to evaluate to an (operating-system ...) declaration
-%system
+(make-system
+  (local-file "id_ed25519.pub")
+  "5V21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")

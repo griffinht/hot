@@ -1,5 +1,7 @@
 .DELETE_ON_ERROR:
 
+SSH_PORT=2222
+
 bootstrap.scm: system.scm
 	touch '$@'
 
@@ -7,6 +9,7 @@ vm.bin: bootstrap.scm
 	guix system vm --no-graphic '$<' > '$@'
 
 vm.run: vm.bin
+	# C-a x to quit
 	# share host networking and port forward
 	# https://guix.gnu.org/manual/en/html_node/Running-Guix-in-a-VM.html
 	# see 12.17.1 Connecting Through SSH
@@ -24,6 +27,9 @@ efi-raw.bin: bootstrap.scm
 	chmod +w '$@'
 	#truncate --size=+8G '$@'
 	#echo -e 'n\n\n\n\n\nt\n\nswap\nw\n' | fdisk '$@'
+
+bruh.img.bin: /tmp/my-image
+	mv '$<' '$@'
 
 run: /tmp/my-image
 	guix shell qemu -- qemu-system-x86_64 -enable-kvm -hda '$<' \
