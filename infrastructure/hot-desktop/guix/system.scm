@@ -33,7 +33,7 @@
                  ; mkswap /swapfile
                  (swap-devices (list (swap-space (target "/swapfile"))))
                  (packages
-                   (append (list netcat)
+                   (append (list netcat) ; allows libvirt to spice/vnc/idk what its called
                            %base-packages))
                  #|
                  (packages
@@ -61,7 +61,7 @@
                                          (libvirt-configuration
                                            ;(unix-sock-group "libvirt")
                                            ))
-                                (service virtlog-service-type)
+                                (service virtlog-service-type) ; required for libvirt to work
                                 (service wireguard-service-type
                                          (wireguard-configuration
                                            (addresses '("10.0.0.2/32"))
