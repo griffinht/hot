@@ -42,6 +42,15 @@
                                  )
                            %base-packages))
                  |#
+                 (users
+                   (append
+                     (list
+                       (user-account
+                         (name "libvirt")
+                         (group "users")))
+                         ;(supplementary-groups
+                         ;  (list "libvirt")))
+                     %base-user-accounts))
                  (services
                   (append (list ;(service dhcp-client-service-type)
                                 ;(service wpa-supplicant-service-type)
@@ -55,7 +64,7 @@
                                           (password-authentication? #f)
                                           (authorized-keys
                                            `(("root" ,(local-file "id_ed25519.pub")) ; https://blog.wikichoon.com/2016/01/qemusystem-vs-qemusession.html
-                                             ;("libvirt" ,(local-file "id_ed25519.pub"))
+                                             ("libvirt" ,(local-file "id_ed25519.pub"))
                                              ))))
                                 (service libvirt-service-type
                                          (libvirt-configuration
