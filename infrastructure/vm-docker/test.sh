@@ -18,6 +18,19 @@ make_vm_script() {
         guix system vm "test.scm"
 }
 
+acpi() {
+    monitor_port=4321
+    pidfile="$(mktemp)"
+    "$vm_script" \
+        -daemonize \
+        -pidfile "$pidfile" \
+        -monitor telnet:127.0.0.1:4321,server,nowait
+    # todo use ipv6 lo
+    telnet localhost "$monitor_port"
+    guest-sync
+    system_powerdown
+}
+
 third() {
     ssh_key_file="$1"
     vm_script="$2"

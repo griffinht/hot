@@ -4,6 +4,7 @@
                #:use-module (gnu services ssh)
                #:use-module (gnu services sysctl)
                #:use-module (gnu services vpn)
+               #:use-module (gnu services desktop)
                #:use-module (gnu packages ssh))
 (define-public (make-system ssh-public-key wireguard-public-key)
                (operating-system
@@ -43,7 +44,8 @@
                                           (name "smart-laptop")
                                           (public-key wireguard-public-key)
                                           (allowed-ips '("10.0.0.4/32")))))))
-                                )
+                                ; make acpi shutdown signal work
+                                (service elogind-service-type))
                           (modify-services
                             %base-services
                             (sysctl-service-type config =>

@@ -16,11 +16,28 @@ vm.run: vm.bin
 	"$$(cat $<)" \
 		-nic 'user,model=virtio-net-pci,hostfwd=tcp::$(SSH_PORT)-:22'
 
+container.run: bootstrap.scm
+	sudo "$$(guix system container --network '$<')"
+
+image.bin: bootstrap.scm
+	guix system image '$<' \
+		--image-type=qcow2 \
+		--image-size=20G \
+		> '$@'
+
+deploy-image: image.bin
+	./deploy-image.sh '$<'
+
+
+
+
+
+
 efi-raw-custom.bin: image.scm
 	guix system image '$<' -v 10 --on-error=backtrace > '$@'
 
 efi-raw.bin: bootstrap.scm
-	guix system image --image-type=mbr-hybrid-raw '$<' > '$@'
+	guix system image '$<' --image-type=mbr-hybrid-raw > '$@'
 
 /tmp/my-image: efi-raw-custom.bin
 	cp "$$(cat $<)" '$@'
