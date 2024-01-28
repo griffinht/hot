@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# requires libvirt, bc
+
 #image="$1"
 #image='/gnu/store/4bhpnz09gydwp62aw3mnknbzaiawfk3z-image.qcow2'
 #backing_store="$image"
@@ -29,10 +31,11 @@ virt_install() {
 }
 
 print_xml() {
+    # todo specify size?
     virt_install \
         --name "$name" \
         --disk \
-            "size=33,backing_store=$backing_store" \
+            "size=$size,backing_store=$backing_store" \
         --osinfo "$osinfo" \
         --print-xml
 }
@@ -64,13 +67,28 @@ update() {
     # todo clean up old volumes?
 }
 
+get_size() {
+    python3 << EOF
+import subprocess
+import json
+import math
+
+result = subprocess.run(["qemu-img", "info", "$image", "--output=json"], capture_output=True)
+if result.returncode != 0:
+    print(result)
+    exit(result.returncode)
+
+size=json.loads(result.stdout)["virtual-size"]
+print("{:.0f}".format(math.ceil(int(size) / (1024**3))))
+EOF
+}
+
 main() {
     set -x
 
-    name="$PREFIX$1"
-    backing_store="$(guix system image bootstrap.scm \
-        --image-type=qcow2 \
-        --image-size=20G)" || exit_code="$?"
+    name="$PREFIX$basename"
+    size="$(get_size)"
+    backing_store="$image"
     if [ -n "$exit_code" ]; then
         echo "command failed with $exit_code"
         exit "1"
@@ -81,4 +99,6 @@ main() {
     update
 }
 
-main bruhvm
+image="$1"
+basename="$2"
+main
