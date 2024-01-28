@@ -31,6 +31,7 @@ virt_install() {
 }
 
 print_xml() {
+    name="$1"
     # todo specify size?
     virt_install \
         --name "$name" \
@@ -41,6 +42,10 @@ print_xml() {
 }
 
 update() {
+    # define new domain
+    print_xml "${name}_new" \
+        | virsh define /dev/stdin
+
     # check if domain already exists
     state="$(virsh domstate "$name")"; exit_code="$?"
     if [ "$exit_code" -eq 0 ]; then
@@ -57,9 +62,8 @@ update() {
         virsh undefine "$name"
     fi
 
-    # redefine it
-    print_xml "$name" "$backing_store" "$osinfo" \
-        | virsh define /dev/stdin
+    # rename new domain to the actual domain
+    virsh domrename "${name}_new" "$name"
 
     # start it
     virsh start "$name"
@@ -89,16 +93,13 @@ main() {
     name="$PREFIX$basename"
     size="$(get_size)"
     backing_store="$image"
-    if [ -n "$exit_code" ]; then
-        echo "command failed with $exit_code"
-        exit "1"
-    fi
     osinfo="guix-latest"
 
-    #make bruh
     update
 }
 
+#image=$(cat image.bin)
+#basename=bruhvm
 image="$1"
 basename="$2"
 main
