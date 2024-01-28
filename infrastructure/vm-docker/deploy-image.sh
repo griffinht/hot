@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 #image="$1"
 #image='/gnu/store/4bhpnz09gydwp62aw3mnknbzaiawfk3z-image.qcow2'
@@ -13,39 +13,37 @@ globals() {
 }
 globals
 
+libvirt() {
+    base="$1"
+    shift
+
+    command "$base" --connect "$LIBVIRT_URI" "$@"
+}
+
 virsh() {
-    command virsh --connect "$LIBVIRT_URI" "$@"
+    libvirt virsh "$@"
 }
 
-# pools
-pool_deploy() {
-    local pool="$1"
-
-    virsh \
-        pool-define-as "$pool" dir \
-            --target "$pool_path"
-    mkdir -p "$pool_path"
-    #virsh \
-    #    pool-start "$pool"
+virt_install() {
+    libvirt virt-install "$@"
 }
 
-
-print-xml() {
-    virt-install --connect "$LIBVIRT_URI" \
+print_xml() {
+    virt_install \
         --name "$name" \
         --disk \
-            size="33",backing_store="$backing_store" \
+            "size=33,backing_store=$backing_store" \
         --osinfo "$osinfo" \
         --print-xml
 }
 
 update() {
     # check if domain already exists
-    state="$(virsh domstate "$name" || true)"
-    if [ "$?" -eq 0 ]; then
+    state="$(virsh domstate "$name")"; exit_code="$?"
+    if [ "$exit_code" -eq 0 ]; then
         # check if it is running
-        # todo doesn't work if it is restarting or something idk
-        if [ "$state" == "running" ]; then
+        # todo probably doesn't work if it is restarting or something idk
+        if [ "$state" = "running" ]; then
             # shut it down
             virsh shutdown "$name"
             # todo wait for shutdown
@@ -56,8 +54,8 @@ update() {
         virsh undefine "$name"
     fi
 
-    # define it
-    print-xml "$name" "$backing_store" "$osinfo" \
+    # redefine it
+    print_xml "$name" "$backing_store" "$osinfo" \
         | virsh define /dev/stdin
 
     # start it
@@ -67,7 +65,7 @@ update() {
 }
 
 main() {
-    set -xe
+    set -x
 
     name="$PREFIX$1"
     backing_store="$(guix system image bootstrap.scm \
@@ -80,7 +78,7 @@ main() {
     osinfo="guix-latest"
 
     #make bruh
-    update "$name" "$backing_store" "$osinfo"
+    update
 }
 
 main bruhvm
