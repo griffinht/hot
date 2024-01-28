@@ -4,7 +4,7 @@
                #:use-module (gnu services vpn) ; wireguard
                #:use-module (gnu services ssh) ; ssh daemon
                ;#:use-module (gnu services admin) ; unattended upgrades
-               ;#:use-module (gnu services desktop) ; elogind (for docker)
+               #:use-module (gnu services desktop) ; elogind (for docker)
                ;#:use-module (gnu services dbus) ; dbus (for docker)
                ;#:use-module (gnu services docker) ; docker
                #:use-module (gnu packages bootloaders) ; grub
@@ -41,7 +41,8 @@
                                           (permit-root-login `prohibit-password)
                                           (password-authentication? #f)
                                           (authorized-keys
-                                           `(("root" ,(local-file "id_ed25519.pub")))))))
+                                           `(("root" ,(local-file "id_ed25519.pub"))))))
+                                (service elogind-service-type)) ; make shutdown work
                                 ; todo https://www.procustodibus.com/blog/2022/11/wireguard-jumphost/
                                 #|
                                 (service wireguard-service-type
