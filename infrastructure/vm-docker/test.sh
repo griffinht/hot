@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# needs socat
+
 set -e
 
 
@@ -18,27 +20,63 @@ make_vm_script() {
         guix system vm "test.scm"
 }
 
-acpi() {
-    monitor_port=4321
-    pidfile="$(mktemp)"
-    "$vm_script" \
-        -daemonize \
-        -pidfile "$pidfile" \
-        -monitor telnet:127.0.0.1:4321,server,nowait
-    # todo use ipv6 lo
-    telnet localhost "$monitor_port"
-    guest-sync
-    system_powerdown
+poll() {
+    delay=1
+    timeout="$1"
+    shift
+
+    for i in $(seq 1 "$timeout"); do
+        echo "polling ($i/$timeout):" "$@"
+        if "$@"; then
+            return 0
+        fi
+        echo "failed with code $?, retrying in $delay seconds..."
+        sleep $delay
+    done
+
+    return 1
 }
 
-third() {
-    ssh_key_file="$1"
-    vm_script="$2"
+lssh() {
+    ssh -i "$ssh_key_file" -p "$ssh_port" localhost "$@"
+}
 
-    lssh() {
-        ssh -i "$ssh_key_file" -p "$SSH_PORT" "$HOST" "$@"
-    }
+wait_for_ssh() {
+    echo waiting for ssh connectivity...
+    # only needs 1 since the port blocks instantly
+    if ! poll 2 lssh w; then
+        echo system did not respond to ssh before timeout, killing...
+        kill "$(cat "$pidfile")"
+        return 1
+    fi
+}
 
+test_acpi() {
+    ssh_port=1345
+    socket="$(mktemp)"
+    pidfile="$(mktemp)"
+    "$vm_script" \
+        -nic "user,model=virtio-net-pci,hostfwd=tcp::$ssh_port-:22" \
+        -daemonize \
+        -pidfile "$pidfile" \
+        -monitor "unix:$socket,server=on,wait=off"
+    wait_for_ssh || return "$?"
+
+    echo issuing powerdown command to qemu...
+    echo "system_powerdown" | socat - "unix-connect:$socket"
+
+    echo waiting for powerdown...
+    if ! poll 6 sh -c "! kill -0 $(cat "$pidfile")"; then
+        echo system did not powerdown before timeout, killing...
+        kill "$(cat "$pidfile")"
+        #xargs kill < "$pidfile"
+        return 1
+    fi
+
+    echo system powered down nicely
+}
+
+test_wg_forreal() {
     peer_wg_pubkey="$(lssh wg show wg0 public-key)"
 
     wg_conf_file="$(mktemp).conf"
@@ -59,21 +97,16 @@ EOF
     #sudo $(which wg-quick) down "$wg_conf_file"
 }
 
-second() {
-    ssh_key_file="$1"
-
-    vm_script="$(make_vm_script)"
+test_wg() {
     pidfile="$(mktemp)"
+    ssh_port=2224
     "$vm_script" \
-        -nic "user,model=virtio-net-pci,hostfwd=tcp::$SSH_PORT-:22,hostfwd=udp::$WIREGUARD_PORT-:$WIREGUARD_PORT" \
+        -nic "user,model=virtio-net-pci,hostfwd=tcp::$ssh_port-:22,hostfwd=udp::$WIREGUARD_PORT-:$WIREGUARD_PORT" \
         -daemonize \
         -pidfile "$pidfile"
+    wait_for_ssh || return "$?"
 
-    # allow vm to start
-    # todo repeatedly loop ssh instead
-    #sleep 5
-
-    third "$ssh_key_file" "$vm_script"
+    test_wg_forreal
     code="$?"
 
     xargs kill < "$pidfile"
@@ -81,19 +114,20 @@ second() {
     return "$code"
 }
 
-main() {
-    interface="$1"
-    test_address="$
+init() {
     wg_key="$(wg genkey)"
-    ssh_key_file="$(mktemp)"
-
+    ssh_key_file="$(mktemp -u)"
     ssh-keygen -t ed25519 -N '' -f "$ssh_key_file"
-
-    second "$ssh_key_file"
-    code="$?"
-
-    return "$code"
+    vm_script="$(make_vm_script)"
 }
 
+bruh() {
+    init
+    test_wg
+    test_acpi
+}
+
+bruh
 main todo
 exit "$?"
+
