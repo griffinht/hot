@@ -26,7 +26,7 @@ image.bin: bootstrap.scm
 		> '$@'
 
 deploy-image: image.bin
-	./deploy-image.sh "$$(cat '$<')" bruhvm
+	./deploy-image.sh "$$(cat '$<')" dockervm
 
 # todo this should probably have a run prereq??
 deploy: deploy.scm
