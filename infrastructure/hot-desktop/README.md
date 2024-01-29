@@ -17,3 +17,12 @@ btrfs
 https://arstechnica.com/gadgets/2021/09/examining-btrfs-linuxs-perpetually-half-finished-filesystem/
 
 https://tech.cccp.io/post/how-to-backup-a-btrfs-filesystem-using-amazon-s3-and-s3backer/
+
+
+
+
+
+# monitoring
+disk size
+    images
+    /gnu/store
