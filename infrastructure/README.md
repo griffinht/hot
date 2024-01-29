@@ -44,3 +44,4 @@ griffinht.com
         phone           10.0.0.5
         other-phone     10.0.0.6
         ugly-laptop     10.0.0.7
+        cool-laptop     10.0.0.9
