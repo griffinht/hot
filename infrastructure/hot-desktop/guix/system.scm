@@ -47,13 +47,14 @@
                      (list
                        (user-account
                          (name "libvirt")
-                         (group "users")))
-                         ;(supplementary-groups
-                         ;  (list "libvirt")))
+                         (group "users")
+                         (supplementary-groups
+                           (list "kvm")))) ; "libvirt"
                      %base-user-accounts))
                  (services
                   (append (list ;(service dhcp-client-service-type)
                                 ;(service wpa-supplicant-service-type)
+                                ; todo elogind desktop-services
                                 (service network-manager-service-type
                                          (network-manager-configuration
                                            (shepherd-requirement '()))) ; no need for wpa_supplicant or iwd
