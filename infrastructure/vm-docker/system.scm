@@ -8,7 +8,7 @@
                #:use-module (gnu packages ssh))
 (define-public (make-system ssh-public-key wireguard-public-key)
                (operating-system
-                 (host-name "hot-desktop-vm-docker")
+                 (host-name "vm-docker")
                  ;todo remove timezone not necessary? defaults are fine?
                  (timezone "Etc/UTC")
                  (bootloader (bootloader-configuration (bootloader grub-bootloader)))
