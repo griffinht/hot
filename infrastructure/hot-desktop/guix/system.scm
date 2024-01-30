@@ -3,7 +3,10 @@
                #:use-module (gnu services networking) ; dhcp or static ip configuration
                #:use-module (gnu services ssh) ; ssh daemon
                #:use-module (gnu services vpn) ; wireguard
+               #:use-module (gnu packages virtualization) ; qemu
+               #:use-module (gnu system setuid) ; setuid
                #:use-module (gnu services virtualization) ; ssh daemon
+               #:use-module (gnu services desktop) ; elogind
                ;#:use-module (gnu packages certs) ; nss-certs
                #:use-module (gnu packages ssh)
                #:use-module (gnu packages admin))
@@ -49,15 +52,17 @@
                          (name "libvirt")
                          (group "users")
                          (supplementary-groups
-                           (list "kvm")))) ; "libvirt"
+                           (list "kvm")))) ; allows kvm virtualization for speedy vms
                      %base-user-accounts))
                  (services
                   (append (list ;(service dhcp-client-service-type)
-                                ;(service wpa-supplicant-service-type)
-                                ; todo elogind desktop-services
+                                ; network manager! makes bridge networks easier
                                 (service network-manager-service-type
                                          (network-manager-configuration
-                                           (shepherd-requirement '()))) ; no need for wpa_supplicant or iwd
+                                           (shepherd-requirement '()))) ; no need for wpa_supplicant or iwd, this isn't a laptop with wifi
+                                ; make the physical power button work
+                                (service elogind-service-type)
+                                ; sshd
                                 (service openssh-service-type
                                          (openssh-configuration
                                           (openssh openssh-sans-x)
@@ -67,11 +72,13 @@
                                            `(("root" ,(local-file "id_ed25519.pub")) ; https://blog.wikichoon.com/2016/01/qemusystem-vs-qemusession.html
                                              ("libvirt" ,(local-file "id_ed25519.pub"))
                                              ))))
-                                (service libvirt-service-type
-                                         (libvirt-configuration
-                                           ;(unix-sock-group "libvirt")
-                                           ))
+                                ; libvirt
+                                (service libvirt-service-type)
                                 (service virtlog-service-type) ; required for libvirt to work
+                                ; qemu-bridge-helper
+                                (extra-special-file "/usr/libexec/qemu-bridge-helper" "/run/setuid-programs/qemu-bridge-helper")
+                                (extra-special-file "/etc/qemu/bridge.conf" (plain-file "" "allow br0\n"))
+                                ; wireguard
                                 (service wireguard-service-type
                                          (wireguard-configuration
                                            (addresses '("10.0.0.2/32"))
@@ -93,5 +100,11 @@
                                                (append (list (local-file "/etc/guix/signing-key.pub"))
                                                        %default-authorized-guix-keys)))))
                           ))
+                 ; qemu-bridge-helper
+                 (setuid-programs
+                   (append
+                     (list (setuid-program
+                             (program (file-append qemu "/libexec/qemu-bridge-helper"))))
+                     %setuid-programs))
                  )
                )
