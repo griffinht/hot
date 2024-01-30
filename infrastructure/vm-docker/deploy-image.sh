@@ -51,7 +51,7 @@ create_pool() {
 
 print_xml() {
     name="$1"
-    # todo specify size?
+    # todo specify network
     virt_install \
         --name "$name" \
         --disk \
@@ -101,12 +101,13 @@ update() {
 
 # todo run on remote? nah
 get_size() {
-    python3 << EOF
+    host_image="$host_image" python3 << EOF
 import subprocess
 import json
 import math
+import os
 
-result = subprocess.run(["qemu-img", "info", "$host_image", "--output=json"], capture_output=True)
+result = subprocess.run(["qemu-img", "info", os.getenv("host_image"), "--output=json"], capture_output=True)
 if result.returncode != 0:
     print(result)
     exit(result.returncode)
@@ -129,6 +130,7 @@ get_host_checksum() {
 }
 
 get_remote_checksum() {
+    # todo rce??
     ssh "$ssh_uri" <<EOF
     set -xe
     mkdir -p "$remote_directory"
