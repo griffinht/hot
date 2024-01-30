@@ -60,6 +60,7 @@ print_xml() {
         --print-xml
 }
 
+# todo chain together virsh commands for speed?
 update() {
     # define new domain
     print_xml "${name}_new" \
