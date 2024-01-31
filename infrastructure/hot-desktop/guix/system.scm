@@ -36,7 +36,9 @@
                  ; mkswap /swapfile
                  (swap-devices (list (swap-space (target "/swapfile"))))
                  (packages
-                   (append (list netcat) ; allows libvirt to spice/vnc/idk what its called
+                   (append (list netcat ; allows libvirt to spice/vnc/idk what its called
+                                 libvirt ; normally installed by the libvirtd service
+                                 qemu) ; normally installed by the libvirtd service
                            %base-packages))
                  #|
                  (packages
@@ -69,12 +71,12 @@
                                           (permit-root-login `prohibit-password)
                                           (password-authentication? #f)
                                           (authorized-keys
-                                           `(("root" ,(local-file "id_ed25519.pub")) ; https://blog.wikichoon.com/2016/01/qemusystem-vs-qemusession.html
+                                           `(("root" ,(local-file "id_ed25519.pub"))
                                              ("libvirt" ,(local-file "id_ed25519.pub"))
                                              ))))
                                 ; libvirt
-                                (service libvirt-service-type)
-                                (service virtlog-service-type) ; required for libvirt to work
+                                ;(service libvirt-service-type)
+                                ;(service virtlog-service-type) ; required for libvirt to work
                                 ; qemu-bridge-helper
                                 (extra-special-file "/usr/libexec/qemu-bridge-helper" "/run/setuid-programs/qemu-bridge-helper")
                                 (extra-special-file "/etc/qemu/bridge.conf" (plain-file "" "allow br0\n"))
