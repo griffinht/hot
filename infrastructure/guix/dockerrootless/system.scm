@@ -13,7 +13,14 @@
 (operating-system
   (host-name "dockerrootless")
   (bootloader (bootloader-configuration (bootloader grub-bootloader)))
-  (file-systems %base-file-systems)
+  (file-systems
+    (append
+      (list
+        (file-system
+          (mount-point "/")
+          (type "ext4")
+          (device (file-system-label "Guix_image"))))
+      %base-file-systems))
   (users
     (append
       (list
@@ -32,4 +39,16 @@
                       (password-authentication? #f)
                       (authorized-keys
                        `(("root" ,(local-file "../id_ed25519.pub")))))))
-      %base-services)))
+      (modify-services
+        %base-services
+        ;; The server must trust the Guix packages you build. If you add the signing-key
+        ;; manually it will be overridden on next `guix deploy` giving
+        ;; "error: unauthorized public key". This automatically adds the signing-key.
+        (guix-service-type
+          config =>
+          (guix-configuration
+          (inherit config)
+          (authorized-keys
+            (append
+              (list (local-file "/etc/guix/signing-key.pub"))
+              %default-authorized-guix-keys))))))))
