@@ -1,7 +1,7 @@
 .SECONDARY:
 
 SYSTEM=system.scm
-SYSTEM=deploy.scm
+DEPLOY=deploy.scm
 
 %/vm.bin: %/$(SYSTEM)
 	guix system vm --no-graphic '$<' > '$@'
