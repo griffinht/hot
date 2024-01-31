@@ -19,6 +19,21 @@ vm.run: vm.bin
 container.run: bootstrap.scm
 	sudo "$$(guix system container --network '$<')"
 
+image-run.bin: bootstrap.scm
+	guix system image --image-size=20G --image-type=qcow2 '$<' > '$@'
+
+image-run-temp.bin: image-run.bin
+	mktemp > '$@'
+	cp "$$(cat '$<')" "$$(cat '$@')"
+	chmod +w "$$(cat '$@')"
+
+image.run: image-run-temp.bin
+	qemu-system-x86_64 \
+		-enable-kvm \
+		-drive "file=$$(cat '$<'),format=qcow2" \
+		-m 512 \
+		-nic 'user,model=virtio-net-pci,hostfwd=tcp::$(SSH_PORT)-:22'
+
 image.bin: bootstrap.scm
 	guix system image '$<' \
 		--image-type=qcow2 \

@@ -5,10 +5,11 @@
                #:use-module (gnu services sysctl)
                #:use-module (gnu services vpn)
                #:use-module (gnu services desktop)
-               #:use-module (gnu packages ssh))
+               #:use-module (gnu packages ssh)
+               #:use-module (gnu packages containers))
 (define-public (make-system ssh-public-key wireguard-public-key)
                (operating-system
-                 (host-name "vm-docker")
+                 (host-name "container-orchestrator")
                  ;todo remove timezone not necessary? defaults are fine?
                  (timezone "Etc/UTC")
                  (bootloader (bootloader-configuration (bootloader grub-bootloader)))
@@ -21,13 +22,22 @@
                  ;(swap-devices (list (swap-space (target "/swapfile"))))
                  #|
                  (packages
-                   (append (list nss-certs ; tls certs from mozilla, required for https to work
-                                 curl ; helpful for occasional debugging
-                                 )
+                   ; todo conmon?
+                   (append (list podman)
                            %base-packages))
                  |#
+                 (users
+                   (append
+                     (list
+                       (user-account
+                         (name "podman")
+                         (group "users")))
+                     %base-user-accounts))
                  (services
                   (append (list (service dhcp-client-service-type)
+                                ; make acpi shutdown signal work
+                                (service elogind-service-type)
+                                ; ssh
                                 (service openssh-service-type
                                          (openssh-configuration
                                           (openssh openssh-sans-x)
@@ -35,7 +45,9 @@
                                           (password-authentication? #f)
                                           (authorized-keys
                                            `(("root" ,ssh-public-key)
-                                             ))))
+                                             ("podman" ,ssh-public-key)
+                                             )))))
+                                #|
                                 (service wireguard-service-type
                                   (wireguard-configuration
                                     (peers
@@ -44,15 +56,15 @@
                                           (name "smart-laptop")
                                           (public-key wireguard-public-key)
                                           (allowed-ips '("10.0.0.4/32")))))))
-                                ; make acpi shutdown signal work
-                                (service elogind-service-type))
+                                |#
                           (modify-services
                             %base-services
+                            #|
                             (sysctl-service-type config =>
                                     (sysctl-configuration
                                       (settings
                                         (append '(("net.ipv4.ip_forward" . "1"))
-                                                %default-sysctl-settings))))
+                                                %default-sysctl-settings))))|#
                           ;; The server must trust the Guix packages you build. If you add the signing-key
                           ;; manually it will be overridden on next `guix deploy` giving
                           ;; "error: unauthorized public key". This automatically adds the signing-key.
@@ -61,4 +73,13 @@
                                               (inherit config)
                                               (authorized-keys
                                                (append (list (local-file "/etc/guix/signing-key.pub"))
-                                                       %default-authorized-guix-keys)))))))))
+                                                       %default-authorized-guix-keys)))))))
+
+                 #|
+                 (setuid-programs
+                   (append
+                     (list (setuid-program
+                             (program (file-append qemu "/libexec/qemu-bridge-helper"))))
+                     %setuid-programs))
+                 |#
+                 ))
