@@ -16,7 +16,7 @@
   (file-systems %base-file-systems)
   (packages
     (append
-      (list nss-certs)
+      (list nss-certs) ; docker requires https
       %base-packages))
   (services
     (append
