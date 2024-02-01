@@ -53,3 +53,16 @@
             (list (local-file "/etc/guix/signing-key.pub"))
             %default-authorized-guix-keys)))))))
 
+(define (etc-subid name filename user)
+  (simple-service
+    name
+    etc-service-type
+    (list
+      `(,filename ,(plain-file filename
+                              (string-append user ":100000:65536\n"))))))
+
+(define-public (%etc-subuid user)
+               (etc-subid 'etc-subuid "subuid" user))
+
+(define-public (%etc-subgid user)
+               (etc-subid 'etc-subgid "subgid" user))
