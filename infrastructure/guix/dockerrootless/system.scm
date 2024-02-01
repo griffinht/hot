@@ -1,29 +1,19 @@
-(use-modules (gnu bootloader)
-             (gnu bootloader grub)
-             (gnu system file-systems)
-             (gnu packages ssh)
+(use-modules (gnu packages ssh)
              (gnu packages certs)
              (gnu packages admin)
              (gnu packages docker)
              (gnu services base)
              (gnu services networking)
-             (gnu services desktop)
              (gnu services ssh)
              (gnu services sysctl)
              (guix gexp)
-             (griffinht packages-bin docker))
+             (griffinht packages-bin docker)
+             (griffinht system))
 
 (operating-system
   (host-name "dockerrootless")
-  (bootloader (bootloader-configuration (bootloader grub-bootloader)))
-  (file-systems
-    (append
-      (list
-        (file-system
-          (mount-point "/")
-          (type "ext4")
-          (device (file-system-label "Guix_image"))))
-      %base-file-systems))
+  (bootloader %vm-bootloader)
+  (file-systems %vm-file-systems)
   (users
     (append
       (list
@@ -42,8 +32,6 @@
   (services
     (append
       (list (service dhcp-client-service-type)
-            ; make acpi shutdown work
-            (service elogind-service-type)
             (service openssh-service-type
                      (openssh-configuration
                       (openssh openssh-sans-x)
@@ -65,7 +53,7 @@
             (service iptables-service-type
                      (iptables-configuration)))
       (modify-services
-        %base-services
+        %vm-services
         ;https://docs.docker.com/engine/security/rootless/#exposing-privileged-ports
         ;https://issues.guix.gnu.org/61462
         (sysctl-service-type
@@ -73,15 +61,4 @@
           (sysctl-configuration
             (settings
               (append '(("net.ipv4.ip_unprivileged_port_start" . "0"))
-                      %default-sysctl-settings))))
-        ;; The server must trust the Guix packages you build. If you add the signing-key
-        ;; manually it will be overridden on next `guix deploy` giving
-        ;; "error: unauthorized public key". This automatically adds the signing-key.
-        (guix-service-type
-          config =>
-          (guix-configuration
-          (inherit config)
-          (authorized-keys
-            (append
-              (list (local-file "/etc/guix/signing-key.pub"))
-              %default-authorized-guix-keys))))))))
+                      %default-sysctl-settings))))))))
