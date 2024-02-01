@@ -16,6 +16,11 @@ LOAD_PATH=--load-path=channel
 %/container.run: %/$(SYSTEM)
 	sudo "$$(guix system $(LOAD_PATH) container --network '$<')"
 
+%/image-small.bin: %/$(SYSTEM)
+	guix system $(LOAD_PATH) image --image-type=qcow2 '$<' > '$@'
+	#qemu-img convert?????
+	#qemu-img resize '$<' +20G
+
 %/image.bin: %/$(SYSTEM)
 	guix system $(LOAD_PATH) image --image-size=20G --image-type=qcow2 '$<' > '$@'
 
