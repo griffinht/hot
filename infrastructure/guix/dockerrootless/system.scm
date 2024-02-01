@@ -36,7 +36,8 @@
         nss-certs
         shadow ; newuidmap with setuid
         dockerd-rootless.sh
-        docker-cli)
+        ; todo jumpbox
+        docker-cli) ; for docker command for ssh access
       %base-packages))
   (services
     (append

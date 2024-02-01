@@ -2,11 +2,11 @@
 
 set -e
 
-echo $DOCKER_HOST
 cli="$1"
 
 set -x
 
+$cli info
 $cli ps
 
 $cli run --rm docker.io/hello-world
@@ -38,9 +38,10 @@ fi
 # wireguard priviledged
 $cli run --rm wireguard
 
-# todo test source ips
+# todo test volumes
+# todo test source ips https://github.com/docker/docs/issues/17312
 # todo do network performance benchmark
 # todo --net=host
 # todo cgroups
-# todo linger
+# todo systemd linger - autostart proxy on system bootup?
 # todo ping
