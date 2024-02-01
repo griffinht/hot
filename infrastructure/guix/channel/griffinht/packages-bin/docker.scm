@@ -98,6 +98,8 @@
                (commit (string-append "v" version))))
         (sha256 "01h0yrs9frrk9ni25f8vvgicn359cyfayrq2zmcl1nbwal59a1a8")))
     (build-system copy-build-system)
+    (arguments
+      '(#:install-plan '(("contrib/dockerd-rootless.sh" "bin/"))))
     (propagated-inputs
       (list
         rootlesskit
@@ -108,7 +110,7 @@
         ;iproute ; ip
         docker ; dockerd
         containerd
-        iptables ; for containerd
+        ;iptables ; for containerd
         ))
     (synopsis "")
     (description "")
