@@ -4,11 +4,12 @@
              (gnu packages ssh)
              (gnu packages certs)
              (gnu packages admin)
+             (gnu packages docker)
              (gnu services base)
              (gnu services networking)
              (gnu services desktop)
              (gnu services ssh)
-             (gnu services docker)
+             (gnu services sysctl)
              (guix gexp)
              (griffinht packages-bin docker))
 
@@ -34,7 +35,8 @@
       (list
         nss-certs
         shadow ; newuidmap with setuid
-        dockerd-rootless.sh)
+        dockerd-rootless.sh
+        docker-cli)
       %base-packages))
   (services
     (append
@@ -48,9 +50,29 @@
                       (password-authentication? #f)
                       (authorized-keys
                        `(("root" ,(local-file "../id_ed25519.pub"))
-                         ("docker" ,(local-file "../id_ed25519.pub")))))))
+                         ("docker" ,(local-file "../id_ed25519.pub"))))))
+            ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
+            ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
+            (simple-service
+              'etc-subuid etc-service-type
+              (list `("subuid" ,(plain-file "subuid"
+                                  (string-append "docker:100000:65536\n")))))
+            (simple-service
+              'etc-subgid etc-service-type
+              (list `("subgid" ,(plain-file "subgid"
+                                  (string-append "docker:100000:65536\n")))))
+            (service iptables-service-type
+                     (iptables-configuration)))
       (modify-services
         %base-services
+        ;https://docs.docker.com/engine/security/rootless/#exposing-privileged-ports
+        ;https://issues.guix.gnu.org/61462
+        (sysctl-service-type
+          config =>
+          (sysctl-configuration
+            (settings
+              (append '(("net.ipv4.ip_unprivileged_port_start" . "0"))
+                      %default-sysctl-settings))))
         ;; The server must trust the Guix packages you build. If you add the signing-key
         ;; manually it will be overridden on next `guix deploy` giving
         ;; "error: unauthorized public key". This automatically adds the signing-key.

@@ -78,11 +78,15 @@
 ; requires system to have configured /etc/subuid and /etc/subgid, for example:
 ; echo "${USERNAME}:100000:65536" >> /etc/subuid
 ; echo "${USERNAME}:100000:65536" >> /etc/subgid
-; also requires iptables module to be loaded:
-; modprobe iptables
-
+; also might require iptables module to be loaded: modprobe iptables, but using guix service also seems to work
+; 
+; launch: (expects userland proxy binary to be called docker-proxy, but docker-libnetwork-cmd-proxy has it as just proxy)
+; dockerd-rootless.sh --userland-proxy-path $(which proxy)
+;
+;
 ; todo this should probably inherit from the guix docker package somehow
-
+;
+;
 ; modprobe aufs
 ; devmapper not configured
 (define-public
@@ -110,6 +114,8 @@
         ;iproute ; ip
         docker ; dockerd
         containerd
+        docker-libnetwork-cmd-proxy ; proxy (usually installed as docker-proxy)
+        ; note that proxy is optional, so maybe make it optional here? https://github.com/docker/docs/issues/17312
         ;iptables ; for containerd
         ))
     (synopsis "")
