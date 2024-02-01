@@ -30,18 +30,21 @@
       (list (service dhcp-client-service-type)
             ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
             ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
-            #|
             (simple-service
               'etc-subuid etc-service-type
               (list `("subuid" ,(plain-file "subuid"
-                                  (string-append "docker:100000:65536\n")))))
+                                  (string-append "podman:100000:65536\n")))))
             (simple-service
               'etc-subgid etc-service-type
               (list `("subgid" ,(plain-file "subgid"
-                                  (string-append "docker:100000:65536\n")))))
+                                  (string-append "podman:100000:65536\n")))))
+            #|
             (service iptables-service-type
                      (iptables-configuration)))|#
-      )
+            (simple-service 'etc-container-policy etc-service-type
+                        (list `("containers/policy.json", (plain-file
+         "policy.json" "{\"default\": [{\"type\":
+         \"insecureAcceptAnything\"}]}")))))
       (modify-services
         %vm-services
         ;https://docs.docker.com/engine/security/rootless/#exposing-privileged-ports
