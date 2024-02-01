@@ -1,10 +1,12 @@
 .SECONDARY:
+.DELETE_ON_ERROR:
 
 SYSTEM=system.scm
 DEPLOY=deploy.scm
+LOAD_PATH=--load-path=channel
 
 %/vm.bin: %/$(SYSTEM)
-	guix system vm --no-graphic '$<' > '$@'
+	guix system $(LOAD_PATH) vm --no-graphic '$<' > '$@'
 
 %/vm.run: %/vm.bin
 	. ./dev.env \
@@ -12,16 +14,17 @@ DEPLOY=deploy.scm
 		-nic "user,model=virtio-net-pci,hostfwd=tcp::$$SSH_PORT-:22"
 
 %/container.run: %/$(SYSTEM)
-	sudo "$$(guix system container --network '$<')"
+	sudo "$$(guix system $(LOAD_PATH) container --network '$<')"
 
 %/image.bin: %/$(SYSTEM)
-	guix system image --image-size=20G --image-type=qcow2 '$<' > '$@'
+	guix system $(LOAD_PATH) image --image-size=20G --image-type=qcow2 '$<' > '$@'
 
 %/image-temp.bin: %/image.bin
 	mktemp > '$@'
 	cp "$$(cat '$<')" "$$(cat '$@')"
 	chmod +w "$$(cat '$@')"
 
+#.PHONY: %/image.run
 %/image.run: %/image-temp.bin
 	. ./dev.env \
 		&& qemu-system-x86_64 \
@@ -31,4 +34,4 @@ DEPLOY=deploy.scm
 		-nic "user,model=virtio-net-pci,hostfwd=tcp::$$SSH_PORT-:22"
 
 %/deploy: %/$(DEPLOY)
-	guix deploy '$<'
+	guix deploy $(LOAD_PATH) '$<'

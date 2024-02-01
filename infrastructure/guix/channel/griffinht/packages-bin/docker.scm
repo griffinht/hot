@@ -1,4 +1,4 @@
-(define-module (packages-bin docker)
+(define-module (griffinht packages-bin docker)
                #:use-module (guix packages)
                #:use-module (guix download)
                #:use-module (guix git-download)
@@ -32,6 +32,10 @@
         (uri (string-append "https://github.com/rootless-containers/rootlesskit/releases/download/v" version "/rootlesskit-x86_64.tar.gz"))
         (sha256 "0gvjh6sh8v3gh6hm1zm737q7n1nibbxma90q1dm5gsx9dkwy61c2")))
     (build-system copy-build-system)
+    #|
+    (propagated-inputs
+      (list shadow))
+    |#
     (arguments
       '(#:install-plan '(("." "bin"))))
     (synopsis "")
