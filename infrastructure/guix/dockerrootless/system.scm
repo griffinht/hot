@@ -2,7 +2,6 @@
              (gnu packages certs)
              (gnu packages admin)
              (gnu packages docker)
-             (gnu services base)
              (gnu services networking)
              (gnu services ssh)
              (gnu services sysctl)
