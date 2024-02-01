@@ -2,8 +2,10 @@
 .DELETE_ON_ERROR:
 
 SYSTEM=system.scm
-DEPLOY=deploy.scm
 LOAD_PATH=--load-path=channel
+
+%/$(SYSTEM):
+	touch '$@'
 
 %/vm.bin: %/$(SYSTEM)
 	guix system $(LOAD_PATH) vm --no-graphic '$<' > '$@'
@@ -38,5 +40,5 @@ LOAD_PATH=--load-path=channel
 		-m 512 \
 		-nic "user,model=virtio-net-pci,hostfwd=tcp::$$SSH_PORT-:22"
 
-%/deploy: %/$(DEPLOY)
-	guix deploy $(LOAD_PATH) '$<'
+%/deploy: deploy.scm %/$(SYSTEM)
+	SYSTEM='$*/$(SYSTEM)' guix deploy $(LOAD_PATH) '$<'
