@@ -1,4 +1,4 @@
-(load "util.scm")
+(use-modules (griffinht util))
 ;(add-to-load-path (string-append (dirname (current-filename)) "/"))
 ;(use-modules (system))
 ; full guix operating system which can be deployed with guix deploy to target which is already running guix

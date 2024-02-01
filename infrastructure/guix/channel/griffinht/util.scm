@@ -1,8 +1,9 @@
-(use-modules (ice-9 rdelim)
-             (ice-9 popen))
+(define-module (griffinht util)
+               #:use-module (ice-9 rdelim)
+               #:use-module (ice-9 popen))
 
 ; todo send standard error to /dev/null
-(define (ssh-keyscan host port type)
+(define-public (ssh-keyscan host port type)
   "runs ssh-keyscan on the given host with port for given type.
    returns the string, or an empty string on error"
   (let* ((input-port (open-pipe* OPEN_READ "ssh-keyscan" "-p" port "-t" type host))
