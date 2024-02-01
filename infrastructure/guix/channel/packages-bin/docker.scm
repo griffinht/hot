@@ -3,6 +3,7 @@
                #:use-module (guix download)
                #:use-module (guix git-download)
                #:use-module (guix build-system copy)
+               #:use-module (guix build-system gnu)
                #:use-module (guix licenses)
                #:use-module (guix gexp)
                #:use-module (gnu packages docker)
@@ -15,6 +16,7 @@
 
 
 ; todo modern docker compose?
+; todo netavark
 
 
 ; requires /etc/uid and /etc/gid to be configured
@@ -37,16 +39,48 @@
     (home-page "https://github.com/rootless-containers/rootlesskit")
     (license asl2.0)))
 
-; requires system to have configured /etc/subuid and /etc/subgid
-; 
+; todo set DOCKERD_ROOTLESS_env vars to use pasta https://docs.docker.com/engine/security/rootless/#network-is-slow
+#| todo i can't get this to build
+(define-public
+  passt
+  (package
+    (name "passt")
+    (version "2023_12_30.f091893")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "git://passt.top/passt")
+               (commit version)))
+        (sha256 "0s895zrk4kxx5q02wld0naw9xmbyf2vaicac7hmnb3rl5vsmqgjn")))
+    (build-system gnu-build-system)
+    (inputs
+      (list glibc))
+    (arguments
+      '(#:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure))
+        #:make-flags
+        (list
+          "CC=gcc"))) ; /bin/sh no such file or dir
+    (synopsis "")
+    (description "")
+    (home-page "https://passt.top/passt/")
+    (license bsd-3 gpl2+)))
+|#
+
+
+; requires system to have configured /etc/subuid and /etc/subgid, for example:
 ; echo "${USERNAME}:100000:65536" >> /etc/subuid
 ; echo "${USERNAME}:100000:65536" >> /etc/subgid
+; also requires iptables module to be loaded:
 ; modprobe iptables
-; todo use pasta
+
 ; todo this should probably inherit from the guix docker package somehow
+
 ; modprobe aufs
 ; devmapper not configured
-; iptables
 (define-public
   dockerd-rootless.sh
   (package
@@ -60,10 +94,8 @@
                (commit (string-append "v" version))))
         (sha256 "01h0yrs9frrk9ni25f8vvgicn359cyfayrq2zmcl1nbwal59a1a8")))
     (build-system copy-build-system)
-    (arguments
-      '(#:install-plan '(("contrib/dockerd-rootless.sh" "bin/"))))
     (propagated-inputs
-      (list ; not sure if all of these should necessarily be here - many are included with the system i think
+      (list
         rootlesskit
         slirp4netns
         ;grep
