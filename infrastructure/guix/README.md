@@ -21,3 +21,7 @@ has docker cli installed, proxies unix socket to remote servers
 socket activation - native network performance!
 https://issues.guix.gnu.org/54811
 https://github.com/containers/podman/blob/main/docs/tutorials/socket_activation.md#socket-activation-of-containers
+
+
+# remote
+https://docs.podman.io/en/latest/markdown/podman-remote.1.html

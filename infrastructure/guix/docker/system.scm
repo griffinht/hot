@@ -23,12 +23,5 @@
   (services
     (append
       (list (service dhcp-client-service-type)
-            (service openssh-service-type
-                     (openssh-configuration
-                      (openssh openssh-sans-x)
-                      (permit-root-login `prohibit-password)
-                      (password-authentication? #f)
-                      (authorized-keys
-                       `(("root" ,(local-file "../id_ed25519.pub"))))))
             (service docker-service-type))
       %vm-services)))

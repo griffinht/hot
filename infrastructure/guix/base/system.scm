@@ -16,6 +16,7 @@
     (append
       (list (service dhcp-client-service-type)
             ; make acpi shutdown work
+            todo use vm services idk todo
             (service elogind-service-type)
             (service openssh-service-type
                      (openssh-configuration

@@ -28,14 +28,6 @@
   (services
     (append
       (list (service dhcp-client-service-type)
-            (service openssh-service-type
-                     (openssh-configuration
-                      (openssh openssh-sans-x)
-                      (permit-root-login `prohibit-password)
-                      (password-authentication? #f)
-                      (authorized-keys
-                       `(("root" ,(local-file "../id_ed25519.pub"))
-                         ("podman" ,(local-file "../id_ed25519.pub"))))))
             ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
             ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
             #|

@@ -4,6 +4,16 @@
 SYSTEM=system.scm
 LOAD_PATH=--load-path=channel
 
+# debug thing, todo use make for this idk
+load:
+	echo '(use-modules (griffinht system) (griffinht deploy))' | guix repl $(LOAD_PATH)
+
+all.vm.bin: \
+	docker/vm.bin \
+	dockerrootless/vm.bin \
+	podman/vm.bin \
+	podmanrootless/vm.bin
+
 %/$(SYSTEM):
 	touch '$@'
 
