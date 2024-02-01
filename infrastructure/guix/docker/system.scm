@@ -1,28 +1,28 @@
-(use-modules (gnu bootloader)
-             (gnu bootloader grub)
-             (gnu system file-systems)
-             (gnu packages ssh)
+(use-modules (gnu packages ssh)
              (gnu packages certs)
-             (gnu services base)
+             (gnu packages admin)
+             (gnu packages containers)
              (gnu services networking)
-             (gnu services desktop)
              (gnu services ssh)
              (gnu services docker)
-             (guix gexp))
+             (guix gexp)
+             (griffinht system))
 
 (operating-system
   (host-name "docker")
-  (bootloader (bootloader-configuration (bootloader grub-bootloader)))
-  (file-systems %base-file-systems)
+  (bootloader %vm-bootloader)
+  (file-systems %vm-file-systems)
+  #|
   (packages
     (append
-      (list nss-certs) ; docker requires https
+      (list
+        nss-certs
+        podman)
       %base-packages))
+  |#
   (services
     (append
       (list (service dhcp-client-service-type)
-            ; make acpi shutdown work
-            (service elogind-service-type)
             (service openssh-service-type
                      (openssh-configuration
                       (openssh openssh-sans-x)
@@ -30,6 +30,5 @@
                       (password-authentication? #f)
                       (authorized-keys
                        `(("root" ,(local-file "../id_ed25519.pub"))))))
-            ; docker!
             (service docker-service-type))
-      %base-services)))
+      %vm-services)))

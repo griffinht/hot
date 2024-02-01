@@ -1,12 +1,11 @@
 (use-modules (gnu packages ssh)
              (gnu packages certs)
              (gnu packages admin)
-             (gnu packages docker)
+             (gnu packages containers)
              (gnu services networking)
              (gnu services ssh)
              (gnu services sysctl)
              (guix gexp)
-             (griffinht packages-bin docker)
              (griffinht system))
 
 (operating-system
@@ -36,7 +35,7 @@
                       (password-authentication? #f)
                       (authorized-keys
                        `(("root" ,(local-file "../id_ed25519.pub"))
-                         ("podman" ,(local-file "../id_ed25519.pub")))))) ))
+                         ("podman" ,(local-file "../id_ed25519.pub"))))))
             ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
             ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
             #|
@@ -50,6 +49,7 @@
                                   (string-append "docker:100000:65536\n")))))
             (service iptables-service-type
                      (iptables-configuration)))|#
+      )
       (modify-services
         %vm-services
         ;https://docs.docker.com/engine/security/rootless/#exposing-privileged-ports
