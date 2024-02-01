@@ -1,15 +1,5 @@
 #!/bin/sh
 
-guix shell \
-    --container \
-    podman \
-    -- ./test.sh
-
-guix shell \
-    --container \
-    docker-cli \
-    -- ./test.sh
-
 pack() {
     # todo max layers, entrypoint
     guix pack \
@@ -25,5 +15,7 @@ podman load < "$(pack)"
 podman run --rm myimage2 bash
 ssh -p 2222 podman@localhost podman load < "$(pack)"
 
-export CONTAINER_HOST=ssh://podman@127.0.0.1:2222/run/user/1001/podman/podman.sock
-export CONTAINER_SSHKEY=$HOME/.ssh/id_ed25519
+export CONTAINER_HOST=ssh://podman@localhost:2222/run/user/1001/podman/podman.sock
+export CONTAINER_SSHKEY=../id_ed25519.bin
+
+export DOCKER_HOST=ssh://podman@localhost:2222

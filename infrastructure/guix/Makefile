@@ -3,6 +3,11 @@
 
 SYSTEM=system.scm
 LOAD_PATH=--load-path=channel
+SSH_KEY=id_ed25519.bin
+
+id_%.bin:
+	ssh-keygen -t $* -f '$@' -N ""
+	mv '$@.pub' 'id_$*.pub.bin'
 
 # debug thing, todo use make for this idk
 load:
@@ -14,16 +19,24 @@ all.vm.bin: \
 	podman/vm.bin \
 	podmanrootless/vm.bin
 
-%/$(SYSTEM):
+channel/griffinht/system.scm: $(SSH_KEY)
+	touch '$@'
+
+channel/griffinht/deploy.scm: $(SSH_KEY)
+	touch '$@'
+
+%/$(DEPLOY): channel/griffinht/deploy.scm
+	touch '$@'
+
+%/$(SYSTEM): channel/griffinht/system.scm
 	touch '$@'
 
 %/vm.bin: %/$(SYSTEM)
 	guix system $(LOAD_PATH) vm --no-graphic '$<' > '$@'
 
 %/vm.run: %/vm.bin
-	. ./dev.env \
-		&& "$$(cat '$<')" \
-		-nic "user,model=virtio-net-pci,hostfwd=tcp::$$SSH_PORT-:22"
+	"$$(cat '$<')" \
+		-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22"
 
 %/container.run: %/$(SYSTEM)
 	sudo "$$(guix system $(LOAD_PATH) container --network '$<')"

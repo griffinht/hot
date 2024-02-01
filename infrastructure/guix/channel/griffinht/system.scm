@@ -22,7 +22,7 @@
     %base-file-systems))
 
 (define ssh-pubkey
-  (local-file "../../id_ed25519.pub"))
+  (local-file "../../id_ed25519.pub.bin"))
 
 (define-public %vm-services
   (append

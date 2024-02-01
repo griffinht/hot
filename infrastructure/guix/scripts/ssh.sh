@@ -1,3 +1,3 @@
 #!/bin/sh
 
-. ./dev.env && ssh -p "$SSH_PORT" "$USER@localhost" "$@"
+ssh -i id_ed25519.bin "$@"
