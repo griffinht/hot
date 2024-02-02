@@ -89,18 +89,21 @@
 ;
 ; modprobe aufs
 ; devmapper not configured
+; --host tcp:// doesn't work - it just breaks in a weird way
 (define-public
   dockerd-rootless.sh
   (package
     (name "dockerd-rootless.sh")
-    (version "25.0.1")
+    ;(version "25.0.1")
+    (version "20.10.27") ; maybe should match the guix docker version idk
     (source
       (origin
         (method git-fetch)
         (uri (git-reference
                (url "https://github.com/moby/moby")
                (commit (string-append "v" version))))
-        (sha256 "01h0yrs9frrk9ni25f8vvgicn359cyfayrq2zmcl1nbwal59a1a8")))
+        (sha256 "017frilx35w3m4dz3n6m2f293q4fq4jrk6hl8f7wg5xs3r8hswvq")))
+        ;(sha256 "01h0yrs9frrk9ni25f8vvgicn359cyfayrq2zmcl1nbwal59a1a8")))
     (build-system copy-build-system)
     (arguments
       '(#:install-plan '(("contrib/dockerd-rootless.sh" "bin/"))))
