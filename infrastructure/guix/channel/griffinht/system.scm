@@ -5,6 +5,7 @@
                #:use-module (gnu packages ssh)
                #:use-module (gnu services)
                #:use-module (gnu services base)
+               #:use-module (gnu services networking)
                #:use-module (gnu services ssh)
                #:use-module (gnu services desktop)
                #:use-module (guix gexp))
@@ -27,6 +28,7 @@
 (define-public %vm-services
   (append
     (list
+      (service dhcp-client-service-type)
       ; make acpi shutdown work
       (service elogind-service-type)
       (service openssh-service-type

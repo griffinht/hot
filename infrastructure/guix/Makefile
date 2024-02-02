@@ -41,6 +41,12 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 %/container.run: %/$(SYSTEM)
 	sudo "$$(guix system $(LOAD_PATH) container --network '$<')"
 
+%/image-docker.bin: %/$(SYSTEM)
+	guix system $(LOAD_PATH) image --image-type=docker --network '$<' > '$@'
+
+#%/image-docker.bin: %/$(SYSTEM)
+#todo
+
 %/image-small.bin: %/$(SYSTEM)
 	guix system $(LOAD_PATH) image --image-type=qcow2 '$<' > '$@'
 	#qemu-img convert?????

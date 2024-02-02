@@ -2,7 +2,6 @@
              (gnu packages certs)
              (gnu packages admin)
              (gnu packages containers)
-             (gnu services networking)
              (gnu services ssh)
              (gnu services docker)
              (guix gexp)
@@ -20,8 +19,7 @@
       %base-packages))
   (services
     (append
-      (list (service dhcp-client-service-type)
-            (service docker-service-type)
+      (list (service docker-service-type)
             ; /etc/docker must be writable by docker daemon
             (extra-special-file "/etc/docker/daemon.json"
                                 (local-file "daemon.json"))

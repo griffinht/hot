@@ -2,7 +2,6 @@
              (gnu packages certs)
              (gnu packages admin)
              (gnu packages containers)
-             (gnu services networking)
              (gnu services ssh)
              (gnu services sysctl)
              (guix gexp)
@@ -27,8 +26,7 @@
       %base-packages))
   (services
     (append
-      (list (service dhcp-client-service-type)
-            ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
+      (list ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
             ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
             (%etc-subuid "podman")
             (%etc-subgid "podman")
@@ -36,9 +34,7 @@
             (service iptables-service-type
                      (iptables-configuration)))|#
             (simple-service 'etc-container-policy etc-service-type
-                        (list `("containers/policy.json", (plain-file
-         "policy.json" "{\"default\": [{\"type\":
-         \"insecureAcceptAnything\"}]}")))))
+                        (list `("containers/policy.json", (local-file "policy.json")))))
       (modify-services
         %vm-services
         ;https://docs.docker.com/engine/security/rootless/#exposing-privileged-ports

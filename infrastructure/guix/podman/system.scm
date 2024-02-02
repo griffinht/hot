@@ -2,7 +2,6 @@
              (gnu packages certs)
              (gnu packages admin)
              (gnu packages containers)
-             (gnu services networking)
              (gnu services ssh)
              (guix gexp)
              (griffinht system))
@@ -17,7 +16,4 @@
         nss-certs
         podman)
       %base-packages))
-  (services
-    (append
-      (list (service dhcp-client-service-type))
-      %vm-services)))
+  (services %vm-services))
