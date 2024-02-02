@@ -33,6 +33,6 @@
     ;; private key of host machine to authenticate with
     ;; leave default its fine i think
     ; todo change to something idk
-    (identity "id_ed25519.pub")
+    (identity "id_ed25519.bin")
     ;; ssh server port of remote system, default 22
     (port 2222)))
