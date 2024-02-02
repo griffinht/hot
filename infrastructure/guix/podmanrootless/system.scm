@@ -30,14 +30,8 @@
       (list (service dhcp-client-service-type)
             ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
             ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
-            (simple-service
-              'etc-subuid etc-service-type
-              (list `("subuid" ,(plain-file "subuid"
-                                  (string-append "podman:100000:65536\n")))))
-            (simple-service
-              'etc-subgid etc-service-type
-              (list `("subgid" ,(plain-file "subgid"
-                                  (string-append "podman:100000:65536\n")))))
+            (%etc-subuid "podman")
+            (%etc-subgid "podman")
             #|
             (service iptables-service-type
                      (iptables-configuration)))|#
