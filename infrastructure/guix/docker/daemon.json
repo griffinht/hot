@@ -1,0 +1,4 @@
+{
+    "hosts": ["tcp://localhost:2375"],
+    "tls": false
+}
