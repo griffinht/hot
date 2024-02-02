@@ -1,0 +1,4 @@
+run each of these scripts from the parent directory
+
+todo use bridge network instead of user mode maybe
+https://apiraino.github.io/qemu-bridge-networking/
