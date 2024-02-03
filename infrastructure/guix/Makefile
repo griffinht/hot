@@ -62,12 +62,11 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 
 #.PHONY: %/image.run
 %/image.run: %/image-temp.bin
-	. ./dev.env \
-		&& qemu-system-x86_64 \
+	qemu-system-x86_64 \
 		-enable-kvm \
 		-drive "file=$$(cat '$<'),format=qcow2" \
 		-m 512 \
-		-nic "user,model=virtio-net-pci,hostfwd=tcp::$$SSH_PORT-:22"
+		-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22"
 
 %/deploy: deploy.scm %/$(SYSTEM)
 	SYSTEM='$*/$(SYSTEM)' guix deploy $(LOAD_PATH) '$<'
