@@ -1,5 +1,6 @@
 (use-modules (gnu services version-control)
              (gnu services web)
+             (gnu services samba)
              (griffinht system))
 
 (operating-system
@@ -13,5 +14,13 @@
         nss-certs)
         ;podman)
       %base-packages))|#
-  (services (append (list (service nginx-service-type))
-                    %vm-services)))
+  ; todo rsyslogd! monitoring!
+  (services
+    (append
+      (list
+        ;(service nginx-service-type)
+        (service samba-service-type ; todo containerize?
+          (samba-configuration
+            (enable-smbd? #t)
+            (config-file (local-file "smb.conf")))))
+      %vm-services)))
