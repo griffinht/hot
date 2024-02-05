@@ -1,26 +1,14 @@
-#|
-(define-module (system)
-               #:use-module (gnu)
-               #:use-module (gnu services networking) ; dhcp or static ip configuration
-               #:use-module (gnu services ssh) ; ssh daemon
-               #:use-module (gnu services vpn) ; wireguard
-               #:use-module (gnu packages virtualization) ; qemu
-               #:use-module (gnu system setuid) ; setuid
-               #:use-module (gnu services virtualization) ; ssh daemon
-               #:use-module (gnu services desktop) ; elogind
-               ;#:use-module (gnu packages certs) ; nss-certs
-               #:use-module (gnu packages ssh)
-               #:use-module (gnu packages admin))
-|#
 (use-modules (gnu packages admin)
              (gnu packages virtualization)
              (gnu packages ssh)
+             (gnu services base)
              (gnu services admin)
              (gnu services vpn)
              (gnu services ssh)
              (gnu services networking)
              (gnu services desktop)
              (gnu system setuid)
+             (guix gexp)
              (griffinht system))
 
 (operating-system
@@ -32,7 +20,7 @@
   ; fallocate --length 16G /swapfile
   ; chmod 0600 /swapfile
   ; mkswap /swapfile
-  (swap-devices (list (swap-space (target "/swapfile"))))
+  ;(swap-devices (list (swap-space (target "/swapfile"))))
   (packages
     (append (list netcat ; allows libvirt to spice/vnc/idk what its called
                   libvirt ; normally installed by the libvirtd service
@@ -60,8 +48,8 @@
                               (permit-root-login `prohibit-password)
                               (password-authentication? #f)
                               (authorized-keys
-                                `(("root" ,(local-file "../id_ed25519.pub.bin"))
-                                  ("libvirt" ,(local-file "../id_ed25519.pub.bin"))))))
+                                `(("root" ,(local-file "../cool-laptop.pub"))
+                                  ("libvirt" ,(local-file "../cool-laptop.pub"))))))
                     ; libvirt
                     ;(service libvirt-service-type)
                     ;(service virtlog-service-type) ; required for libvirt to work

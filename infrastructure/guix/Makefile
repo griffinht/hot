@@ -72,6 +72,9 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 		-m 512 \
 		-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22"
 
+%/deploy2: %/deploy.scm %/$(SYSTEM)
+	guix deploy $(LOAD_PATH) '$<'
+
 %/deploy: deploy.scm %/$(SYSTEM)
 	$(ENV_SCRIPT) SYSTEM='$*/$(SYSTEM)' guix deploy $(LOAD_PATH) '$<'
 
