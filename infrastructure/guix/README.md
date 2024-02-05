@@ -25,3 +25,6 @@ https://github.com/containers/podman/blob/main/docs/tutorials/socket_activation.
 
 # remote
 https://docs.podman.io/en/latest/markdown/podman-remote.1.html
+
+
+# todo use more scheme in configuration?? see if you can get by not using .env for config!
