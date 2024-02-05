@@ -23,7 +23,7 @@
     %base-file-systems))
 
 (define ssh-pubkey
-  (local-file "../../id_ed25519.pub.bin"))
+  (local-file (getenv "GUIX_PUBKEY")))
 
 (define-public %vm-services
   (append

@@ -10,11 +10,12 @@
 # create the storage with it as the backing store
 
 globals() {
-    #libvirt_uri=qemu:///session
-    #user=$USER
-    user=libvirt
-    ssh_uri=libvirt@hot-desktop.wg.griffinht.com
-    libvirt_uri="qemu+ssh://$ssh_uri/session"
+    user="$DEPLOY_USER"
+
+    ssh_uri="$DEPLOY_SSH_URI"
+
+    libvirt_uri="$DEPLOY_LIBVIRT_URI"
+
     prefix='mystuff'
 }
 globals
@@ -120,7 +121,7 @@ EOF
 
 copy_image() {
     # make sure image exists
-    if ! ssh "$ssh_uri" ls "$target" > /dev/null; then
+    if ! ssh "$ssh_uri" ls "$target" 2> /dev/null; then
         echo copying image to host...
         scp "$host_image" "$ssh_uri:$target"
     fi

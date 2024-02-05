@@ -6,7 +6,20 @@
 (operating-system
   (host-name "guix")
   (bootloader %vm-bootloader)
-  (file-systems %vm-file-systems)
+  (file-systems
+    (append (list
+              (file-system
+                (mount-point "/mnt/btrfs_data")
+                (type "tmpfs")
+                (options "size=10M")
+                (device "tmpfs"))
+              #|
+              (file-system
+                 (mount-point "/mnt/btrfs_data")
+                 (type "btrfs")
+                 (options "compress=zstd")
+                 (device (file-system-label "btrfs_data")))|#)
+             %vm-file-systems))
   #|
   (packages
     (append
@@ -24,3 +37,4 @@
             (enable-smbd? #t)
             (config-file (local-file "smb.conf")))))
       %vm-services)))
+; todo attach multiple nics for private nfs networking! i think that means a bridge without

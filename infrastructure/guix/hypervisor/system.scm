@@ -26,15 +26,7 @@
 (operating-system
   (host-name "hypervisor")
   (bootloader %vm-bootloader)
-  (file-systems
-    (append (list
-              #|
-              (file-system
-                 (mount-point "/mnt/btrfs_data")
-                 (type "btrfs")
-                 (options "compress=zstd")
-                 (device (file-system-label "btrfs_data")))|#)
-             %vm-file-systems))
+  (file-systems %vm-file-systems)
   ; https://issues.guix.gnu.org/34255
   ; note the swap file must be manually created
   ; fallocate --length 16G /swapfile
