@@ -52,8 +52,10 @@ create_pool() {
 
 print_xml() {
     name="$1"
-    # todo specify network
+    # todo specify network - bridged br0
+    # todo add some storage resources maybe?
     virt_install \
+        --autostart \
         --name "$name" \
         --disk \
             "pool=$pool,size=$size,backing_store=$backing_store" \
