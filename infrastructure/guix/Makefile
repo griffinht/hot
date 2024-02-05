@@ -8,6 +8,7 @@ DEPLOY_IMAGE_SCRIPT=./scripts/deploy-image.sh
 ENV_FILE=local.env
 ENV_SCRIPT=. ./$(ENV_FILE) &&
 
+# todo allow this to be out of date? it just needs to exist once
 id_%.bin:
 	ssh-keygen -t $* -f '$@' -N ""
 	mv '$@.pub' 'id_$*.pub.bin'
