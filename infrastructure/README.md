@@ -18,9 +18,7 @@ marjory.ns.cloudflare.com
 
 griffinht.com
     windy -> (dynamic ip manually updated) todo auto update script
-        :80 -> 192.168.0.6
-        :443 -> 192.168.0.6
-        :51820 -> 192.168.0.6
+        see mikrotik.sh for port forwarding rules
         (internet accessible via nat)
         (internally accessible via hairpin nat)
     (root), hot, \*.hot -> windy 
@@ -28,15 +26,18 @@ griffinht.com
         :22 (todo remove internet access, allow only via wg???)
         :51820
     lan - (lil-tik static dns on 192.168.0.1 (actually might move this to fruit-pi??))
+        see mikrotik.sh for static dns
+
         lil-tik     192.168.0.1
         fruit-pi    192.168.0.2
         tp-wap      192.168.0.3
         hot-desktop 192.168.0.5
         envy-laptop 192.168.0.6
+        vm-guix     192.168.0.7
 
 #todo read this interesting and very complex setup https://dev.to/tangramvision/what-they-don-t-tell-you-about-setting-up-a-wireguard-vpn-1h2g 
 #todo rethink ip for conflicts! https://en.wikipedia.org/wiki/Reserved_IP_addresses
-    wg (dnsmasq on 10.0.0.1)
+    wg (dnsmasq on 10.0.0.1) todo?
         envy-laptop     10.0.0.1
         hot-desktop     10.0.0.2
         nerd-vps        10.0.0.3
@@ -45,3 +46,5 @@ griffinht.com
         other-phone     10.0.0.6
         ugly-laptop     10.0.0.7
         cool-laptop     10.0.0.9
+        vm-guix         10.0.0.10
+        vm-nas          10.0.0.11

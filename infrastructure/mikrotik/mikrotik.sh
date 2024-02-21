@@ -11,15 +11,22 @@ cat << EOF
 /ip dns static add name=lil-tik.lan.griffinht.com address=192.168.0.1
 #/ip dns static add name=fruit-pi.lan.griffinht.com address=192.168.0.2
 #/ip dns static add name=tp-wap.lan.griffinht.com address=192.168.0.3
-/ip dns static add name=hot-desktop.lan.griffinht.com address=192.168.0.5
-/ip dns static add name=envy-laptop.lan.griffinht.com address=192.168.0.6
+#/ip dns static add name=hot-desktop.lan.griffinht.com address=192.168.0.5
+#/ip dns static add name=envy-laptop.lan.griffinht.com address=192.168.0.6
 
 #192.168.0.1 lil-tik static
 #192.168.0.2 fruit-pi static
 #/ip dhcp-server lease add address=192.168.0.3 mac-address=E4:11:5B:61:70:DD server=defconf
+# hot-desktop (hypervisor)
 /ip dhcp-server lease add address=192.168.0.5 mac-address=fc:aa:14:b0:1b:64 server=defconf
+# envy-laptop
 /ip dhcp-server lease add address=192.168.0.6 mac-address=E4:11:5B:61:70:DD server=defconf
+# terraria laptop
 /ip dhcp-server lease add address=192.168.0.7 mac-address=04:7c:16:d1:b4:97 server=defconf
+# vm-guix
+/ip dhcp-server lease add address=192.168.0.8 mac-address=52:54:00:df:92:de server=defconf
+# vm-nas
+/ip dhcp-server lease add address=192.168.0.9 mac-address= server=defconf
 
 # dynamic dns for hairpin nat external ip
 /ip firewall address-list add address=windy.griffinht.com list=WANIP
@@ -34,16 +41,16 @@ cat << EOF
 
 
 # nginx
-/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.5 protocol=tcp
-/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.5 protocol=tcp
-# wireguard
+#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.5 protocol=tcp
+#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.5 protocol=tcp
+# hypervisor wireguard
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51820 to-addresses=192.168.0.5 protocol=udp
-# wire2
-#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51821 to-addresses=192.168.0.6 protocol=udp
+# vm-guix wireguard
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51821 to-addresses=192.168.0.8 protocol=udp
 
 
 
-# cool-desktop
+# terarria laptop
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.7 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
 # terraria
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=7777 to-addresses=192.168.0.7 protocol=tcp

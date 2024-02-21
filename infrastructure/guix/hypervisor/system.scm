@@ -7,6 +7,7 @@
              (gnu services ssh)
              (gnu services networking)
              (gnu services desktop)
+             (gnu services samba)
              (gnu system setuid)
              (guix gexp)
              (griffinht system))
@@ -14,7 +15,14 @@
 (operating-system
   (host-name "hypervisor")
   (bootloader %vm-bootloader)
-  (file-systems %vm-file-systems)
+  (file-systems 
+    (append (list
+              (file-system
+                 (mount-point "/mnt/btrfs_data")
+                 (type "btrfs")
+                 (options "compress=zstd")
+                 (device (file-system-label "btrfs_data"))))
+            %vm-file-systems))
   ; https://issues.guix.gnu.org/34255
   ; note the swap file must be manually created
   ; fallocate --length 16G /swapfile
@@ -64,7 +72,12 @@
                           (list (wireguard-peer
                                   (name "cool-laptop")
                                   (public-key "5V21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")
-                                  (allowed-ips '("10.0.0.9/32"))))))))
+                                  (allowed-ips '("10.0.0.9/32")))))))
+        (service samba-service-type
+          (samba-configuration
+            (enable-smbd? #t)
+            (config-file (local-file "smb.conf"))))
+                    )
             (modify-services %base-services
                              ;; The server must trust the Guix packages you build. If you add the signing-key
                              ;; manually it will be overridden on next `guix deploy` giving
