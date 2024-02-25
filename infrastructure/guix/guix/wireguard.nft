@@ -1,0 +1,9 @@
+define wg_iface = "wg0"
+define pub_iface = "eth0"
+
+table inet my_nat {
+    chain my_postrouting {
+        type nat hook postrouting priority 100; policy accept;
+        iifname $wg_iface oifname $pub_iface masquerade
+    }
+}
