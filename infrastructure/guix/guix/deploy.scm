@@ -3,11 +3,7 @@
         (operating-system (load "system.scm"))
         (environment managed-host-environment-type)
         (configuration (machine-ssh-configuration 
-                         (host-name "guix-vm.wg.griffinht.com")
-                         (host-name "192.168.0.6")
+                         (host-name "127.0.0.1")
+                         (port 2222)
                          (system "x86_64-linux")
-                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGOay9Mz5klPe0VdJRxzCx1juclU0TtEJOFc4Ieqt9Po")
-                         ;; private key of host machine to authenticate with
-                         ;; leave default its fine i think
-                         ;;(identity "id_ed25519.pub")
-                         ))))
+                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF7sXKSJly1wOeubq8RBpR3sVYoVLlBlUME+yS3Bw3uL")))))
