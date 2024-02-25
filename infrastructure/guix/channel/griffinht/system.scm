@@ -22,10 +22,10 @@
       (device (file-system-label "Guix_image"))))
     %base-file-systems))
 
-(define ssh-pubkey
-  (local-file (getenv "GUIX_PUBKEY")))
+;(define ssh-pubkey
+;  (local-file (getenv "GUIX_PUBKEY")))
 
-(define-public %vm-services
+(define-public (make-vm-services authorized-keys)
   (append
     (list
       (service dhcp-client-service-type)
@@ -36,10 +36,7 @@
                  (openssh openssh-sans-x)
                  (permit-root-login `prohibit-password)
                  (password-authentication? #f)
-                 (authorized-keys ; todo don't just spam for all the users, instead take an additional users argument or something
-                 `(("root" ,ssh-pubkey)
-                   ("podman" ,ssh-pubkey)
-                   ("docker" ,ssh-pubkey))))))
+                 (authorized-keys authorized-keys))))
     (modify-services
       %base-services
       ; https://stumbles.id.au/getting-started-with-guix-deploy.html
@@ -63,8 +60,8 @@
       `(,filename ,(plain-file filename
                               (string-append user ":100000:65536\n"))))))
 
-(define-public (%etc-subuid user)
+(define-public (etc-subuid user)
                (etc-subid 'etc-subuid "subuid" user))
 
-(define-public (%etc-subgid user)
+(define-public (etc-subgid user)
                (etc-subid 'etc-subgid "subgid" user))

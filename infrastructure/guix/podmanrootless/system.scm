@@ -7,6 +7,9 @@
              (guix gexp)
              (griffinht system))
 
+(define ssh-pubkey
+  (local-file "../cool-laptop.pub"))
+
 (operating-system
   (host-name "podmanrootless")
   (bootloader %vm-bootloader)
@@ -28,15 +31,15 @@
     (append
       (list ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory
             ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
-            (%etc-subuid "podman")
-            (%etc-subgid "podman")
+            (etc-subuid "podman")
+            (etc-subgid "podman")
             #|
             (service iptables-service-type
                      (iptables-configuration)))|#
             (simple-service 'etc-container-policy etc-service-type
                         (list `("containers/policy.json", (local-file "policy.json")))))
       (modify-services
-        %vm-services
+        (make-vm-services `(("root" ,ssh-pubkey) ("podman" ,ssh-pubkey)))
         ;https://docs.docker.com/engine/security/rootless/#exposing-privileged-ports
         ;https://issues.guix.gnu.org/61462
         (sysctl-service-type
