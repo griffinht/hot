@@ -1,3 +1,23 @@
+# playbook
+
+```
+make base/deploy-image ENV_FILE=hot_desktop.env
+```
+
+1. rename it to your own system
+2. make sure networking is bridge br0
+3. configure mikrotik to hand out dhcp lease for vm's mac address
+4. use ssh tunnel to hot-desktop.wg.griffinht.com or wireguard tunnel to lan to deploy!
+5. port forward any ports you want to the internet with mikrotik
+
+```
+#make your_system/deploy ENV_FILE=hot_desktop.env
+
+guix deploy podmanrootless/deploy.scm
+```
+
+# stuff
+
 https://github.com/containers/podman/blob/main/docs/tutorials/basic_networking.md
 https://github.com/containers/podman/blob/main/docs/tutorials/rootless_tutorial.md
 https://opensource.com/article/19/2/how-does-rootless-podman-work

@@ -4,6 +4,7 @@ https://github.com/traefik/traefik/wiki/Awesome-Traefik
 
 
 todo:
+syncstorage-rs
 unmaintained:
 nas/samba
 nas/nfs
