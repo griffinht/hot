@@ -4,16 +4,24 @@
 make base/deploy-image ENV_FILE=hot_desktop.env
 ```
 
-1. rename it to your own system
-2. make sure networking is bridge br0
-3. configure mikrotik to hand out dhcp lease for vm's mac address
-4. use ssh tunnel to hot-desktop.wg.griffinht.com or wireguard tunnel to lan to deploy!
+1. virt-manager:
+    - rename it to your own system
+    - make sure networking is bridge br0, then probably restart
+3. dhcp:
+    - configure mikrotik to hand out dhcp lease for vm's mac address
+4. inital connection:
+    - use ssh tunnel to hot-desktop.wg.griffinht.com or wireguard tunnel to lan to deploy! (or be on the local network)
+        - note that sometimes i found that i had to make the vm do something like make an http request to the hypervisor before
+        - debug: ip route get vm-host before and after applying this trick - maybe the hypervisor can't automatically add the route or something idk?
 5. port forward any ports you want to the internet with mikrotik
 
 ```
 #make your_system/deploy ENV_FILE=hot_desktop.env
 
-guix deploy podmanrootless/deploy.scm
+# get ssh access via hypervisor
+ssh -L 127.0.0.1:2222:cloudtest.lan.griffinht.com:22 hot-desktop.wg.griffinht.com
+# deploy! make sure to edit deploy.scm with host key (and temp local address if you are remote and relying on ssh tunneling)
+./guix.sh deploy podmanrootless/deploy.scm
 ```
 
 # stuff

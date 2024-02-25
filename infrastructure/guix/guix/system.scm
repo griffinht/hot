@@ -1,7 +1,11 @@
 (use-modules (gnu services version-control)
              (gnu services web)
              (gnu services samba)
+             (gnu services sysctl)
              (griffinht system))
+
+(define ssh-pubkey
+  (local-file "../cool-laptop.pub"))
 
 (operating-system
   (host-name "guix")
@@ -36,5 +40,12 @@
           (samba-configuration
             (enable-smbd? #t)
             (config-file (local-file "smb.conf")))))
-      %vm-services)))
+      (modify-services
+        (make-vm-services `(("root" ,ssh-pubkey)))
+        (sysctl-service-type
+          config =>
+          (sysctl-configuration
+            (settings
+              (append '(("net.ipv4.ip_forward" . "1")) ; todo ipv6!
+                      %default-sysctl-settings))))))))
 ; todo attach multiple nics for private nfs networking! i think that means a bridge without
