@@ -13,7 +13,10 @@ cat << EOF
 #/ip dns static add name=tp-wap.lan.griffinht.com address=192.168.0.3
 #/ip dns static add name=hot-desktop.lan.griffinht.com address=192.168.0.5
 #/ip dns static add name=envy-laptop.lan.griffinht.com address=192.168.0.6
+/ip dns static add name=mystuff-guix.lan.griffinht.com address=192.168.0.8
+/ip dns static add name=cloudtest.lan.griffinht.com address=192.168.0.9
 
+# dhcp leases
 #192.168.0.1 lil-tik static
 #192.168.0.2 fruit-pi static
 #/ip dhcp-server lease add address=192.168.0.3 mac-address=E4:11:5B:61:70:DD server=defconf
@@ -23,10 +26,13 @@ cat << EOF
 /ip dhcp-server lease add address=192.168.0.6 mac-address=E4:11:5B:61:70:DD server=defconf
 # terraria laptop
 /ip dhcp-server lease add address=192.168.0.7 mac-address=04:7c:16:d1:b4:97 server=defconf
-# vm-guix
-/ip dhcp-server lease add address=192.168.0.8 mac-address=52:54:00:df:92:de server=defconf
-# vm-nas
-/ip dhcp-server lease add address=192.168.0.9 mac-address= server=defconf
+# mystuff-guix
+/ip dhcp-server lease add address=192.168.0.8 mac-address=52:54:00:d4:ac:e9 server=defconf
+# cloudtest
+/ip dhcp-server lease add address=192.168.0.9 mac-address=52:54:00:ac:97:88 server=defconf
+
+
+
 
 # dynamic dns for hairpin nat external ip
 /ip firewall address-list add address=windy.griffinht.com list=WANIP
@@ -37,6 +43,8 @@ cat << EOF
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.5 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
 #would need to be udp for wg????
 #/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.6 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
+
+
 
 
 
