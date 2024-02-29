@@ -14,6 +14,8 @@ cat << EOF
 #/ip dns static add name=hot-desktop.lan.griffinht.com address=192.168.0.5
 #/ip dns static add name=envy-laptop.lan.griffinht.com address=192.168.0.6
 /ip dns static add name=mystuff-guix.lan.griffinht.com address=192.168.0.8
+#todo? why not try ipv6?
+#/ip dns static add name=mystuff-guix.lan.griffinht.com type=AAAA address=fe80::5054:ff:fed4:ace9
 /ip dns static add name=cloudtest.lan.griffinht.com address=192.168.0.9
 
 # dhcp leases
@@ -48,17 +50,18 @@ cat << EOF
 
 
 
-# nginx
-#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.5 protocol=tcp
-#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.5 protocol=tcp
 # hypervisor wireguard
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51820 to-addresses=192.168.0.5 protocol=udp
-# vm-guix wireguard
+# mystuff-guix wireguard
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51821 to-addresses=192.168.0.8 protocol=udp
+# podmanrootless nginx
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.9 protocol=tcp
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.9 protocol=tcp
 
 
 
 # terarria laptop
+# todo remove this rule i don't think that it is necessary
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.7 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
 # terraria
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=7777 to-addresses=192.168.0.7 protocol=tcp
