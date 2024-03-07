@@ -1,11 +1,13 @@
 (use-modules (gnu packages ssh)
              (gnu packages certs)
              (gnu packages admin)
+             (gnu packages docker)
              (gnu packages containers)
              (gnu services ssh)
              (gnu services sysctl)
              (guix gexp)
-             (griffinht system))
+             (griffinht system)
+             (griffinht packages misc))
 
 (define ssh-pubkey
   (local-file "../cool-laptop.pub"))
@@ -25,7 +27,16 @@
       (list
         nss-certs
         shadow ; newuidmap with setuid
-        podman)
+        ; things that (probably) don't need to be installed root (setuid)
+        podman
+        ; griffinht packages misc
+        ; https://issues.guix.gnu.org/66887
+        ; required by podman to build init container for pods
+        catatonit
+        ;iptables
+        ;iptables-nft
+        ;nftables
+        docker-cli)
       %base-packages))
   (services
     (append
@@ -33,9 +44,6 @@
             ; https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
             (etc-subuid "podman")
             (etc-subgid "podman")
-            #|
-            (service iptables-service-type
-                     (iptables-configuration)))|#
             (simple-service 'etc-container-policy etc-service-type
                         (list `("containers/policy.json", (local-file "policy.json")))))
       (modify-services

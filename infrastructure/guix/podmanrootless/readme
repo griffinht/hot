@@ -1,2 +1,7 @@
 todo pam limits??
 https://www.mail-archive.com/guix-devel@gnu.org/msg66974.html
+
+# USAGE
+todo start this daemon automatically (rootlessly, as the podman user!)
+and make sure my containers come up automatically on restart!
+ssh podman@cloudtest.lan.griffinht.com podman system service -t 0
