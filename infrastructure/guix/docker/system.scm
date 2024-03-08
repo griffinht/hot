@@ -7,6 +7,9 @@
              (guix gexp)
              (griffinht system))
 
+(define ssh-pubkey
+  (local-file "../cool-laptop.pub"))
+
 (operating-system
   (host-name "docker")
   (bootloader %vm-bootloader)
@@ -25,4 +28,4 @@
                                 (local-file "daemon.json"))
             #|(simple-service 'bruh etc-service-type
                             (list `("docker/daemon.json" ,(local-file "daemon.json"))))|#)
-      %vm-services)))
+      (make-vm-services `(("root" ,ssh-pubkey))))))
