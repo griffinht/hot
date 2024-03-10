@@ -20,12 +20,23 @@
         nss-certs)
         ;podman)
       %base-packages))
+  #|
+  (users
+    (append
+      (list
+        (user-account
+          (name "docker")
+          (group "users")
+          (supplementary-groups '("docker"))))
+      %base-user-accounts))
+  |#
   (services
     (append
       (list (service docker-service-type)
             ; /etc/docker must be writable by docker daemon
-            (extra-special-file "/etc/docker/daemon.json"
-                                (local-file "daemon.json"))
+            #|(extra-special-file "/etc/docker/daemon.json"
+                                (local-file "daemon.json"))|#
             #|(simple-service 'bruh etc-service-type
                             (list `("docker/daemon.json" ,(local-file "daemon.json"))))|#)
-      (make-vm-services `(("root" ,ssh-pubkey))))))
+      ; ssh
+      (make-vm-services `(("root" ,ssh-pubkey)))))) ;("docker" ,ssh-pubkey))))))
