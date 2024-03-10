@@ -1,0 +1,29 @@
+volumes:
+  griffinht:
+    external: true
+
+networks:
+  internal:
+    drive: bridge
+    internal: true
+
+services:
+  griffinht:
+    # todo use guix python
+    image: docker.io/python
+    command: python3 -m http.server --directory /serve 80
+    volumes:
+      - griffinht:/serve:ro
+    networks:
+      - internal
+  git:
+    image: gitwebui:latest
+    command: run.sh
+      #    user: nobody
+      #user: 65534:996
+    user: 1001:998
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+    networks:
+      - internal
+  git:

@@ -1,0 +1,7 @@
+volumes:
+  griffinht:
+    external: false
+services:
+  griffinht:
+    ports:
+      - 8080:80

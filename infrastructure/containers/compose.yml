@@ -1,0 +1,11 @@
+volumes:
+  redis:
+    external: true
+services:
+  redis:
+    image: docker.io/redis
+  nginx:
+    image: localhost/web:latest
+    ports:
+      - 80:80
+      - 443:443
