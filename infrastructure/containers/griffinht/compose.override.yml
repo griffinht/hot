@@ -1,6 +1,3 @@
-volumes:
-  griffinht:
-    external: false
 services:
   griffinht:
     ports:

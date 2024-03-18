@@ -1,11 +1,25 @@
 volumes:
   redis:
     external: true
+networks:
+  internal:
+    driver: bridge
+    internal: true
+  griffinht_internal:
+    external: true
 services:
   redis:
     image: docker.io/redis
+    networks:
+      - internal
   nginx:
     image: localhost/web:latest
+    depends_on:
+      - redis
     ports:
       - 80:80
       - 443:443
+    networks:
+      - default
+      - internal
+      - griffinht_internal
