@@ -1,0 +1,11 @@
+volumes:
+  searxng_internal:
+
+services:
+  searxng:
+    image: docker.io/searxng/searxng:latest
+    restart: always
+      #    environment:
+      #      - BASE_URL=https://hot.griffinht.com/searx/
+    volumes:
+      - searxng_internal:/etc/searxng

@@ -8,6 +8,7 @@ networks:
   griffinht_internal:
     external: true
 services:
+  # todo use guix redis
   redis:
     image: docker.io/redis
     networks:
