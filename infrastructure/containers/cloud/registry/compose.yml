@@ -1,0 +1,24 @@
+# todo use s3 backend
+volumes:
+  registry:
+services:
+  # https://distribution.github.io/distribution/about/deploying/
+  # todo proxy
+  # todo? https://github.com/distribution/distribution/issues/2974
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - 5000:5000
+    volumes:
+      - registry:/var/lib/registry:ro
+  # todo ensure not publicly accessible
+  # todo proxy with auth
+  # https://distribution.github.io/distribution/recipes/nginx/
+  registry-write:
+    restart: always
+    image: registry:2
+    ports:
+      - 5001:5000
+    volumes:
+      - registry:/var/lib/registry:rw
