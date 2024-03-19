@@ -1,0 +1,32 @@
+volumes:
+  certificates:
+  config:
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 8080:80
+      - 4433:443
+    networks:
+      - default
+      - internal
+    volumes:
+      - certificates:/certificates:ro
+      - config:/config:ro
+      - ./passwd:/etc/passwd:ro
+      - ./group:/etc/group:ro
+    user: root
+    command: nginx -p / -e /dev/stderr -c /config/nginx.conf
+  certbot:
+    image: certbot
+    networks:
+      - internal
+    volumes:
+      - certificates:/certificates
+    command: certbot --help
