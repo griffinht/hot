@@ -22,3 +22,11 @@ services:
       - 5001:5000
     volumes:
       - registry:/var/lib/registry:rw
+  registry-ui:
+    image: docker.io/joxit/docker-registry-ui:main
+    restart: always
+    ports:
+      - 5002:80
+    environment:
+      - SINGLE_REGISTRY=true
+      - REGISTRY_URL=http://localhost:8080
