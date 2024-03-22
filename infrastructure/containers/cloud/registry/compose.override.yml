@@ -1,4 +1,10 @@
 services:
+  registry-write:
+    ports:
+      - 5000:5000
+  registry-ui:
+    ports:
+      - 5002:80
   caddy:
     image: docker.io/caddy
     depends_on:

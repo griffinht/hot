@@ -1,32 +1,46 @@
 # todo use s3 backend
 volumes:
   registry:
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+  internal-write:
+    driver: bridge
+    internal: true
+
 services:
   # https://distribution.github.io/distribution/about/deploying/
   # todo proxy
   # todo? https://github.com/distribution/distribution/issues/2974
   registry:
+    image: docker.io/registry:2
     restart: always
-    image: registry:2
-    ports:
-      - 5000:5000
+    networks:
+      - internal
     volumes:
       - registry:/var/lib/registry:ro
+
+  registry-ui:
+    image: docker.io/joxit/docker-registry-ui:main
+    restart: always
+    networks:
+      - internal
+    environment:
+      - SINGLE_REGISTRY=true
+      - REGISTRY_URL=http://localhost:8080
+
   # todo ensure not publicly accessible
   # todo proxy with auth
   # https://distribution.github.io/distribution/recipes/nginx/
   registry-write:
-    restart: always
-    image: registry:2
-    ports:
-      - 5001:5000
-    volumes:
-      - registry:/var/lib/registry:rw
-  registry-ui:
-    image: docker.io/joxit/docker-registry-ui:main
+    image: docker.io/registry:2
     restart: always
     ports:
       - 5002:80
-    environment:
-      - SINGLE_REGISTRY=true
-      - REGISTRY_URL=http://localhost:8080
+    networks:
+      - internal-write
+    volumes:
+      - registry:/var/lib/registry:rw
