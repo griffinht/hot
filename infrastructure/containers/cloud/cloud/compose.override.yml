@@ -1,0 +1,13 @@
+services:
+  nginx:
+    depends_on:
+      - certbot
+  certbot:
+    image: openssl
+    command: openssl req -new -x509 -nodes -sha256 -nodes -subj /CN=localhost -keyout griffinht.com.key -out griffinht.com.crt
+    working_dir: /certificates
+    volumes: 
+      - certificates:/certificates
+        #    environment:
+        #      - CF_ZONE_API_TOKEN
+        #      - CF_DNS_API_TOKEN
