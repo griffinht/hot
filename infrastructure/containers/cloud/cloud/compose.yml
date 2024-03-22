@@ -3,10 +3,13 @@ volumes:
   certbot_secrets:
   certbot_data:
   config:
+  acme:
 
 networks:
   registry_internal:
     name: registry_internal
+  static_internal:
+    name: static_internal
 
 services:
   nginx:
@@ -20,6 +23,7 @@ services:
     volumes:
       - certificates:/certificates:ro
       - config:/config:ro
+      - acme:/acme:ro
       - /etc/passwd:/etc/passwd:ro
       - /etc/group:/etc/group:ro
         #user: root
@@ -33,7 +37,12 @@ services:
       - certificates:/etc/letsencrypt
       - certbot_data:/var/lib/letsencrypt
       - certbot_secrets:/secrets
+      - acme:/acme
         # todo register with email maybe?
-    command: certonly -n --agree-tos --register-unsafely-without-email -d *.web.cloud.griffinht.com --dns-cloudflare --dns-cloudflare-credentials /secrets/credentials.ini
+        #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name web.cloud.griffinht.com -d *.web.cloud.griffinht.com --dns-cloudflare --dns-cloudflare-credentials /secrets/credentials.ini
+        #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name registry.griffinht.com -d registry.griffinht.com --webroot -w /acme/registry.griffinht.com
+        #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name git.griffinht.com -d git.griffinht.com --webroot -w /acme/git.griffinht.com
+        #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name griffinht.com -d griffinht.com --webroot -w /acme/griffinht.com
+    command: certificates
       # setup: follow this guide and put credentials in certificates_secrets credentials.ini file (chmod 600 to avoid warnings)
       # https://certbot-dns-cloudflare.readthedocs.io/en/stable/
