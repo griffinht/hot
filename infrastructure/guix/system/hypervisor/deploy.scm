@@ -7,7 +7,7 @@
         (environment managed-host-environment-type)
         (configuration (machine-ssh-configuration 
                          ;; this is the domain or ip address of the target machine
-                         (host-name "hot-desktop.wg.griffinht.com")
+                         (host-name "hot-desktop.wg.hot.griffinht.com")
                          ;(host-name "localhost")
                          ;; why is system required?
                          (system "x86_64-linux")

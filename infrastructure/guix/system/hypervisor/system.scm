@@ -28,7 +28,7 @@
   ; fallocate --length 16G /swapfile
   ; chmod 0600 /swapfile
   ; mkswap /swapfile
-  ;(swap-devices (list (swap-space (target "/swapfile"))))
+  (swap-devices (list (swap-space (target "/swappy"))))
   (packages
     (append (list netcat ; allows libvirt to spice/vnc/idk what its called
                   libvirt ; normally installed by the libvirtd service
