@@ -8,6 +8,8 @@ volumes:
 networks:
   registry_internal:
     external: true
+  s3_internal:
+    external: true
 
 services:
   nginx:
@@ -19,6 +21,7 @@ services:
     networks:
       - default
       - registry_internal
+      - s3_internal
     volumes:
       - certificates:/certificates:ro
       - config:/config:ro

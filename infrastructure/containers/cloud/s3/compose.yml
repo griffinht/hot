@@ -1,3 +1,0 @@
-services:
-  s3:
-    image: docker.io/minio/minio

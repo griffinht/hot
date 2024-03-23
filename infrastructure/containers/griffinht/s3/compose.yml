@@ -1,0 +1,26 @@
+volumes:
+  s3:
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+services:
+  # todo properly use s3 security mechanisms? idk...
+  s3:
+    image: docker.io/minio/minio
+    restart: always
+    networks:
+      - internal
+    volumes:
+      - s3:/data:ro
+    command: server /data
+  s3-write:
+    image: docker.io/minio/minio
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - s3:/data
+    command: server /data
