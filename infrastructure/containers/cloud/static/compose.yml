@@ -1,0 +1,15 @@
+volumes:
+  static:
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+services:
+  static:
+    image: python
+    restart: always
+    command: python3 -m http.server --directory /static
+    volumes:
+      - static:/static:ro

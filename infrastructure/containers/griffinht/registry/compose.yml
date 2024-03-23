@@ -7,10 +7,6 @@ networks:
     driver: bridge
     internal: true
 
-  internal-write:
-    driver: bridge
-    internal: true
-
 services:
   # https://distribution.github.io/distribution/about/deploying/
   # todo proxy
@@ -50,9 +46,10 @@ services:
   registry-write:
     image: docker.io/registry:2
     restart: always
+    # lan access to physical host only
     ports:
-      - 5002:80
-    networks:
-      - internal-write
+      - 5000:5000
     volumes:
       - registry:/var/lib/registry:rw
+    environment:
+      REGISTRY_STORAGE_DELETE_ENABLED: true

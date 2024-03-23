@@ -1,0 +1,40 @@
+volumes:
+  photoprism_mariadb:
+  photoprism:
+  photoprism_data:
+    driver_opts:
+      type: cifs
+      o: username=bruh,password=
+      device: //192.168.0.5/bruhbruh/MEENA/archive
+
+services:
+  photoprism:
+    image: docker.io/photoprism/photoprism:latest
+    depends_on:
+      - mariadb
+    ports:
+      - 2342:2342
+    environment:
+      # https://dl.photoprism.app/docker/docker-compose.yml
+      PHOTOPRISM_READONLY: true
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"            # use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance
+      PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"     # MariaDB or MySQL database server (hostname:port)
+      PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB or MySQL database schema name
+      PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB or MySQL database user name
+      PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB or MySQL database user password
+      PHOTOPRISM_AUTH_MODE: public
+    volumes:
+      - photoprism_data:/photoprism/originals:ro
+      - photoprism:/photoprism/storage
+  mariadb:
+    image: docker.io/mariadb:11
+    command: --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
+    volumes:
+      - photoprism_mariadb:/var/lib/mysql
+    environment:
+      MARIADB_AUTO_UPGRADE: "1"
+      MARIADB_INITDB_SKIP_TZINFO: "1"
+      MARIADB_DATABASE: "photoprism"
+      MARIADB_USER: "photoprism"
+      MARIADB_PASSWORD: "insecure"
+      MARIADB_ROOT_PASSWORD: "insecure"

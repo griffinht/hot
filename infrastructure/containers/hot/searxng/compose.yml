@@ -7,5 +7,7 @@ services:
     restart: always
       #    environment:
       #      - BASE_URL=https://hot.griffinht.com/searx/
+    ports:
+      - 8123:8080
     volumes:
       - searxng_internal:/etc/searxng
