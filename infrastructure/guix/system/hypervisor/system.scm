@@ -28,6 +28,7 @@
   ; fallocate --length 16G /swapfile
   ; chmod 0600 /swapfile
   ; mkswap /swapfile
+  ; todo make sure this works
   (swap-devices (list (swap-space (target "/swappy"))))
   (packages
     (append (list netcat ; allows libvirt to spice/vnc/idk what its called
