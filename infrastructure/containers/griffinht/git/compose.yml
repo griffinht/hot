@@ -1,5 +1,6 @@
-volumes:
-  griffinht:
+#todo
+#volumes:
+  #  git:
 
 networks:
   internal:
@@ -7,16 +8,8 @@ networks:
     internal: true
 
 services:
-  griffinht:
-    # todo use guix python
-    image: python:latest
-    command: python3 -m http.server --directory /serve 80
-    volumes:
-      - griffinht:/serve:ro
-    networks:
-      - internal
   git:
-    image: gitwebui:latest
+    image: gitwebui
     command: run.sh
       #    user: nobody
       #user: 65534:996
