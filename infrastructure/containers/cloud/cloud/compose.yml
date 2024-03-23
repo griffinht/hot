@@ -7,9 +7,7 @@ volumes:
 
 networks:
   registry_internal:
-    name: registry_internal
-  static_internal:
-    name: static_internal
+    external: true
 
 services:
   nginx:
@@ -43,6 +41,7 @@ services:
         #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name registry.griffinht.com -d registry.griffinht.com --webroot -w /acme/registry.griffinht.com
         #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name git.griffinht.com -d git.griffinht.com --webroot -w /acme/git.griffinht.com
         #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name griffinht.com -d griffinht.com --webroot -w /acme/griffinht.com
+        #command: certonly -n --agree-tos --register-unsafely-without-email --cert-name ui.registry.griffinht.com -d ui.registry.griffinht.com --webroot -w /acme/ui.registry.griffinht.com
     command: certificates
       # setup: follow this guide and put credentials in certificates_secrets credentials.ini file (chmod 600 to avoid warnings)
       # https://certbot-dns-cloudflare.readthedocs.io/en/stable/
