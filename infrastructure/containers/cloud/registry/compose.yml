@@ -22,6 +22,15 @@ services:
       - internal
     volumes:
       - registry:/var/lib/registry:ro
+    environment:
+      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '[https://ui.registry.griffinht.com]'
+        # not needed?
+      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods: '[HEAD,GET,OPTIONS]'
+        # not needed?
+        #REGISTRY_HTTP_HEADERS_Access-Control-Allow-Credentials: '[true]'
+        # only needs accept?
+      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers: '[Accept,Cache-Control]'
+      REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers: '[Docker-Content-Digest]'
 
   registry-ui:
     image: docker.io/joxit/docker-registry-ui:main
@@ -30,7 +39,10 @@ services:
       - internal
     environment:
       - SINGLE_REGISTRY=true
-      - REGISTRY_URL=http://localhost:8080
+      - REGISTRY_URL=https://registry.griffinht.com
+      - SHOW_CONTENT_DIGEST=true
+        # todo apparently fixes a bug?
+      - USE_CONTROL_CACHE_HEADER=true
 
   # todo ensure not publicly accessible
   # todo proxy with auth

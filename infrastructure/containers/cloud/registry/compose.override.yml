@@ -5,10 +5,3 @@ services:
   registry-ui:
     ports:
       - 5002:80
-  caddy:
-    image: docker.io/caddy
-    depends_on:
-      - registry
-    network_mode: host
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
