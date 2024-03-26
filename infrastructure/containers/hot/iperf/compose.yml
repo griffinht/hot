@@ -1,0 +1,7 @@
+services:
+  iperf:
+    image: iperf
+    restart: always
+    ports:
+      - 5201:5201
+    command: iperf3 --server
