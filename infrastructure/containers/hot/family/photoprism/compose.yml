@@ -1,3 +1,4 @@
+# https://github.com/meichthys/foss_photo_libraries?tab=readme-ov-file
 volumes:
   photoprism_mariadb:
   photoprism:
@@ -8,6 +9,27 @@ volumes:
       device: //192.168.0.5/bruhbruh/MEENA/archive
 
 services:
+  immich:
+    image: ghcr.io/immich-app/immich-server
+    command: ['start.sh', 'immich']
+    volumes:
+      - photoprism_data:/usr/src/app/upload:ro
+    ports:
+      - 2283:3001
+    depends_on:
+      - redis
+      - database
+    environment:
+      - IMMICH_VERSION: postgres
+    redis:
+      image: registry.hub.docker.com/library/redis:6.2-alpine@sha256:51d6c56749a4243096327e3fb964a48ed92254357108449cb6e23999c37773c5
+    database:
+      image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+      environment:
+        POSTGRES_PASSWORD: DB_PASSWORD
+        POSTGRES_USER: DB_USERNAME
+        POSTGRES_DB: DB_DATABASE_NAME
+
   photoprism:
     image: docker.io/photoprism/photoprism:latest
     depends_on:
