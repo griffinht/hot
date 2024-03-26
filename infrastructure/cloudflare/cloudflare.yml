@@ -1,0 +1,14 @@
+# tag
+tag: hot
+zones:
+  # griffinht.com
+  d691921860e35a45bc7f99007af14a7d:
+    dns_records:
+      hot-desktop:
+        content: 10.0.0.2
+        name: hot-desktop.wg.hot
+        type: A
+      nerd-vps:
+        content: 198.46.248.168
+        name: nerd-vps
+        type: A
