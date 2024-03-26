@@ -4,6 +4,7 @@
              (gnu packages containers)
              (gnu services ssh)
              (gnu services docker)
+             (gnu services monitoring)
              (guix gexp)
              (griffinht system))
 
@@ -33,6 +34,7 @@
   (services
     (append
       (list (service docker-service-type)
+            (service prometheus-node-exporter-service-type)
             ; /etc/docker must be writable by docker daemon
             #|(extra-special-file "/etc/docker/daemon.json"
                                 (local-file "daemon.json"))|#
