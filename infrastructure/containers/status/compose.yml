@@ -1,0 +1,37 @@
+# https://docs.docker.com/config/daemon/prometheus/
+volumes:
+  prometheus:
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+services:
+  caddy:
+    image: docker.io/caddy
+    networks:
+      - internal
+    ports:
+      - 8080:80
+      - 4434:443
+    environment:
+      DOMAIN: localhost
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+  prometheus:
+    image: docker.io/prom/prometheus
+    networks:
+      - internal
+    volumes:
+      - ./prometheus.yml:/config/prometheus.yml:ro
+      - prometheus:/prometheus
+    command: --config.file=/config/prometheus.yml
+  blackbox_exporter:
+    image: quay.io/prometheus/blackbox-exporter:latest
+    networks:
+      - internal
+      - default
+        #    volumes:
+        #      - ./blackbox.yml:/config/blackbox.yml:ro
+        #    command: --config.file=/config/blackbox.yml
