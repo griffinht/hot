@@ -4,3 +4,5 @@ certbot
 nginx
 openssl
 iperf
+postgresql
+knot
