@@ -1,0 +1,10 @@
+# make sure this user can't send to other people on xmpp
+# snikket instructions:
+# admin: create user invite link - click it
+# user:- manual registration - make a password
+# admin: go to user and edit to internal only
+jid: 'nerd-alert@snikket.griffinht.com'
+password_command: cat /secrets/xmpp_password
+to_jid: 'griffinht@snikket.griffinht.com'
+listen_address: 0.0.0.0
+listen_port: 9199

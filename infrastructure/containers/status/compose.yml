@@ -1,6 +1,7 @@
 # https://docs.docker.com/config/daemon/prometheus/
 volumes:
   prometheus:
+  xmpp-alerts-password:
 
 networks:
   internal:
@@ -19,19 +20,40 @@ services:
       DOMAIN: localhost
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+
   prometheus:
     image: docker.io/prom/prometheus
     networks:
       - internal
+    ports:
+      - 9090:9090
     volumes:
       - ./prometheus.yml:/config/prometheus.yml:ro
       - prometheus:/prometheus
     command: --config.file=/config/prometheus.yml
+
   blackbox_exporter:
     image: quay.io/prometheus/blackbox-exporter:latest
     networks:
       - internal
       - default
-        #    volumes:
-        #      - ./blackbox.yml:/config/blackbox.yml:ro
-        #    command: --config.file=/config/blackbox.yml
+
+  alertmanager:
+    image: quay.io/prometheus/alertmanager:latest
+    networks:
+      - internal
+    volumes:
+      - ./alertmanager.yml:/config/alertmanager.yml:ro
+    command: --config.file=/config/alertmanager.yml
+
+  xmpp-alerts:
+    image: ghcr.io/jelmer/prometheus-xmpp-alerts
+    networks:
+      - internal
+      - default
+    ports:
+      - 9199:9199
+    volumes:
+      - ./xmpp-alerts.yml:/config.yaml:ro
+        # todo
+      - xmpp-alerts-password:/secrets:ro

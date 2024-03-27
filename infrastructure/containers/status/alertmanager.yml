@@ -37,9 +37,3 @@ scrape_configs:
   static_configs:
   - targets:
     - blackbox_exporter:9115
-
-- job_name: xmpp-alerts
-  metrics_path: /metrics
-  static_configs:
-  - targets:
-    - xmpp-alerts:9199

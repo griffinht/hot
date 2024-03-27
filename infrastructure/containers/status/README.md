@@ -10,6 +10,7 @@ do whatever is easy
 
 
 
+https://github.com/ivbeg/awesome-status-pages
 # stack
 prometheus
 blackbox exporter
