@@ -56,3 +56,7 @@ https://docs.podman.io/en/latest/markdown/podman-remote.1.html
 
 
 # todo use more scheme in configuration?? see if you can get by not using .env for config!
+
+# can't connect?
+icmp (ping) or udp (dig) seems to not work?
+idk bruh!
