@@ -1,0 +1,17 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+services:
+  knot:
+    image: knot
+    networks:
+      - internal
+    ports:
+      - 5333:53/udp
+    volumes:
+      - ./knot.conf:/knot.conf:ro
+      - ./zones:/zones
+    stop_signal: SIGINT
+    command: knotd -c /knot.conf

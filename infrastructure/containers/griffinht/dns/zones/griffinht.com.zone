@@ -1,0 +1,11 @@
+griffinht.com. IN SOA ns1.griffinht.com. admin.griffinht.com. (
+                      2022110401  ; Serial
+                      3600        ; Refresh
+                      1800        ; Retry
+                      1209600     ; Expire
+                      86400 )     ; Minimum
+ns1.griffinht.com. IN A 192.168.0.1
+ns2.griffinht.com. IN A 192.168.0.2
+griffinht.com. IN NS ns1.griffinht.com.
+griffinht.com. IN NS ns2.griffinht.com.
+hot A 10.0.0.2
