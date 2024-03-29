@@ -9,17 +9,6 @@ networks:
     internal: true
 
 services:
-  caddy:
-    image: docker.io/caddy
-    networks:
-      - internal
-    ports:
-      - 8080:80
-      - 4434:443
-    environment:
-      DOMAIN: localhost
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
 
   prometheus:
     image: docker.io/prom/prometheus
@@ -52,8 +41,24 @@ services:
       - internal
       - default
     ports:
-      - 9199:9199
+      - 127.0.0.1:9199:9199
     volumes:
       - ./xmpp-alerts.yml:/config.yaml:ro
         # todo
       - xmpp-alerts-password:/secrets:ro
+
+  caddy:
+    image: docker.io/caddy
+    networks:
+      - internal
+    ports:
+      - 8080:80
+      - 4434:443
+      - 127.0.0.1:2019:2019
+    environment:
+      DOMAIN: localhost
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./html:/usr/share/caddy:ro
+
+# todo cadvisor?
