@@ -45,12 +45,26 @@ iperf3
 https://github.com/akpw/mktxp
 monitor all the things! :)
 todo log export/monitoring/centralized viewing? idk... who cares? like fr whats the advantage of putting your logs in one place
+    nginx logs! i want those!
     if something breaks you log in and view the logs
     otherwise who cares...
 https://github.com/google/cadvisor
-https://github.com/google/cadvisor/issues/2166
-https://docs.docker.com/config/daemon/prometheus/
-nginx monitoring!
+healthchecks:
+    https://github.com/google/cadvisor/issues/2166
 dns https://news.ycombinator.com/item?id=39835488
 https://dmachard.github.io/posts/0043-blackbox-prometheus-dns/
 https://voxda.io/ultimate-api-uptime-with-prometheus-and-grafana/
+
+
+
+https://github.com/prometheus/snmp_exporter
+
+containers
+    registry
+    nginx
+    certbot?
+    minio
+    databases:
+        mariadb
+        postgres
+        redis
