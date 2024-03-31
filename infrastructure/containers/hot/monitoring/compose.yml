@@ -1,0 +1,43 @@
+volumes:
+  prometheus:
+  prometheus_config:
+  grafana:
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+services:
+
+  prometheus:
+    image: docker.io/prom/prometheus
+    depends_on:
+      - blackbox_exporter
+    networks:
+      - internal
+    volumes:
+      - prometheus_config:/config:ro
+      - prometheus:/prometheus
+    command: --config.file=/config/prometheus.yml
+
+  blackbox_exporter:
+    image: quay.io/prometheus/blackbox-exporter:latest
+    networks:
+      - internal
+      - default
+
+  # todo alertmanager
+
+  grafana:
+    image: docker.io/grafana/grafana-oss
+    depends_on:
+      - prometheus
+    networks:
+      - internal
+        #todo don't expose to network? idk
+      - default
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana:/var/lib/grafana

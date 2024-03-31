@@ -1,0 +1,82 @@
+scrape_configs:
+
+# cloudtest
+
+## host
+
+- job_name: cloudtest_docker_metrics
+  static_configs:
+  - targets:
+    - cloudtest.lan.hot.griffinht.com:9323
+
+- job_name: cloudtest_node_exporter
+  static_configs:
+  - targets:
+    - cloudtest.lan.hot.griffinht.com:9100
+
+## containers
+
+- job_name: cloudtest_prometheus
+  static_configs:
+  - targets:
+    - localhost:9090
+
+- job_name: cloudtest_blackbox_exporter
+  metrics_path: /metrics
+  static_configs:
+  - targets:
+    - blackbox_exporter:9115
+
+# nerd-vps
+# todo connect via wireguard
+# todo monitor wg connection and maybe speed???
+
+## public
+
+- job_name: status.griffinht.com
+  metrics_path: /probe
+  params:
+    target: [status.griffinht.com]
+    module: [http_2xx]
+  static_configs:
+  - targets:
+    - blackbox_exporter:9115
+
+## host
+
+- job_name: nerd_docker_metrics
+  static_configs:
+  - targets:
+    - nerd-vps.wg.hot.griffinht.com:9323
+
+- job_name: nerd_node_exporter
+  static_configs:
+  - targets:
+    - nerd-vps.wg.hot.griffinht.com:9100
+
+## containers
+- job_name: nerd_prometheus
+  static_configs:
+  - targets:
+    - nerd-vps.wg.hot.griffinht.com:9090
+
+- job_name: nerd_blackbox_exporter
+  static_configs:
+  - targets:
+    - nerd-vps.wg.hot.griffinht.com:9115
+
+- job_name: nerd_alertmanager
+  static_configs:
+  - targets:
+    - nerd-vps.wg.hot.griffinht.com:9093
+
+- job_name: nerd_xmpp-alerts
+  static_configs:
+  - targets:
+    - nerd-vps.wg.hot.griffinht.com:9199
+
+- job_name: nerd_caddy
+  static_configs:
+  - targets:
+    - nerd-vps.wg.hot.griffinht.com:2019
+
