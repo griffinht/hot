@@ -3,11 +3,6 @@ volumes:
   prometheus_config:
   grafana:
 
-networks:
-  internal:
-    driver: bridge
-    internal: true
-
 services:
 
   prometheus:
@@ -15,8 +10,6 @@ services:
     restart: unless-stopped
     depends_on:
       - blackbox_exporter
-    networks:
-      - internal
     volumes:
       - prometheus_config:/config:ro
       - prometheus:/prometheus
@@ -27,9 +20,6 @@ services:
   blackbox_exporter:
     image: quay.io/prometheus/blackbox-exporter:latest
     restart: unless-stopped
-    networks:
-      - internal
-      - default
 
   # todo alertmanager
 
@@ -38,10 +28,6 @@ services:
     restart: unless-stopped
     depends_on:
       - prometheus
-    networks:
-      - internal
-        #todo don't expose to network? idk
-      - default
     ports:
       - 3000:3000
     volumes:

@@ -25,16 +25,44 @@ scrape_configs:
     - localhost:9090
 
 - job_name: cloudtest_blackbox_exporter
-  metrics_path: /metrics
   static_configs:
   - targets:
     - blackbox_exporter:9115
 
+- job_name: cloudtest_blackbox_exporter_probe
+  metrics_path: /probe
+  params:
+    module: [http_2xx]
+  static_configs:
+    - targets:
+      - http://status.griffinht.com
+      - https://status.griffinht.com
+      - http://griffinht.com
+      - https://griffinht.com
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: blackbox_exporter:9115
+
 - job_name: cloudtest_grafana
-  metrics_path: /metrics
   static_configs:
   - targets:
     - grafana:3000
+
+# hypervisor
+
+## host
+- job_name: hypervisor_node_exporter
+  static_configs:
+  - targets:
+    - hot-desktop.lan.hot.griffinht.com:9100
+
+# todo
+#https://amoldighe.github.io/2017/11/22/collectd/
+#blog about it!
 
 # nerd-vps
 # todo connect via wireguard
@@ -42,14 +70,7 @@ scrape_configs:
 
 ## public
 
-- job_name: status.griffinht.com
-  metrics_path: /probe
-  params:
-    target: [status.griffinht.com]
-    module: [http_2xx]
-  static_configs:
-  - targets:
-    - blackbox_exporter:9115
+#see cloudtest_blackbox_export
 
 ## host
 
