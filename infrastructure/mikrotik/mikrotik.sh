@@ -11,7 +11,7 @@ cat << EOF
 /ip dns static add name=lil-tik.lan.hot.griffinht.com address=192.168.0.1
 #/ip dns static add name=fruit-pi.lan.hot.griffinht.com address=192.168.0.2
 #/ip dns static add name=tp-wap.lan.hot.griffinht.com address=192.168.0.3
-#/ip dns static add name=hot-desktop.lan.hot.griffinht.com address=192.168.0.5
+/ip dns static add name=hot-desktop.lan.hot.griffinht.com address=192.168.0.5
 #/ip dns static add name=envy-laptop.lan.hot.griffinht.com address=192.168.0.6
 /ip dns static add name=mystuff-guix.lan.hot.griffinht.com address=192.168.0.8
 #todo? why not try ipv6?
