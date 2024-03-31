@@ -1,39 +1,7 @@
-global:
-  scrape_interval: 15s
+route:
+  receiver: xmpp-alerts
 
-scrape_configs:
-- job_name: prometheus
-  static_configs:
-  - targets:
-    - localhost:9090
-- job_name: griffinht.com
-  metrics_path: /probe
-  params:
-    target: [https://griffinht.com]
-    module: [http_2xx]
-  static_configs:
-  - targets:
-    - blackbox_exporter:9115
-
-- job_name: griffinht.com2
-  metrics_path: /probe
-  params:
-    module: [http_2xx]
-  static_configs:
-    - targets:
-      - griffinht.com
-      - http://griffinht.com
-      - https://griffinht.com
-  relabel_configs:
-    - source_labels: [__address__]
-      target_label: __param_target
-    - source_labels: [__param_target]
-      target_label: instance
-    - target_label: __address__
-      replacement: blackbox_exporter:9115
-
-- job_name: blackbox_exporter
-  metrics_path: /metrics
-  static_configs:
-  - targets:
-    - blackbox_exporter:9115
+receivers:
+  - name: xmpp-alerts
+    webhook_configs:
+      - url: http://xmpp-alerts:9199/alert

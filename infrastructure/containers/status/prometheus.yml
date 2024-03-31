@@ -1,11 +1,13 @@
+# todo unset - 60s default i think is fine
 global:
   scrape_interval: 15s
 
-scrape_configs:
-- job_name: prometheus
+alertmanager_config:
   static_configs:
-  - targets:
-    - localhost:9090
+    - targets:
+      - prometheus:9090
+
+scrape_configs:
 - job_name: griffinht.com
   metrics_path: /probe
   params:
@@ -31,15 +33,3 @@ scrape_configs:
       target_label: instance
     - target_label: __address__
       replacement: blackbox_exporter:9115
-
-- job_name: blackbox_exporter
-  metrics_path: /metrics
-  static_configs:
-  - targets:
-    - blackbox_exporter:9115
-
-- job_name: xmpp-alerts
-  metrics_path: /metrics
-  static_configs:
-  - targets:
-    - xmpp-alerts:9199
