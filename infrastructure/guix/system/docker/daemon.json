@@ -1,4 +1,3 @@
 {
-    "hosts": ["tcp://localhost:2375"],
-    "tls": false
+    "metrics-addr": "127.0.0.1:9323"
 }

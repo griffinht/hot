@@ -38,8 +38,8 @@
                      (prometheus-node-exporter-configuration
                        (web-listen-address "127.0.0.1:9100")))
             ; /etc/docker must be writable by docker daemon
-            #|(extra-special-file "/etc/docker/daemon.json"
-                                (local-file "daemon.json"))|#
+            (extra-special-file "/etc/docker/daemon.json"
+                                (local-file "daemon.json"))
             #|(simple-service 'bruh etc-service-type
                             (list `("docker/daemon.json" ,(local-file "daemon.json"))))|#)
       ; ssh
