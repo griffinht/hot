@@ -3,6 +3,10 @@ volumes:
   prometheus_config:
   grafana:
 
+networks:
+  iperf_default:
+    external: true
+
 services:
 
   prometheus:
@@ -10,6 +14,9 @@ services:
     restart: unless-stopped
     depends_on:
       - blackbox_exporter
+    networks:
+      - default
+      - iperf_default 
     volumes:
       - prometheus_config:/config:ro
       - prometheus:/prometheus

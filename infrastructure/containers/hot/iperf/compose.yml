@@ -5,3 +5,6 @@ services:
     ports:
       - 5201:5201
     command: iperf3 --server
+  iperf3_exporter:
+    image: docker.io/edgard/iperf3-exporter@sha256:edf621445dbf90a907e2fa4428379bcb7b64cba0645ab54457cce9d94597451a
+    restart: always

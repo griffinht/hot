@@ -52,6 +52,31 @@ scrape_configs:
   - targets:
     - grafana:3000
 
+- job_name: cloudtest_iperf3
+  static_configs:
+    - targets:
+      - iperf3_exporter:9579
+
+- job_name: cloudtest_iperf3_probe
+  metrics_path: /probe
+  static_configs:
+    - targets:
+      - iperf
+      - nerd-vps.wg.hot.griffinht.com
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: iperf3_exporter:9579
+
+- job_name: photoprism
+  metrics_path: /api/v1/metrics
+  static_configs:
+    - targets:
+      - photoprism:2342
+
 # hypervisor
 
 ## host
