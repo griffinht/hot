@@ -8,6 +8,7 @@
              (gnu services networking)
              (gnu services desktop)
              (gnu services samba)
+             (gnu services monitoring)
              (gnu system setuid)
              (guix gexp)
              (griffinht system))
@@ -78,6 +79,7 @@
           (samba-configuration
             (enable-smbd? #t)
             (config-file (local-file "smb.conf"))))
+        (service prometheus-node-exporter-service-type)
                     )
             (modify-services %base-services
                              ;; The server must trust the Guix packages you build. If you add the signing-key
