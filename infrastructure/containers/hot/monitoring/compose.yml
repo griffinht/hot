@@ -28,6 +28,26 @@ services:
     image: quay.io/prometheus/blackbox-exporter:latest
     restart: unless-stopped
 
+      # todo reduce cpu and figure out what to monitor idk
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor@sha256:3cde6faf0791ebf7b41d6f8ae7145466fed712ea6f252c935294d2608b1af388
+      # https://github.com/google/cadvisor/issues/3453
+    volumes:
+      #- /:/rootfs:ro
+        #- /var/run:/var/run:ro
+        #- /sys:/sys:ro
+        #- /var/lib/docker:/var/lib/docker:ro
+        #- /dev/disk:/dev/disk:ro
+      - /var/lib/docker/:/rootfs/var/lib/docker:ro
+      - /proc/:/rootfs/proc:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+        #privileged: true
+        #devices:
+        #- /dev/kmsg
+    ports:
+      - 8080:8080
+    command: --docker_only=true
+
   # todo alertmanager
 
   grafana:

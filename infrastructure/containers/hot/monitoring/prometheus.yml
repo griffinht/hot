@@ -19,6 +19,11 @@ scrape_configs:
 
 ## containers
 
+- job_name: cloudtest_cadvisor
+  static_configs:
+    - targets:
+      - cadvisor:8080
+
 - job_name: cloudtest_prometheus
   static_configs:
   - targets:
@@ -111,6 +116,11 @@ scrape_configs:
     - nerd-vps.wg.hot.griffinht.com:9100
 
 ## containers
+- job_name: nerd_cadvisor
+  static_configs:
+    - targets:
+      - cadvisor:8080
+
 - job_name: nerd_prometheus
   static_configs:
   - targets:
