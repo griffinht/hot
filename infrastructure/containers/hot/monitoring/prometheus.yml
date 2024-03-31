@@ -71,6 +71,7 @@ scrape_configs:
     - target_label: __address__
       replacement: iperf3_exporter:9579
 
+# todo broken
 - job_name: photoprism
   metrics_path: /api/v1/metrics
   static_configs:

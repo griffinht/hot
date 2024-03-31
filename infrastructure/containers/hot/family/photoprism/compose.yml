@@ -25,6 +25,8 @@ services:
       PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB or MySQL database user name
       PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB or MySQL database user password
       PHOTOPRISM_AUTH_MODE: public
+        #todo idk
+        #PHOTOPRISM_DISABLE_SETTINGS: false
     volumes:
       - photoprism_data:/photoprism/originals:ro
       - photoprism:/photoprism/storage
