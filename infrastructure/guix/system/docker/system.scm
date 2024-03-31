@@ -34,7 +34,9 @@
   (services
     (append
       (list (service docker-service-type)
-            (service prometheus-node-exporter-service-type)
+            (service prometheus-node-exporter-service-type
+                     (prometheus-node-exporter-configuration
+                       (web-listen-address "127.0.0.1:9100")))
             ; /etc/docker must be writable by docker daemon
             #|(extra-special-file "/etc/docker/daemon.json"
                                 (local-file "daemon.json"))|#
