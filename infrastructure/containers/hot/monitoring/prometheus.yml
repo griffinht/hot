@@ -1,3 +1,6 @@
+# todo service discovery
+#https://peterbabic.dev/blog/why-use-labels-docker-compose/
+#https://stackoverflow.com/questions/70803245/prometheus-service-discovery-with-docker-compose
 scrape_configs:
 
 # cloudtest
@@ -7,12 +10,12 @@ scrape_configs:
 - job_name: cloudtest_docker_metrics
   static_configs:
   - targets:
-    - cloudtest.lan.hot.griffinht.com:9323
+    - host.docker.internal:9323
 
 - job_name: cloudtest_node_exporter
   static_configs:
   - targets:
-    - cloudtest.lan.hot.griffinht.com:9100
+    - host.docker.internal:9100
 
 ## containers
 
@@ -26,6 +29,12 @@ scrape_configs:
   static_configs:
   - targets:
     - blackbox_exporter:9115
+
+- job_name: cloudtest_grafana
+  metrics_path: /metrics
+  static_configs:
+  - targets:
+    - grafana:3000
 
 # nerd-vps
 # todo connect via wireguard

@@ -12,6 +12,7 @@ services:
 
   prometheus:
     image: docker.io/prom/prometheus
+    restart: unless-stopped
     depends_on:
       - blackbox_exporter
     networks:
@@ -20,9 +21,12 @@ services:
       - prometheus_config:/config:ro
       - prometheus:/prometheus
     command: --config.file=/config/prometheus.yml
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   blackbox_exporter:
     image: quay.io/prometheus/blackbox-exporter:latest
+    restart: unless-stopped
     networks:
       - internal
       - default
@@ -31,6 +35,7 @@ services:
 
   grafana:
     image: docker.io/grafana/grafana-oss
+    restart: unless-stopped
     depends_on:
       - prometheus
     networks:
