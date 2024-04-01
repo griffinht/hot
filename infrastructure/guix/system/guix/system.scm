@@ -3,6 +3,7 @@
              (gnu services sysctl)
              (gnu services vpn)
              (gnu services networking)
+             (gnu services monitoring)
              (griffinht system))
 
 (define ssh-pubkey
@@ -46,6 +47,7 @@
                       (public-key "5V21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")
                       (allowed-ips '("0.0.0.0/0" "::/0"))
                       )))))
+        (service prometheus-node-exporter-service-type)
         (service nftables-service-type
           (nftables-configuration (ruleset (local-file "wireguard.nft"))))
         (service samba-service-type ; todo containerize? only if its easier! (it probably is idk... if this is a container host!)
