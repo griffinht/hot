@@ -54,6 +54,7 @@ healthchecks:
 dns https://news.ycombinator.com/item?id=39835488
 https://dmachard.github.io/posts/0043-blackbox-prometheus-dns/
 https://voxda.io/ultimate-api-uptime-with-prometheus-and-grafana/
+https://github.com/MindFlavor/prometheus_wireguard_exporter
 
 
 
