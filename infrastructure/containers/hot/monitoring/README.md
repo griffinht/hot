@@ -69,3 +69,7 @@ containers
         mariadb
         postgres
         redis
+
+## logs
+https://news.ycombinator.com/item?id=35741922
+wouldn't it be nice to see all errors? how can you monitor brtfs anyways?

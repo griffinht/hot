@@ -3,6 +3,15 @@
 #https://stackoverflow.com/questions/70803245/prometheus-service-discovery-with-docker-compose
 scrape_configs:
 
+# mystuff-guix
+
+## host
+
+- job_name: mystuff-guix_node_exporter
+  static_configs:
+  - targets:
+    - mystuff-guix.lan.hot.griffinht.com:9100
+
 # cloudtest
 
 ## host
@@ -44,6 +53,15 @@ scrape_configs:
       - https://status.griffinht.com
       - http://griffinht.com
       - https://griffinht.com
+        # nginx
+        # should be not found but idk
+      - http://cloudtest.lan.hot.griffinht.com:80
+        # grafana
+      - http://cloudtest.lan.hot.griffinht.com:3000
+        # searxng
+      - http://cloudtest.lan.hot.griffinht.com:8123
+        # photoprism
+      - http://cloudtest.lan.hot.griffinht.com:2342/library/browse
   relabel_configs:
     - source_labels: [__address__]
       target_label: __param_target
