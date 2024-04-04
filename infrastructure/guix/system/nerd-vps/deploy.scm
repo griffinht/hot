@@ -4,5 +4,6 @@
         (environment managed-host-environment-type)
         (configuration (machine-ssh-configuration 
                          (host-name "nerd-vps.wg.hot.griffinht.com")
+                         ;(host-name "nerd-vps.griffinht.com")
                          (system "x86_64-linux")
-                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICA+tIVnsULH14G2k/Q0Dl4a0jfLpZ/5737rs21iIRx+")))))
+                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKa/xnHWjnxt5pxxt4NYAHPQXhTnWdiMltwSAn4H1NGR")))))
