@@ -1,0 +1,21 @@
+services:
+  guix:
+    image: guix-bash-coreutils
+    volumes:
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+        # Servname not supported for ai_socktype
+      - /etc/services:/etc/services:ro
+      - ./bruh:/bruh
+        #- ./gnu:/gnu
+    command: [guix-daemon, --build-users-group=guixbuild,  "--substitute-urls=https://ci.guix.gnu.org https://bordeaux.guix.gnu.org"]
+    privileged: true
+  ssh:
+    image: myssh 
+    volumes:
+      - ./bruh:/bruh:ro
+    ports:
+      - 127.0.0.1:2222:22
+    command: bash /bruh/run.sh
+    cap_add:
+      - SYS_CHROOT

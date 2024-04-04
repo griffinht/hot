@@ -1,0 +1,38 @@
+# todo see gitea config for reference!
+# docker/root/etc/templates
+# todo for principals https://docs.gitlab.com/ee/administration/operations/ssh_certificates.html
+
+AllowAgentForwarding no
+#AllowGroups 1234
+AllowStreamLocalForwarding no
+AllowTcpForwarding no
+AllowUsers git
+AuthenticationMethods publickey
+#AuthorizedKeysCommand /authorized_keys_command.sh
+#AuthorizedKeysCommand $GUIX_ENVIRONMENT/authorized_keys_command.sh %C %D %f %h %k %t %U %u
+#AuthorizedKeysCommandUser authorized_keys_command_user
+AuthorizedKeysFile /bruh/authorized_keys
+# todo why not lol
+#Banner
+#todo printmotd
+# why not?
+#ChrootDirectory /bruh
+# overrides all others todo
+DisableForwarding yes
+# set to a custom shell
+# todo use match block wsith SSH_ORIGINAL_COMMAND
+# todo why when this is disabled can the user do ssh host /bin/sh
+#ForceCommand $GUIX_ENVIRONMENT/bin/shell.sh
+#ListenAddress
+PasswordAuthentication no
+#PermitTTY no
+PermitTunnel no
+PermitUserRC no
+#Port 2222
+# todo disable
+Subsystem sftp internal-sftp
+
+
+
+#ExposeAuthInfo?
+#SSH_ORIGINAL_COMMAND
