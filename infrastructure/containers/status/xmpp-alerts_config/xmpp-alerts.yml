@@ -8,3 +8,4 @@ password_command: cat /secrets/xmpp_password
 to_jid: 'griffinht@snikket.griffinht.com'
 listen_address: 0.0.0.0
 listen_port: 9199
+alertmanager_url: http://alertmanager:9093

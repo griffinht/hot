@@ -17,6 +17,7 @@ services:
 
   prometheus:
     image: docker.io/prom/prometheus
+    restart: unless-stopped
     depends_on:
       - blackbox_exporter
       - alertmanager
@@ -28,7 +29,8 @@ services:
     volumes:
       - prometheus_config:/config:ro
       - prometheus:/prometheus
-    command: --config.file=/config/prometheus.yml
+        # the url to open the Prometheus instance, shown in alerts
+    command: --config.file=/config/prometheus.yml --web.external-url=http://nerd-vps.wg.hot.griffinht.com:9090
 
   blackbox_exporter:
     image: quay.io/prometheus/blackbox-exporter:latest
@@ -49,7 +51,8 @@ services:
       - 127.0.0.1:9093:9093
     volumes:
       - alertmanager_config:/config:ro
-    command: --config.file=/config/alertmanager.yml
+        # todo what does this do? --web.external-url
+    command: --config.file=/config/alertmanager.yml --web.external-url=http://localhosttodo:123
 
   xmpp-alerts:
     image: ghcr.io/jelmer/prometheus-xmpp-alerts
