@@ -1,3 +1,10 @@
+# dev guide
+docker compose up
+
+## caddy
+http://localhost:8080 (note that auto redirect doesn't work because caddy thinks it is listening at :443)
+https://localhost:4434
+
 # alerting
 email
     create migadu account
