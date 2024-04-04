@@ -1,4 +1,7 @@
+# security
+lan exposed ports! switch to wireguard? idk...
 
+nerd-vps firewall! would be a lot safer than hoping that everything is bound to 127.0.0.1...
 
 todo auto update? todo ci git hash update keep everything in vcs instead of random versions
 https://docs.docker.com/docker-hub/builds/
@@ -38,13 +41,13 @@ griffinht.com
 #todo read this interesting and very complex setup https://dev.to/tangramvision/what-they-don-t-tell-you-about-setting-up-a-wireguard-vpn-1h2g 
 #todo rethink ip for conflicts! https://en.wikipedia.org/wiki/Reserved_IP_addresses
     wg (dnsmasq on 10.0.0.1) todo?
-        envy-laptop     10.0.0.1
+        #envy-laptop     10.0.0.1
         hot-desktop     10.0.0.2
         nerd-vps        10.0.0.3
-        smart-laptop    10.0.0.4
-        phone           10.0.0.5
-        other-phone     10.0.0.6
-        ugly-laptop     10.0.0.7
+        #smart-laptop    10.0.0.4
+        #phone           10.0.0.5
+        #other-phone     10.0.0.6
+        #ugly-laptop     10.0.0.7
         cool-laptop     10.0.0.9
-        vm-guix         10.0.0.10
-        vm-nas          10.0.0.11
+        #vm-guix         10.0.0.10
+        #vm-nas          10.0.0.11
