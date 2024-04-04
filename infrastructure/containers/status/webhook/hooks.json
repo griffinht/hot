@@ -1,0 +1,12 @@
+[
+  {
+    "id": "alert",
+    "execute-command": "/webhook/hook.sh",
+    "pass-arguments-to-command": [
+      {
+        "source": "entire-payload"
+      }
+    ],
+    "response-message": "Received alert"
+  }
+]

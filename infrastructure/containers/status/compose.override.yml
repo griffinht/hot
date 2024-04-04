@@ -11,18 +11,6 @@ volumes:
       type: "none"
       o: "bind"
       device: "./alertmanager_config"
-  xmpp-alerts_config:
-    driver: local
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "./xmpp-alerts_config"
-  xmpp-alerts_password:
-    driver: local
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "./xmpp-alerts_password"
   caddy_config:
     driver: local
     driver_opts:
@@ -35,3 +23,16 @@ volumes:
       type: "none"
       o: "bind"
       device: "./caddy_html"
+
+services:
+  # todo mock with local prosody server
+  xmpp-alerts2:
+    image: docker.io/caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    command:
+  xmpp-alerts:
+    image: docker.io/thecatlady/webhook
+    volumes:
+      - ./webhook:/webhook:ro
+    command: -verbose -hooks=/webhook/hooks.json -port 9199 -urlprefix ''

@@ -1,4 +1,6 @@
 route:
+  group_interval: 1s
+  repeat_interval: 1s
   receiver: xmpp-alerts
 
 receivers:
