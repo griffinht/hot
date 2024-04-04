@@ -1,7 +1,13 @@
+# https://prometheus.io/docs/alerting/latest/configuration/
 route:
   #group_interval: 1s
   #repeat_interval: 1s
+  group_wait: 0s
   receiver: xmpp-alerts
+  group_by:
+    # disable aggregation
+    - ...
+    #- instance
 
 receivers:
   - name: xmpp-alerts
