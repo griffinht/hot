@@ -32,8 +32,3 @@ services:
       - ./webhook:/webhook:ro
     command: -verbose -hooks=/webhook/hooks.json -port 9199 -urlprefix ''
       # todo
-  caddy:
-    - 8080:80
-    - 4434:443
-  environment:
-    DOMAIN: localhost

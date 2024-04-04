@@ -30,7 +30,7 @@ services:
       - prometheus_config:/config:ro
       - prometheus:/prometheus
         # the url to open the Prometheus instance, shown in alerts
-    command: --config.file=/config/prometheus.yml --web.external-url=http://nerd-vps.wg.hot.griffinht.com:9090
+    command: --config.file=/config/prometheus.yml --web.external-url=${INTERNAL_URL?}
 
   blackbox_exporter:
     image: quay.io/prometheus/blackbox-exporter:latest
@@ -74,11 +74,11 @@ services:
       #- internal
       - default
     ports:
-      - 80:80
-      - 443:443
+      - ${HTTP_PORT?}:80
+      - ${HTTPS_PORT?}:443
       - 127.0.0.1:2019:2019
     environment:
-      DOMAIN: status.griffinht.com
+      DOMAIN: ${DOMAIN?}
     volumes:
       - caddy_config:/etc/caddy:ro
       - caddy_html:/usr/share/caddy:ro
