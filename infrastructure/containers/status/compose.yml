@@ -66,15 +66,16 @@ services:
 
   caddy:
     image: docker.io/caddy
+    restart: unless-stopped
     networks:
       #- internal
       - default
     ports:
-      - 8080:80
-      - 4434:443
+      - 80:80
+      - 443:443
       - 127.0.0.1:2019:2019
     environment:
-      DOMAIN: localhost
+      DOMAIN: status.griffinht.com
     volumes:
       - caddy_config:/etc/caddy:ro
       - caddy_html:/usr/share/caddy:ro
