@@ -1,0 +1,7 @@
+groups:
+  - name: example
+    rules:
+      - alert: ProbeDown
+        expr: probe_success == 0
+      - alert: InstanceDown
+        expr: up == 0

@@ -26,11 +26,6 @@ volumes:
 
 services:
   # todo mock with local prosody server
-  xmpp-alerts2:
-    image: docker.io/caddy
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-    command:
   xmpp-alerts:
     image: docker.io/thecatlady/webhook
     volumes:
