@@ -1,0 +1,10 @@
+services:
+  ssh:
+    image: mygit 
+    volumes:
+      - ./git:/git
+    ports:
+      - 127.0.0.1:9418:9418
+    command: git daemon --base-path=/git --enable=receive-pack --export-all /git
+      # idk why /git is necessary when it is given in base path
+      # todo enable upload-archive
