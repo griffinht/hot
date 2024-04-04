@@ -2,10 +2,11 @@
 global:
   scrape_interval: 15s
 
-alertmanager_config:
-  static_configs:
-    - targets:
-      - prometheus:9090
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - prometheus:9090
 
 scrape_configs:
 - job_name: griffinht.com

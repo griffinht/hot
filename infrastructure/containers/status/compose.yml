@@ -1,7 +1,12 @@
 # https://docs.docker.com/config/daemon/prometheus/
 volumes:
   prometheus:
-  xmpp-alerts-password:
+  prometheus_config:
+  alertmanager_config:
+  xmpp-alerts_password:
+  xmpp-alerts_config:
+  caddy_config:
+  caddy_html:
 
 networks:
   internal:
@@ -20,7 +25,7 @@ services:
     ports:
       - 127.0.0.1:9090:9090
     volumes:
-      - ./prometheus.yml:/config/prometheus.yml:ro
+      - prometheus_config:/config:ro
       - prometheus:/prometheus
     command: --config.file=/config/prometheus.yml
 
@@ -41,7 +46,7 @@ services:
     ports:
       - 127.0.0.1:9093:9093
     volumes:
-      - ./alertmanager.yml:/config/alertmanager.yml:ro
+      - alertmanager_config:/config:ro
     command: --config.file=/config/alertmanager.yml
 
   xmpp-alerts:
@@ -52,9 +57,10 @@ services:
     ports:
       - 127.0.0.1:9199:9199
     volumes:
-      - ./xmpp-alerts.yml:/config.yaml:ro
+      - xmpp-alerts_config:/config:ro
         # todo
-      - xmpp-alerts-password:/secrets:ro
+      - xmpp-alerts_password:/secrets:ro
+    command: python3 -m prometheus_xmpp --config=/config/xmpp-alerts.yml
 
   caddy:
     image: docker.io/caddy
@@ -67,7 +73,7 @@ services:
     environment:
       DOMAIN: localhost
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./html:/usr/share/caddy:ro
+      - caddy_config:/etc/caddy:ro
+      - caddy_html:/usr/share/caddy:ro
 
 # todo cadvisor?

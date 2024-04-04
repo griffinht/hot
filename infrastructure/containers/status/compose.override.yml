@@ -1,0 +1,37 @@
+volumes:
+  prometheus_config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./prometheus_config"
+  alertmanager_config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./alertmanager_config"
+  xmpp-alerts_config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./xmpp-alerts_config"
+  xmpp-alerts_password:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./xmpp-alerts_password"
+  caddy_config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./caddy_config"
+  caddy_html:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./caddy_html"
