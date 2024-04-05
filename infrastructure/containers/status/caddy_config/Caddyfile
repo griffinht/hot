@@ -1,10 +1,11 @@
 # https://caddyserver.com/docs/caddyfile/options#metrics
-# apparently this needs to be enabled but it doesn't...
-#{
-#    servers {
-#        metrics
-#    }
-#}
+# this part actually exports caddy related metrics
+# without it caddy just reports golang garbage collection general stuff
+{
+    servers {
+        metrics
+    }
+}
 
 :2019 {
     # https://caddyserver.com/docs/caddyfile/directives/metrics
