@@ -83,4 +83,19 @@ services:
       - caddy_config:/etc/caddy:ro
       - caddy_html:/usr/share/caddy:ro
 
+  # unmaintained, todo use this:
+  # todo https://github.com/kbknapp/wireguard_exporter
+  wireguard_exporter:
+    image: docker.io/mindflavor/prometheus-wireguard-exporter@sha256:9d2e9a325f4ea3b2419534774d8b804f949876dc712cbf88a14f87e54bd6b8bb
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    environment:
+      # port 9586
+      # todo check out other config options
+      # todo security: would be real funny if this guy suddenly decided to ignore this config value - you need a firewall! 
+      - PROMETHEUS_WIREGUARD_EXPORTER_ADDRESS=${INTERFACE?}
+        # idk why this is required on the command line but it seems to be
+    command: --prepend_sudo false
 # todo cadvisor?
