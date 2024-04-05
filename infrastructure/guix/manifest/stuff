@@ -6,4 +6,4 @@ openssl
 iperf
 postgresql
 knot
-wireguard-tools bash
+wireguard-tools bash coreutils curl bind:utils
