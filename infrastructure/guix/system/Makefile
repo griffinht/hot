@@ -41,6 +41,7 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 %/vm.run: %/vm.bin
 	"$$(cat '$<')" \
 		-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22"
+		#-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22,hostfwd=tcp::8080-:80,hostfwd=tcp::4434-:443,hostfwd=udp::51820-:51820"
 
 %/container.run: %/$(SYSTEM)
 	sudo "$$($(ENV_SCRIPT) guix system $(LOAD_PATH) container --network '$<')"
