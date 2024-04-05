@@ -121,3 +121,8 @@ services:
     ports:
       - 8080:8080
     command: --docker_only=true
+
+  iperf3:
+    image: todo
+    ports:
+      - ${INTERFACE?}:5201:5201
