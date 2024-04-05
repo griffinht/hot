@@ -1,7 +1,14 @@
-{
-    servers {
-        metrics
-    }
+# https://caddyserver.com/docs/caddyfile/options#metrics
+# apparently this needs to be enabled but it doesn't...
+#{
+#    servers {
+#        metrics
+#    }
+#}
+
+:2019 {
+    # https://caddyserver.com/docs/caddyfile/directives/metrics
+    metrics
 }
 
 {$DOMAIN}
