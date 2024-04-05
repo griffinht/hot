@@ -6,3 +6,4 @@ openssl
 iperf
 postgresql
 knot
+wireguard-tools bash
