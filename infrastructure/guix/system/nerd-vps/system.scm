@@ -2,6 +2,8 @@
              (gnu packages certs)
              (gnu packages admin)
              (gnu packages containers)
+             (gnu packages python)
+             (gnu packages linux)
              (gnu services ssh)
              (gnu services docker)
              (gnu services monitoring)
@@ -26,6 +28,7 @@
     (append
       (list
         nss-certs)
+        ; debug stuff: python iptables)
       %base-packages))
   (services
     (append
@@ -48,7 +51,7 @@
                           (allowed-ips '("10.0.0.4/32")))|#))))
             (service prometheus-node-exporter-service-type
                      (prometheus-node-exporter-configuration
-                       (web-listen-address "127.0.0.1:9100")))
+                       (web-listen-address "10.0.0.3:9100")))
             ; /etc/docker must be writable by docker daemon
             (extra-special-file "/etc/docker/daemon.json"
                                 (local-file "daemon.json")))

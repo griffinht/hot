@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo "this script is from a test and should not be used"
+echo "these rules can be dangerous if you don't understand them"
+exit 1
+
 set -xe
 
 iptables -P INPUT DROP
@@ -20,6 +24,7 @@ iptables -A INPUT -p udp --dport 51820 -j ACCEPT # Allow wireguard
 
 
 
+# very broken, does not work
 #not a built in chain, so we can't do this
 #iptables -P DOCKER-USER DROP
 
