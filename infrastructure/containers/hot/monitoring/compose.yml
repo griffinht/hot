@@ -124,4 +124,6 @@ services:
       - NET_ADMIN
       # port 9586
       # bound to all interfaces
-    command: --prepend_sudo false
+    environment:
+      - PROMETHEUS_WIREGUARD_EXPORTER_EXPORT_REMOTE_IP_AND_PORT_ENABLED=true
+    command: --prepend_sudo true

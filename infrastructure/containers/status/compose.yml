@@ -90,6 +90,7 @@ services:
     image: docker.io/mindflavor/prometheus-wireguard-exporter@sha256:9d2e9a325f4ea3b2419534774d8b804f949876dc712cbf88a14f87e54bd6b8bb
     restart: unless-stopped
     network_mode: host
+      #user: root or just prepend sudo i guess
     cap_add:
       - NET_ADMIN
     environment:
@@ -97,8 +98,11 @@ services:
       # todo check out other config options
       # todo security: would be real funny if this guy suddenly decided to ignore this config value - you need a firewall! 
       - PROMETHEUS_WIREGUARD_EXPORTER_ADDRESS=${INTERFACE?}
+        #- PROMETHEUS_WIREGUARD_EXPORTER_SEPARATE_ALLOWED_IPS_ENABLED=true
+      - PROMETHEUS_WIREGUARD_EXPORTER_EXPORT_REMOTE_IP_AND_PORT_ENABLED=true
+        #- PROMETHEUS_WIREGUARD_EXPORTER_VERBOSE_ENABLED=true
         # idk why this is required on the command line but it seems to be
-    command: --prepend_sudo false
+    command: --prepend_sudo true
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor@sha256:3cde6faf0791ebf7b41d6f8ae7145466fed712ea6f252c935294d2608b1af388
