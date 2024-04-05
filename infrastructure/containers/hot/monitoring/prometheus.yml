@@ -12,6 +12,8 @@ scrape_configs:
   - targets:
     - mystuff-guix.lan.hot.griffinht.com:9100
 
+# todo monitor wireguard
+
 # cloudtest
 
 ## host
@@ -32,6 +34,11 @@ scrape_configs:
   static_configs:
     - targets:
       - cadvisor:8080
+
+- job_name: cloudtest_wireguard
+  static_configs:
+    - targets:
+      - cloudtest.lan.hot.griffinht.com:9586
 
 - job_name: cloudtest_prometheus
   static_configs:
@@ -114,7 +121,6 @@ scrape_configs:
 #blog about it!
 
 # nerd-vps
-# todo connect via wireguard
 # todo monitor wg connection and maybe speed???
 
 ## public

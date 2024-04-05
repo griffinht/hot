@@ -85,6 +85,7 @@ services:
 
   # unmaintained, todo use this:
   # todo https://github.com/kbknapp/wireguard_exporter
+  # todo also change out the other wireguard exporters
   wireguard_exporter:
     image: docker.io/mindflavor/prometheus-wireguard-exporter@sha256:9d2e9a325f4ea3b2419534774d8b804f949876dc712cbf88a14f87e54bd6b8bb
     restart: unless-stopped
@@ -98,4 +99,25 @@ services:
       - PROMETHEUS_WIREGUARD_EXPORTER_ADDRESS=${INTERFACE?}
         # idk why this is required on the command line but it seems to be
     command: --prepend_sudo false
-# todo cadvisor?
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor@sha256:3cde6faf0791ebf7b41d6f8ae7145466fed712ea6f252c935294d2608b1af388
+    profiles:
+      - todo
+    restart: unless-stopped
+      # https://github.com/google/cadvisor/issues/3453
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+      - /var/lib/docker/:/rootfs/var/lib/docker:ro
+      - /proc/:/rootfs/proc:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    ports:
+      - 8080:8080
+    command: --docker_only=true

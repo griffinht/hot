@@ -42,13 +42,10 @@
                           (name "cool-laptop")
                           (public-key "5V21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")
                           (allowed-ips '("10.0.0.9/32")))
-                        #|
                         (wireguard-peer
                           (name "cloudtest")
-                          ; todo
-                          (public-key "aV21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")
-                          ; todo
-                          (allowed-ips '("10.0.0.4/32")))|#))))
+                          (public-key "gw5LGcb/Wfgambnv3UuPxO/zmQsPr+v6mHzZuGhWPnk=")
+                          (allowed-ips '("10.0.0.10/32")))))))
             (service prometheus-node-exporter-service-type
                      (prometheus-node-exporter-configuration
                        (web-listen-address "10.0.0.3:9100")))

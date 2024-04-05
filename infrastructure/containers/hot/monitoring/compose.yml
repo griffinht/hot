@@ -2,6 +2,7 @@ volumes:
   prometheus:
   prometheus_config:
   grafana:
+  wireguard:
 
 networks:
   iperf_default:
@@ -17,6 +18,9 @@ services:
     networks:
       - default
       - iperf_default 
+    ports:
+      - 9090:9090
+        # todo set external url so alert links work
     volumes:
       - prometheus_config:/config:ro
       - prometheus:/prometheus
@@ -31,6 +35,8 @@ services:
       # todo reduce cpu and figure out what to monitor idk
   cadvisor2:
     image: gcr.io/cadvisor/cadvisor@sha256:3cde6faf0791ebf7b41d6f8ae7145466fed712ea6f252c935294d2608b1af388
+    profiles:
+      - testing_ignore_todo
     restart: unless-stopped
       # https://github.com/google/cadvisor/issues/3453
     volumes:
@@ -49,6 +55,8 @@ services:
       - 8080:8080
     command: --docker_only=true
 
+      # todo reduce cpu usage
+      # and do the same on nerd-vps
   cadvisor:
     image: gcr.io/cadvisor/cadvisor@sha256:3cde6faf0791ebf7b41d6f8ae7145466fed712ea6f252c935294d2608b1af388
     restart: unless-stopped
@@ -79,3 +87,41 @@ services:
       - 3000:3000
     volumes:
       - grafana:/var/lib/grafana
+
+  # in this specific scenario i could also handle with networkmanager but im not gonna install networkmanager everywhere just for this one use case or maybe i should idk...
+  # daemon:
+  # - docker
+  # - guix service
+  # environment:
+  # - guix host
+  # - guix shell
+  # - docker container
+  wireguard:
+    # also has bind:utils for dig command for debugging
+    image: wireguard-tools-bash-coreutils-curl
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      #- ./wireguard:/wireguard:ro
+      - wireguard:/wireguard:ro
+    # sleep doesn't respond to SIGTERM
+    stop_signal: KILL
+    # if it fails then it needs manual intervention to fix it
+    # so we sleep forever regardless to prevent the container from infinitely sleeping
+    command: bash -c 'wg-quick up /wireguard/wg.conf; sleep infinity'
+    # todo idk if this healthcheck is useful
+    # also nothing even monitors it lol
+    healthcheck:
+      test: ["CMD", "wg", "show", "wg"]
+
+  wireguard_exporter:
+    image: docker.io/mindflavor/prometheus-wireguard-exporter@sha256:9d2e9a325f4ea3b2419534774d8b804f949876dc712cbf88a14f87e54bd6b8bb
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      # port 9586
+      # bound to all interfaces
+    command: --prepend_sudo false
