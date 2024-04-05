@@ -137,7 +137,12 @@ scrape_configs:
 - job_name: nerd_cadvisor
   static_configs:
     - targets:
-      - cadvisor:8080
+      - nerd-vps.wg.hot.griffinht.com:8080
+
+- job_name: nerd_wireguard
+  static_configs:
+    - targets:
+      - nerd-vps.wg.hot.griffinht.com:9586
 
 - job_name: nerd_prometheus
   static_configs:
