@@ -1,18 +1,63 @@
 # security
-lan exposed ports! switch to wireguard? idk...
+https://blog.miyuru.lk/setup-wireguard-with-global-ipv6/
+https://www.hardill.me.uk/wordpress/2021/04/20/setting-up-wireguard-ipv6/
 
+## networking
+lan exposed ports
+    use vlans, put most devices on an isolated network where they can't see anyone
+
+container hosts (cloudtest) can reach all of my lan AND wireguard
+    lan: solved by putting the whole vm on a vlan
+        but i want to access some things from the vm host like network shares!
+        solution: a real firewall lol
+    host: anything bound to 0.0.0.0
+    host: anything bound to loopback? maybe? todo test
+    wireguard: everything! you need a firewall!
+
+
+cool-laptop
 nerd-vps firewall! would be a lot safer than hoping that everything is bound to 127.0.0.1...
-also consider exposed dhclient and stuff...
+    also consider exposed dhclient and stuff...
+    not a problem for lan vms because we have mikrotik
 
+wireguard clients with packet forwarding enabled can be accessed from any wireguard server!
+todo:
+    cloudtest can be reached by nerd
+    my laptop might be reachable...
+
+
+## updates/supply chain
 todo auto update? todo ci git hash update keep everything in vcs instead of random versions
 https://docs.docker.com/docker-hub/builds/
 https://docs.docker.com/docker-hub/webhooks/
 
 
-https://blog.miyuru.lk/setup-wireguard-with-global-ipv6/
-https://www.hardill.me.uk/wordpress/2021/04/20/setting-up-wireguard-ipv6/
+# secrets
+there are a lot of random secrets
+i think i really just need to write down where each secret is and how to rotate it
+
+## cool-laptop
+todo cool-laptop secrets
+    use a passphrase on ssh key + agent + security token?
+root:
+- cool-laptop wireguard private key
+user:
+- ssh private key
+
+## cloudtest
+root:
+- ssh host keys
+docker volumes:
+- monitoring_wireguard: cloudtest private wireguard key
+
+## nerd-vm
+
+    can i keep no secrets on here? its just a cloud machine i'd rather not have anything security related!
+root:
+- ssh host keys
 
 
+# network overview
 
 domain nameservers:
 doug.ns.cloudflare.com
@@ -50,5 +95,4 @@ griffinht.com
         #other-phone     10.0.0.6
         #ugly-laptop     10.0.0.7
         cool-laptop     10.0.0.9
-        #vm-guix         10.0.0.10
-        #vm-nas          10.0.0.11
+        cloudtest       10.0.0.10
