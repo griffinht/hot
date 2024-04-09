@@ -82,6 +82,57 @@ scrape_configs:
   - targets:
     - grafana:3000
 
+- job_name: cloudtest_snmp
+  static_configs:
+    - targets:
+      - snmp_exporter:9116
+
+# todo i think this can be rewritten
+- job_name: snmp_mikrotik
+  metrics_path: /snmp
+  params:
+    module: [mikrotik]
+  static_configs:
+    - targets:
+      - lil-tik.lan.hot.griffinht.com
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: snmp_exporter:9116
+
+- job_name: snmp_eap
+  metrics_path: /snmp
+  params:
+    module: [eap]
+  static_configs:
+    - targets:
+      - tp-wap.lan.hot.griffinht.com
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: snmp_exporter:9116
+
+- job_name: snmp
+  metrics_path: /snmp
+  params:
+    module: [if_mib]
+  static_configs:
+    - targets:
+      - tp-wap.lan.hot.griffinht.com
+      - lil-tik.lan.hot.griffinht.com
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: snmp_exporter:9116
 - job_name: cloudtest_iperf3
   static_configs:
     - targets:

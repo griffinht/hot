@@ -6,11 +6,12 @@
 cat << EOF
 # leave only ssh
 /ip service disable telnet,ftp,www,www-ssl,api,winbox,api-ssl
+/snmp set enabled yes
 
 # static local dns
 /ip dns static add name=lil-tik.lan.hot.griffinht.com address=192.168.0.1
 #/ip dns static add name=fruit-pi.lan.hot.griffinht.com address=192.168.0.2
-#/ip dns static add name=tp-wap.lan.hot.griffinht.com address=192.168.0.3
+/ip dns static add name=tp-wap.lan.hot.griffinht.com address=192.168.0.3
 /ip dns static add name=hot-desktop.lan.hot.griffinht.com address=192.168.0.5
 #/ip dns static add name=envy-laptop.lan.hot.griffinht.com address=192.168.0.6
 /ip dns static add name=mystuff-guix.lan.hot.griffinht.com address=192.168.0.8
@@ -65,10 +66,6 @@ cat << EOF
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.7 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
 # terraria
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=7777 to-addresses=192.168.0.7 protocol=tcp
-
-
-
-
 EOF
 
 

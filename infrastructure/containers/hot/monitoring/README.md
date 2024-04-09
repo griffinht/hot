@@ -1,3 +1,5 @@
+todo nerd xmpp alerts down - deploy alertmanager with email
+
 # actionable - these can be automated
 dynamic ip changed
     update cloudflare config
@@ -46,9 +48,15 @@ docker healthcheck monitoring
 docker container infinite loops
 docker container make sure it is running ok
 
+snmp
+    https://help.mikrotik.com/docs/display/ROS/SNMP
+        todo add authentication
+    https://github.com/akpw/mktxp
+    todo dd-wrt
+        https://wiki.dd-wrt.com/wiki/index.php/SNMP#Known_OID.C2.B4s_via_SNMP
+
 ntp monitoring make sure the clock is set
     or just enable the correct guix service
-https://github.com/akpw/mktxp
 https://github.com/google/cadvisor
 healthchecks:
     https://github.com/google/cadvisor/issues/2166
@@ -81,3 +89,8 @@ https://news.ycombinator.com/item?id=35741922
 wouldn't it be nice to see all errors? how can you monitor brtfs anyways?
 docker healthcheck logs
 docker logs in general
+
+https://wiki.mikrotik.com/wiki/Manual:System/Log
+tp-link syslog
+todo syslog all the things!
+linux kernel for every node! btrfs logs!

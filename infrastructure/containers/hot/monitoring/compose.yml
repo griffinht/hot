@@ -15,6 +15,8 @@ services:
     restart: unless-stopped
     depends_on:
       - blackbox_exporter
+      - snmp_exporter
+      - wireguard_exporter
     networks:
       - default
       - iperf_default 
@@ -118,7 +120,6 @@ services:
 
   wireguard_exporter:
     image: docker.io/mindflavor/prometheus-wireguard-exporter@sha256:9d2e9a325f4ea3b2419534774d8b804f949876dc712cbf88a14f87e54bd6b8bb
-    restart: unless-stopped
     network_mode: host
     cap_add:
       - NET_ADMIN
@@ -127,3 +128,8 @@ services:
     environment:
       - PROMETHEUS_WIREGUARD_EXPORTER_EXPORT_REMOTE_IP_AND_PORT_ENABLED=true
     command: --prepend_sudo true
+
+  snmp_exporter:
+    image: quay.io/prometheus/snmp-exporter:latest@sha256:0360b88d3af2e576402a740f2190f5441ef3ed07b252640af2e93d1cef8209f5
+      #port 9116
+      #restart: unless-stopped
