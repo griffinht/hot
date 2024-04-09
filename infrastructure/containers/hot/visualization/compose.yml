@@ -1,1 +1,2 @@
 # todo put grafana here
+# todo provision datasources like here: https://raw.githubusercontent.com/grafana/loki/v2.9.2/production/docker-compose.yaml
