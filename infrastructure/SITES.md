@@ -27,6 +27,9 @@ can an old iphone do it?
     webcam
     power plug? appliances?
     todo google monitoring random things around your house!
+fridge/freezer temp monitor
+oven temp monitor???
+smart appliance plug - see if things are turned on?
 
 # library/campus/gym
 monitor library busyness
