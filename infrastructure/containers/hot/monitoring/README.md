@@ -86,6 +86,7 @@ https://github.com/prometheus-community/node-exporter-textfile-collector-scripts
     btrfs
 
 ## logs
+dynamic ip - make sure its correct, alert on changes
 todo log export/monitoring/centralized viewing? idk... who cares? like fr whats the advantage of putting your logs in one place
     nginx logs! i want those!
     if something breaks you log in and view the logs
