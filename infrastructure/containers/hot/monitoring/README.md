@@ -57,13 +57,13 @@ snmp
 
 ntp monitoring make sure the clock is set
     or just enable the correct guix service
-https://github.com/google/cadvisor
+
 healthchecks:
     https://github.com/google/cadvisor/issues/2166
+
 dns https://news.ycombinator.com/item?id=39835488
-https://dmachard.github.io/posts/0043-blackbox-prometheus-dns/
-https://voxda.io/ultimate-api-uptime-with-prometheus-and-grafana/
-https://github.com/MindFlavor/prometheus_wireguard_exporter
+    https://dmachard.github.io/posts/0043-blackbox-prometheus-dns/
+    just deploy your own dns server lol
 
 
 
@@ -79,6 +79,11 @@ containers
         mariadb
         postgres
         redis
+
+## arp clients
+cat /proc/net/arp
+https://github.com/prometheus-community/node-exporter-textfile-collector-scripts
+    btrfs
 
 ## logs
 todo log export/monitoring/centralized viewing? idk... who cares? like fr whats the advantage of putting your logs in one place
