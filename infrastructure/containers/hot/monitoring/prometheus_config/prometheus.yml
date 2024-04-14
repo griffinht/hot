@@ -1,3 +1,12 @@
+rule_files:
+  - /config/rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - alertmanager:9093
+
 # todo service discovery
 #https://peterbabic.dev/blog/why-use-labels-docker-compose/
 #https://stackoverflow.com/questions/70803245/prometheus-service-discovery-with-docker-compose
@@ -86,6 +95,28 @@ scrape_configs:
   static_configs:
     - targets:
       - snmp_exporter:9116
+
+- job_name: cloudtest_domain
+  static_configs:
+    - targets:
+      - domain_exporter:9203
+
+- job_name: domain
+  metrics_path: /probe
+  # no need to hit the public WHOIS API very frequently
+  scrape_interval: 1d
+  static_configs:
+    - targets:
+      - griffinht.com
+      - icanhazip.com
+      - sfdgsdfgsdfgsdfgiuhafgiuhfg.com
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: domain_exporter:9203
 
 # todo i think this can be rewritten
 - job_name: snmp_mikrotik

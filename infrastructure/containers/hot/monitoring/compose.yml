@@ -13,10 +13,11 @@ services:
   prometheus:
     image: docker.io/prom/prometheus
     restart: unless-stopped
-    depends_on:
-      - blackbox_exporter
-      - snmp_exporter
-      - wireguard_exporter
+      #depends_on:
+      #- blackbox_exporter
+        #- snmp_exporter
+        #- wireguard_exporter
+        #- domain_exporter
     networks:
       - default
       - iperf_default 
@@ -79,6 +80,7 @@ services:
       - 8080:8080
     command: --docker_only=true
   # todo alertmanager
+  # todo log alerts with special receiver? idk..
 
   grafana:
     image: docker.io/grafana/grafana-oss
@@ -133,3 +135,18 @@ services:
     image: quay.io/prometheus/snmp-exporter:latest@sha256:0360b88d3af2e576402a740f2190f5441ef3ed07b252640af2e93d1cef8209f5
       #port 9116
       #restart: unless-stopped
+
+  domain_exporter:
+    # port 9203
+      #restart: unless-stopped
+    image: quay.io/shift/domain_exporter@sha256:9d30907c5a0b64a3ea234ba77ff57419e82e19f397ae468e774049752f76ba25
+
+      # todo smtp alerting
+  alertmanager:
+    image: todoquay.io/prometheus/alertmanager:latest
+      #depends_on:
+      #- xmpp-alerts
+      #volumes:
+      #- alertmanager_config:/config:ro
+        # todo what does this do? --web.external-url
+    command: --config.file=/config/alertmanager.yml --web.external-url=http://localhosttodo:123
