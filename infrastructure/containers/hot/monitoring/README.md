@@ -48,6 +48,9 @@ docker healthcheck monitoring
 docker container infinite loops
 docker container make sure it is running ok
 
+sast/iast supply chain for docker containers and guix and other software like mikrotik and blah blah
+create your own bom for everything! mikrotikky, hardware, software and publicize it!
+
 snmp
     https://help.mikrotik.com/docs/display/ROS/SNMP
         todo add authentication
