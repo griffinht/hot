@@ -123,7 +123,7 @@ services:
     devices:
       - /dev/kmsg
     ports:
-      - 8080:8080
+      - ${INTERFACE?}:8080:8080
     command: --docker_only=true
 
   iperf3:

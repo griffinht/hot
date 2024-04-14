@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -xe
+
+(cd ./infrastructure/containers/status && ./pre-commit.sh)
