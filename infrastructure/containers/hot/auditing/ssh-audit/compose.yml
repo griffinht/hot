@@ -1,0 +1,6 @@
+services:
+  ssh-audit:
+    # todo pin
+    image: positronsecurity/ssh-audit
+      # todo json output
+    command: nerd-vps.griffinht.com
