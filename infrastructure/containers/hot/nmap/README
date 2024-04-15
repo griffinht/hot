@@ -1,0 +1,21 @@
+nerd-vps
+windy.griffinht.com
+
+
+cloudtest
+nerd-vps.griffinht.com
+
+
+lan
+lil-tik.lan.hot.griffinht.com
+tp-wap.lan.hot.griffinht.com
+hot-desktop.lan.hot.griffinht.com
+mystuff-guix.lan.hot.griffinht.com
+cloudtest.lan.hot.griffinht.com
+
+192.168.0.0/24
+
+
+nmap -p- -sU
+
+# todo scan lan? why not?
