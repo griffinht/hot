@@ -46,3 +46,10 @@ how full/busy each line is over time
 code_swarm
 https://gource.io/
 https://gitstats.sourceforge.net/
+
+# what am i listening to?
+plus history! time to get scrobbling!
+
+# what was my last commit?
+only for my local git repo or something idk...
+and show a pretty graph!
