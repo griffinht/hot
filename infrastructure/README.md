@@ -6,6 +6,8 @@ supply chain: any developer images are basically just rce vulnerabilities for th
 
 git hooks: how can i prevent others from changing my git hooks!
 
+auto disable/stop if vulnerabilitiies is detected?
+
 ## networking
 lan exposed ports
     use vlans, put most devices on an isolated network where they can't see anyone
