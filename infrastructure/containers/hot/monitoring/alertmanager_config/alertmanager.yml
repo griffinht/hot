@@ -1,0 +1,13 @@
+global:
+  smtp_smarthost: mailhog:1025
+  smtp_from: cloudtest.alertmanager@localhost
+  smtp_require_tls: false
+
+route:
+  group_wait: 1s
+  receiver: mailhog
+
+receivers:
+  - name: mailhog
+    email_configs:
+      - to: bruh@localhost

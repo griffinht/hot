@@ -5,7 +5,23 @@ volumes:
       type: "none"
       o: "bind"
       device: "./prometheus_config"
+  alertmanager_config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./alertmanager_config"
 
 networks:
   iperf_default:
     external: false
+
+services:
+  mailhog:
+    image: docker.io/mailhog/mailhog
+      # web ui for debugging
+    ports:
+      - 127.0.0.1:8025:8025
+
+  alertmanager:
+    command: --config.file=/config/alertmanager.yml --web.external-url=http://localhost:9093

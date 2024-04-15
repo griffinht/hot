@@ -1,6 +1,7 @@
 volumes:
   prometheus:
   prometheus_config:
+  alertmanager_config:
   grafana:
   wireguard:
 
@@ -79,7 +80,6 @@ services:
     ports:
       - 8080:8080
     command: --docker_only=true
-  # todo alertmanager
   # todo log alerts with special receiver? idk..
 
   grafana:
@@ -141,12 +141,10 @@ services:
       #restart: unless-stopped
     image: quay.io/shift/domain_exporter@sha256:9d30907c5a0b64a3ea234ba77ff57419e82e19f397ae468e774049752f76ba25
 
-      # todo smtp alerting
   alertmanager:
-    image: todoquay.io/prometheus/alertmanager:latest
-      #depends_on:
-      #- xmpp-alerts
-      #volumes:
-      #- alertmanager_config:/config:ro
-        # todo what does this do? --web.external-url
-    command: --config.file=/config/alertmanager.yml --web.external-url=http://localhosttodo:123
+    image: quay.io/prometheus/alertmanager:latest
+    ports:
+      - 9093:9093
+    volumes:
+      - alertmanager_config:/config:ro
+    command: --config.file=/config/alertmanager.yml --web.external-url=http://cloudtest.lan.hot.griffinht.com:9093
