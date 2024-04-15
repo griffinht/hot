@@ -2,6 +2,10 @@
 https://blog.miyuru.lk/setup-wireguard-with-global-ipv6/
 https://www.hardill.me.uk/wordpress/2021/04/20/setting-up-wireguard-ipv6/
 
+supply chain: any developer images are basically just rce vulnerabilities for the dev machine no? whats stopping mailhog (unmainted since 2 years) from using host network access to hack me?
+
+git hooks: how can i prevent others from changing my git hooks!
+
 ## networking
 lan exposed ports
     use vlans, put most devices on an isolated network where they can't see anyone
