@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -xe
+
+echo bruh
+echo wazzup
+echo asdfsdf 2> asd
+
+

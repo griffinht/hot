@@ -1,3 +1,36 @@
-#!/bin/bash -ex
+#!/bin/sh
 
-curl ci:8000/cgi-bin/bruh.cgi
+set -e
+
+#base_url=ci:8000/cgi-bin
+base_url=localhost:8000/cgi-bin
+
+run() {
+    curl \
+        -s \
+        -X POST \
+        -d @- \
+        "$base_url/run"
+}
+
+job="$(run < bruh)"
+
+log() {
+    stream="$1"
+    echo "$job" | curl \
+        -X POST \
+        -d @- \
+        -s -N \
+        "$base_url/log?$stream"
+}
+log "stdout"
+log "stderr" 1>&2
+
+finish() {
+    echo "$job" | curl \
+        -s \
+        -X POST \
+        -d @- \
+        "$base_url/finish"
+}
+exit "$(finish)"

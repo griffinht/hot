@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -xe
+
+echo
+
+# todo what if unset
+# todo don't allow for arbitrary path
+job="$(head -c "$CONTENT_LENGTH")"
+
+cat "$job/exitcode" || (echo job does not exist && exit 0)
+rm -r "$job"

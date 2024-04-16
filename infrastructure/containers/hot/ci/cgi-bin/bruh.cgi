@@ -8,3 +8,20 @@ echo Content-Type: text/plain
 echo
 echo hello there
 echo how are you?
+sleep 1
+echo how are you?
+sleep 1
+sleep 1
+echo how are you?
+echo how are you?
+sleep 1
+echo how are you?
+sleep 1
+echo how are you?
+sleep 1
+echo how are you?
+sleep 1
+echo how are you?
+sleep 1
+echo how are you?
+echo bye bye

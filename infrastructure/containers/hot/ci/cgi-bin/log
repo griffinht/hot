@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -xe
+
+echo
+
+# todo what if unset
+# todo don't allow for arbitrary path
+job="$(head -c "$CONTENT_LENGTH")"
+# should be stderr or stdout
+stream="$QUERY_STRING"
+
+# https://askubuntu.com/questions/509881/tail-reading-an-entire-file-and-then-following
+#cat "$job/$stream"
+#tail -f -n +1 "$job/$stream" &
+tail --pid "$(cat "$job/pid")" -f "$job/$stream"
