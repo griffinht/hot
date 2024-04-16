@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+# todo
+# https://github.com/zx2c4/cgit/blob/master/contrib/hooks/post-receive.agefile
+# https://github.com/ohwgiles/laminar/blob/master/examples/git-post-receive-hook-notes

@@ -11,5 +11,5 @@ guix pack \
     --compression=none \
     --image-tag=mygit \
     --symlink=/bin=bin \
-    git bash | xargs cat | podman load
+    git bash laminar | xargs cat | podman load
 #guix pack --format=docker --compression=none --image-tag=myssh openssh-sans-x git bash coreutils which

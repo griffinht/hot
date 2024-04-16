@@ -1,10 +1,22 @@
+networks:
+  ci_default:
+    external: true
+
 services:
-  ssh:
+  # todo cgit 
+  # don't forget commit graph! dark mode! idk!
+
+  git:
     image: mygit 
     volumes:
       - ./git:/git
+    networks:
+      - default
+      - ci_default
     ports:
       - 127.0.0.1:9418:9418
+    environment:
+      - LAMINAR_HOST=laminar:9997
     command: git daemon --base-path=/git --enable=receive-pack --export-all /git
       # idk why /git is necessary when it is given in base path
       # todo enable upload-archive
