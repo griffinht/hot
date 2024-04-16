@@ -1,0 +1,12 @@
+services:
+  laminar:
+    ports:
+      - 127.0.0.1:9997:9997
+
+  ci:
+    ports:
+      - 127.0.0.1:8000:8000
+
+  alertmanager:
+    image: mccutchen/go-httpbin
+    command: go-httpbin -port 9093

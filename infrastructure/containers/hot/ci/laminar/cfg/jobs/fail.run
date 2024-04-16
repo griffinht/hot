@@ -1,0 +1,3 @@
+#!/bin/bash -ex
+
+curl ci:8000/cgi-bin/bruh.cgi

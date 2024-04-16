@@ -9,7 +9,6 @@ guix pack \
     --no-substitutes \
     --format=docker \
     --compression=none \
-    --image-tag=mylaminar \
+    --image-tag=myci \
     --symlink=/bin=bin \
-    --with-version=laminar=1.2 \
-    laminar bash curl jq | xargs cat | podman load
+    python bash | xargs cat | podman load

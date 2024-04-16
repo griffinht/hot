@@ -1,11 +1,24 @@
 services:
+  cron:
+    image: mylaminarcron
+    profiles:
+      - none
+
   laminar:
     image: mylaminar
     volumes:
       #- ./laminar.conf:/etc/laminar.conf:ro
+        # todo make read only?
       - ./laminar:/var/lib/laminar
     env_file: laminar.conf
     command: laminard
     ports:
-      - 127.0.0.1:9997:9997
       - 127.0.0.1:8080:8080
+
+  ci:
+    image: myci
+    volumes:
+      - ./cgi-bin:/serve/cgi-bin:ro
+      - /etc/passwd:/etc/passwd:ro
+    working_dir: /serve
+    command: python3 -m http.server --cgi

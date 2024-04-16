@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo asdf > $ARCHIVE/asdf
+echo sdf > $ARCHIVE/asd
+# public url to ci, so we can click links
+url=http://localhost:8080
+# alertmanager url for submitting alerts
+alertmanager_url=alertmanager:9093
+
+env
+echo test: $test
+laminarc set test="bruh $JOB"
+laminarc set DESCRIPTION="bruh $JOB"
+
+if [ "$RESULT" != success ]; then
+    echo "$url/jobs/$JOB/$RUN" | curl \
+        -X POST \
+        -d @- \
+        "${alertmanager_url}/post"
+fi
