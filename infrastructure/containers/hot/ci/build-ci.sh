@@ -11,4 +11,4 @@ guix pack \
     --compression=none \
     --image-tag=myci \
     --symlink=/bin=bin \
-    python bash | xargs cat | podman load
+    python bash coreutils | xargs cat | podman load

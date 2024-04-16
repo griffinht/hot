@@ -15,10 +15,16 @@ services:
     ports:
       - 127.0.0.1:8080:8080
 
+  # ssh
+  # cgi script
+  # adanh/webhook - no live streaming! womp womp
+  # https://github.com/msoap/shell2http
   ci:
     image: myci
     volumes:
       - ./cgi-bin:/serve/cgi-bin:ro
       - /etc/passwd:/etc/passwd:ro
     working_dir: /serve
+    environment:
+      - JOB_DIR=/jobs
     command: python3 -m http.server --cgi
