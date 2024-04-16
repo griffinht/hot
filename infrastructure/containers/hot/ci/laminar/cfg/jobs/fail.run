@@ -13,7 +13,27 @@ run() {
         "$base_url/run"
 }
 
-job="$(run < bruh)"
+#job="$(run < bruh)"
+
+job="$(run << EOF
+#!/bin/sh
+
+set -xe
+
+/ci/nerd.sh
+EOF
+)"
+
+abort() {
+    echo "$job" | curl \
+        -X POST \
+        -d @- \
+        -s -N \
+        "$base_url/abort"
+    exit "$?"
+}
+# todo make sure this triggers on laminar abort
+trap abort INT
 
 log() {
     stream="$1"
@@ -23,6 +43,8 @@ log() {
         -s -N \
         "$base_url/log?$stream"
 }
+
+# todo make concurrent
 log "stdout"
 log "stderr" 1>&2
 

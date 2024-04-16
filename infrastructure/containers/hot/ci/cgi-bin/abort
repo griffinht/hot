@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -xe
+
+echo
+
+# todo what if unset
+# todo don't allow for arbitrary path
+job="$(head -c "$CONTENT_LENGTH")"
+
+echo "abort: killing pid $(cat "$job/pid")"
+kill "$(cat "$job/pid")"
+echo "abort: killed, cleaning up job $job"
+rm -r "$job"

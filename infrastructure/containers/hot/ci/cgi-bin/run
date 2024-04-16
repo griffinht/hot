@@ -9,13 +9,20 @@ job="$(mktemp -d)"
 # todo what if unset
 head -c "$CONTENT_LENGTH" > "$job/run"
 chmod +x "$job/run"
-"$job/run" > "$job/stdout" 2> "$job/stderr" &
-#echo asfsdf > "$job/stdout" 2> "$job/stderr" &
-pid="$!"
-echo "$pid" > "$job/pid"
 echo "$job"
-# todo detach or something?
 
-exitcode=0
-wait "$pid" || exitcode="$?"
-echo "$exitcode" > "$job/exitcode"
+# potential for race condition where job may not have started by the time the network response comes in
+# but very small chance!
+
+{
+    "$job/run" > "$job/stdout" 2> "$job/stderr" &
+    #echo asfsdf > "$job/stdout" 2> "$job/stderr" &
+    pid="$!"
+    echo "$pid" > "$job/pid"
+
+    exitcode=0
+    wait "$pid" || exitcode="$?"
+    echo "$exitcode" > "$job/exitcode"
+} &
+
+# todo timeout auto cleanup job
