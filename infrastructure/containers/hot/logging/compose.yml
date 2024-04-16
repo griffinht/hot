@@ -1,0 +1,32 @@
+volumes:
+  # todo use object store
+  loki:
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
+services:
+  # port 3100
+  loki:
+    image: docker.io/grafana/loki
+    restart: unless-stopped
+    networks:
+      - internal
+    depends_on:
+      - promtail
+    volumes:
+      - loki:/loki
+      - ./loki_config:/loki_config:ro
+        #- /var/log:/var/log:ro
+    command: -config.file=/loki_config/config.yml
+
+  promtail:
+    image: docker.io/grafana/promtail
+    networks:
+      - internal
+    volumes:
+      - ./promtail:/config:ro
+    command: -config.file=/config/config.yml
+  # todo syslog-ng https://grafana.com/docs/loki/latest/send-data/promtail/scraping/#syslog-ng-output-configuration
