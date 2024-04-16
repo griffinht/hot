@@ -12,6 +12,8 @@ services:
       - ./laminar:/var/lib/laminar
     env_file: laminar.conf
     command: laminard
+    environment:
+      - CI_HOST=ci:8000
     ports:
       - 127.0.0.1:8080:8080
 

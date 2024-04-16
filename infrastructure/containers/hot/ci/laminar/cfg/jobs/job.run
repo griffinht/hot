@@ -1,21 +1,21 @@
 #!/bin/sh
 
-set -xe
+set -e
 
 cleanup() {
     echo exit code $?
 }
 trap cleanup EXIT
 
-base_url=ci:8000/cgi-bin
-#base_url=localhosl:8000/cgi-bin
+host="${CI_HOST:-localhost:8000}"
+url="$host/cgi-bin"
 
 run() {
     curl \
         -s \
         -X POST \
         --data-binary @- \
-        "$base_url/run"
+        "$url/run"
 }
 
 #job="$(run < bruh)"
@@ -34,7 +34,7 @@ abort() {
         -X POST \
         -d @- \
         -s -N \
-        "$base_url/abort"
+        "$url/abort"
     exit "$?"
 }
 # todo make sure this triggers on laminar abort
@@ -46,7 +46,7 @@ log() {
         -X POST \
         -d @- \
         -s -N \
-        "$base_url/log?$stream"
+        "$url/log?$stream"
 }
 
 # todo make concurrent
@@ -58,6 +58,6 @@ finish() {
         -s \
         -X POST \
         -d @- \
-        "$base_url/finish"
+        "$url/finish"
 }
 exit "$(finish)"
