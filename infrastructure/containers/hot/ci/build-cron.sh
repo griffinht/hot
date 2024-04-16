@@ -6,6 +6,6 @@ guix pack \
     --no-substitutes \
     --format=docker \
     --compression=none \
-    --image-tag=mycron \
+    --image-tag=mylaminarcron \
     --symlink=/bin=bin \
-    laminar bash cron | xargs cat | podman load
+    laminar bash mcron | xargs cat | podman load

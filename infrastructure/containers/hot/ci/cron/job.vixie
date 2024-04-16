@@ -1,0 +1,3 @@
+#MAILTO=""
+* * * * * laminarc queue asdjob > /dev/null 2> /dev/null
+# * * * * * laminarc queue job > /dev/stderr

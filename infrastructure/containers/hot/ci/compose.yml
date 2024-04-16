@@ -1,8 +1,12 @@
 services:
   cron:
     image: mylaminarcron
-    profiles:
-      - none
+    environment:
+      - LAMINAR_HOST=laminar:9997
+      - XDG_CONFIG_HOME=/
+    volumes:
+      - ./cron:/cron:ro
+    command: mcron --log
 
   laminar:
     image: mylaminar
