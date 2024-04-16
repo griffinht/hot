@@ -4,6 +4,4 @@ set -xe
 
 echo bruh
 echo wazzup
-echo asdfsdf 2> asd
-
-
+exit 2

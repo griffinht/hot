@@ -9,7 +9,7 @@ run() {
     curl \
         -s \
         -X POST \
-        -d @- \
+        --data-binary @- \
         "$base_url/run"
 }
 
