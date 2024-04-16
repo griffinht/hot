@@ -18,12 +18,5 @@ cleanup() {
 }
 trap cleanup EXIT
 
-for i in {1..10}; do
-    echo stdout $i
-    echo stderr $i > /dev/stderr
-    sleep .5
-done
-
-exit 0
 # last grep should fail
-nmap -p- nerd-vps.griffinht.com cat output | tee /dev/stderr | grep 'open' | (! grep -vE '(22|80|443)/tcp') | printf 'open ports:\n%s\n' "$(cat)"
+nmap -p- nerd-vps.griffinht.com | tee /dev/stderr | grep 'open' | (! grep -vE '(22|80|443)/tcp') | printf 'open ports:\n%s\n' "$(cat)"

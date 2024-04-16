@@ -15,8 +15,9 @@ echo "$job"
 # but very small chance!
 
 {
-    "$job/run" > "$job/stdout" 2> "$job/stderr" &
-    #echo asfsdf > "$job/stdout" 2> "$job/stderr" &
+    # >> is important here, otherwise it will keep truncating the file!
+    # then tail complains about the file being truncated
+    "$job/run" >> "$job/stdout" 2>> "$job/stderr" &
     pid="$!"
     echo "$pid" > "$job/pid"
 

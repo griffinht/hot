@@ -35,10 +35,14 @@ abort() {
         -d @- \
         -s -N \
         "$url/abort"
-    exit "$?"
+    # todo is this correct?
+    wait
+    #exit "$?"
 }
 # todo make sure this triggers on laminar abort
 trap abort INT
+#trap abort HUP
+#trap abort EXIT
 
 log() {
     stream="$1"
@@ -51,12 +55,8 @@ log() {
 
 log "stdout" &
 pid="$!"
-log "stderr" 1>&2
-#log "stderr" 1>&2
-#log "stderr" > /dev/stderr
+log "stderr" > /dev/stderr
 wait "$pid"
-echo hello > /dev/stderr
-echo can you h ear me > /dev/stderr
 
 finish() {
     echo "$job" | curl \

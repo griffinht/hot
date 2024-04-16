@@ -11,8 +11,5 @@ job="$(head -c "$CONTENT_LENGTH")"
 stream="$QUERY_STRING"
 
 # https://askubuntu.com/questions/509881/tail-reading-an-entire-file-and-then-following
-echo before
-cat "$job/$stream"
-echo after
 #tail -f -n +1 "$job/$stream" &
 tail --pid "$(cat "$job/pid")" -f "$job/$stream"
