@@ -1,9 +1,14 @@
 #!/bin/sh
 
-set -e
+set -xe
 
-#base_url=ci:8000/cgi-bin
-base_url=localhost:8000/cgi-bin
+cleanup() {
+    echo exit code $?
+}
+trap cleanup EXIT
+
+base_url=ci:8000/cgi-bin
+#base_url=localhosl:8000/cgi-bin
 
 run() {
     curl \

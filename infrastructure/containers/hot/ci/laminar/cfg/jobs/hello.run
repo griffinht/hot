@@ -1,7 +1,0 @@
-#!/bin/bash -ex
-
-wget ftp://ftp.gnu.org/gnu/hello/hello-2.10.tar.gz
-tar xzf hello-2.10.tar.gz
-cd hello-2.10
-./configure
-make

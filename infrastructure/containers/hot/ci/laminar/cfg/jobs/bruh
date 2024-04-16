@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -xe
-
-echo bruh
-echo wazzup
-exit 2
