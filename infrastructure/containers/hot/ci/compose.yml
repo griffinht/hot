@@ -26,6 +26,7 @@ services:
     volumes:
       - ./cgi-bin:/serve/cgi-bin:ro
       - /etc/passwd:/etc/passwd:ro
+      - ./ci:/ci:ro
     working_dir: /serve
     environment:
       - JOB_DIR=/jobs

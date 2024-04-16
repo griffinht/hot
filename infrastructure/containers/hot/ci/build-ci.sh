@@ -11,4 +11,7 @@ guix pack \
     --compression=none \
     --image-tag=myci \
     --symlink=/bin=bin \
-    python bash coreutils | xargs cat | podman load
+    python bash coreutils \
+    cowsay lolcat \
+    nmap grep \
+    | xargs cat | podman load
