@@ -1,5 +1,7 @@
 services:
   cron:
+    profiles:
+      - disabled
     image: mylaminarcron
     environment:
       - LAMINAR_HOST=laminar:9997
