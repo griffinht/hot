@@ -2,7 +2,6 @@ dns audit
     ensure porkbun has the right stuff idk
 
 
-
 # todo daemon
 # todo share results online public
 # todo log ingestion and alerting potentially
@@ -17,6 +16,9 @@ https://github.com/GhostTroops/scan4all
 https://github.com/scipag/vulscan
 https://github.com/qazbnm456/awesome-web-security?tab=readme-ov-file#tools
 githbu awesome linux security scanner
+
+# bruh
+https://github.com/google/oss-fuzz
 
 # sast
 owasp dep check

@@ -6,6 +6,7 @@
 cat << EOF
 # leave only ssh
 /ip service disable telnet,ftp,www,www-ssl,api,winbox,api-ssl
+# todo secure snmp
 /snmp set enabled yes
 
 # static local dns

@@ -31,8 +31,6 @@ services:
       - internal
     volumes:
       - invidious:/var/lib/postgresql/data
-      - invidious_postgres_config:/config/sql:ro
-      - invidious_postgres_entrypoint:/docker-entrypoint-initdb.d/init-invidious-db.sh:ro
         #- ./invidious/config/sql:/config/sql:ro
         #- ./invidious/docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh:ro
     environment:
