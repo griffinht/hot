@@ -1,1 +1,4 @@
 https://coderwall.com/p/jp7d5q/create-a-global-git-commit-hook
+alert when something ci related changes
+$comitter updated $ci et cetera idk
+alert or just log and have logging system alert for us??

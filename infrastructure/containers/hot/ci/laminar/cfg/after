@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# todo don't do this
+# instead just log it and let our magical logging system send the alert
+# todo implement magical logging system
+
 # public url to ci, so we can click links
 url=http://localhost:8080
 # alertmanager url for submitting alerts
