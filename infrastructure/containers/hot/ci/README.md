@@ -9,3 +9,5 @@ https://laminar.ohwg.net/docs.html#Environment-variables
 
 # ???
 https://laminar.ohwg.net/docs.html#Parameterized-runs
+
+# https://man.sr.ht/builds.sr.ht/#integrations
