@@ -19,7 +19,7 @@ services:
     volumes:
       - registry:/var/lib/registry:ro
     environment:
-      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '[https://ui.registry.griffinht.com]'
+      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '[${UR:-http://localhost:5002/}]'
         # not needed?
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods: '[HEAD,GET,OPTIONS]'
         # not needed?
@@ -35,7 +35,7 @@ services:
       - internal
     environment:
       - SINGLE_REGISTRY=true
-      - REGISTRY_URL=https://registry.griffinht.com
+      - REGISTRY_URL=${REGISTRY_URL-http://localhost:5000}
       - SHOW_CONTENT_DIGEST=true
         # todo apparently fixes a bug?
       - USE_CONTROL_CACHE_HEADER=true
