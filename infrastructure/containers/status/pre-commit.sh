@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 set -xe
+set -o pipefail
 
 # todo why not just configure the firewall it would remove the need for all this drama
 
@@ -14,9 +15,10 @@ filter() {
     # jq cannot iterator over null
     # improper fix is to suppress the error
     # true ignores errors which is bad lol 
-    yq e "$file" -o=json | jq -r '.services[].ports[]' 2>/dev/null | grep -v '${HTTP_PORT?}:80' | grep -v '${HTTPS_PORT?}:443' | grep -v '${INTERFACE?}:*:*' || true
+    yq e "$file" -o=json | jq -r '.services[] | try .ports[]' | grep -v '${HTTP_PORT?}:80' | grep -v '${HTTPS_PORT?}:443' | (grep -v '${INTERFACE?}:*:*' || true)
 }
+
 result="$(filter)"
-echo expose ports:
+echo exposed ports:
 echo "$result"
 [ -z "$result" ]
