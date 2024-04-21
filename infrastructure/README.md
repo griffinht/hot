@@ -8,6 +8,9 @@ git hooks: how can i prevent others from changing my git hooks!
 
 auto disable/stop if vulnerabilitiies is detected?
 
+## containers
+laminar can access git and delete all my stuff
+
 ## networking
 lan exposed ports
     use vlans, put most devices on an isolated network where they can't see anyone

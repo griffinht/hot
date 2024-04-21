@@ -3,5 +3,8 @@
 set -e
 
 # todo
+#https://carlosbecker.com/posts/git-changed/
+#implement this for ci folders - "protected folders" - make a nice audit log!
 # https://github.com/zx2c4/cgit/blob/master/contrib/hooks/post-receive.agefile
 # https://github.com/ohwgiles/laminar/blob/master/examples/git-post-receive-hook-notes
+#lamainrc queue "$job"
