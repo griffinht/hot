@@ -36,4 +36,23 @@ services:
     working_dir: /serve
     environment:
       - JOB_DIR=/jobs
+      - CI_DIR=/ci
+      - GUIX_DAEMON_SOCKET=guix:1234
     command: python3 -m http.server --cgi
+
+  guix:
+    image: myguix
+    command: 
+      - guix-daemon
+      - --build-users-group=guixbuild
+      - --substitute-urls=https://ci.guix.gnu.org https://bordeaux.guix.gnu.org
+        # port 44146 by default
+      - --listen=0.0.0.0
+    volumes:
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/services:/etc/services:ro
+    # todo
+    # ./guix.sh archive --authorize < ci.guix.gnu.org.pub
+    # ./guix.sh archive --authorize < bordeaux.guix.gnu.org.pub
+    privileged: false

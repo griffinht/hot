@@ -10,3 +10,7 @@ services:
   alertmanager:
     image: mccutchen/go-httpbin
     command: go-httpbin -port 9093
+
+  guix:
+    ports:
+      - 127.0.0.1:44146:44146

@@ -9,10 +9,7 @@ guix pack \
     --no-substitutes \
     --format=docker \
     --compression=none \
-    --image-tag=myci \
+    --image-tag=myguix \
     --symlink=/bin=bin \
-    python bash coreutils \
-    cowsay lolcat \
-    guix \
+    guix bash coreutils \
     | xargs cat | podman load
-    #nmap grep \
