@@ -1,0 +1,26 @@
+(use-modules (gnu packages ssh)
+             (gnu packages certs)
+             (gnu packages admin)
+             (gnu packages containers)
+             (gnu services ssh)
+             (gnu services docker)
+             (gnu services monitoring)
+             (guix gexp)
+             (griffinht system))
+
+(define ssh-pubkey
+  (local-file "../cool-laptop.pub"))
+
+(operating-system
+  (host-name "griffinht")
+  (bootloader %vm-bootloader)
+  (file-systems %vm-file-systems)
+  (packages
+    (append
+      (list
+        nss-certs)
+      %base-packages))
+  (services
+    (append
+      (list (service docker-service-type))
+      (make-vm-services `(("root" ,ssh-pubkey))))))
