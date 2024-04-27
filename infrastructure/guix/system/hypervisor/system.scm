@@ -10,8 +10,10 @@
              (gnu services samba)
              (gnu services monitoring)
              (gnu system setuid)
-             ;(gnu system file-systems) not needed for deploy??
              (guix gexp)
+             ; not needed for deploy??
+             (gnu system file-systems)
+             ; not needed for deploy??
              (griffinht system))
 
 (operating-system
@@ -73,7 +75,7 @@
                     ; wireguard
                     (service wireguard-service-type
                       (wireguard-configuration
-                        (addresses '((string-append wireguard-address-hypervisor "/32")))
+                        (addresses (list (string-append wireguard-address-hypervisor "/32")))
                         (peers
                           (list wireguard-peer-cool-laptop))))
         (service samba-service-type
