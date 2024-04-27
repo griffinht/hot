@@ -1,3 +1,5 @@
+
+https://internaldeveloperplatform.org/core-components/
 # security
 https://blog.miyuru.lk/setup-wireguard-with-global-ipv6/
 https://www.hardill.me.uk/wordpress/2021/04/20/setting-up-wireguard-ipv6/
