@@ -7,6 +7,9 @@ SSH_KEY=id_ed25519.bin
 DEPLOY_IMAGE_SCRIPT=./scripts/deploy-image.sh
 ENV_FILE=local.env
 ENV_SCRIPT=. ./$(ENV_FILE) &&
+# which interface to bind on host
+# could be 0.0.0.0
+INTERFACE=127.0.0.1
 
 # todo allow this to be out of date? it just needs to exist once
 id_%.bin:
@@ -40,9 +43,10 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 
 %/vm.run: %/vm.bin
 	"$$(cat '$<')" \
-		-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22"
-		#-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22,hostfwd=tcp::8080-:80,hostfwd=tcp::4434-:443,hostfwd=udp::51820-:51820"
+		-nic "user,model=virtio-net-pci,hostfwd=tcp:$(INTERFACE):2222-:22"
+		#-nic "user,model=virtio-net-pci,hostfwd=tcp:$(INTERFACE):2222-:22,hostfwd=tcp:$(INTERFACE):8080-:80,hostfwd=tcp:$(INTERFACE):4434-:443,hostfwd=udp:$(INTERFACE):51820-:51820"
 
+# https://guix.gnu.org/cookbook/en/html_node/Container-Networking.html
 %/container.run: %/$(SYSTEM)
 	sudo "$$($(ENV_SCRIPT) guix system $(LOAD_PATH) container --network '$<')"
 
@@ -71,7 +75,7 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 		-enable-kvm \
 		-drive "file=$$(cat '$<'),format=qcow2" \
 		-m 512 \
-		-nic "user,model=virtio-net-pci,hostfwd=tcp::2222-:22"
+		-nic "user,model=virtio-net-pci,hostfwd=tcp:$(INTERFACE):2222-:22"
 
 %/deploy2: %/deploy.scm %/$(SYSTEM)
 	guix deploy $(LOAD_PATH) '$<'
@@ -88,5 +92,5 @@ bruh:
 	sleep 15
 	# https://blog.adamspiers.org/2012/01/23/port-redirection-from-kvm-host-to-guest/
 	# todo specify local? it should be implict
-	virsh qemu-monitor-command --hmp mystuff_base 'hostfwd_add ::2222-:22'
+	virsh qemu-monitor-command --hmp mystuff_base 'hostfwd_add :$(INTERFACE):2222-:22'
 	make guix/deploy
