@@ -8,7 +8,26 @@
                #:use-module (gnu services networking)
                #:use-module (gnu services ssh)
                #:use-module (gnu services desktop)
+               #:use-module (gnu services vpn)
                #:use-module (guix gexp))
+
+;(define-public ssh-pubk
+(define-public wireguard-address-hypervisor "10.0.0.2")
+(define-public wireguard-address-nerd-vps "10.0.0.3")
+
+(define-public wireguard-peer-cool-laptop
+               (wireguard-peer
+                 (name "cool-laptop")
+                 (public-key "5V21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")
+                 (allowed-ips '("10.0.0.9/32"))))
+
+(define-public wireguard-peer-cloudtest
+               (wireguard-peer
+                 (name "cloudtest")
+                 (public-key "gw5LGcb/Wfgambnv3UuPxO/zmQsPr+v6mHzZuGhWPnk=")
+                 (allowed-ips '("10.0.0.10/32"))))
+
+(define-public wireguard-address-griffinht "10.0.0.11")
 
 (define-public %vm-bootloader
   (bootloader-configuration (bootloader grub-bootloader)))

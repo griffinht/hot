@@ -5,6 +5,7 @@
              (gnu services ssh)
              (gnu services docker)
              (gnu services monitoring)
+             (gnu services vpn)
              (guix gexp)
              (griffinht system))
 
@@ -22,5 +23,12 @@
       %base-packages))
   (services
     (append
-      (list (service docker-service-type))
+      (list (service docker-service-type)
+            (service wireguard-service-type
+              (wireguard-configuration
+                (addresses '((string-append wireguard-address-griffinht "/32")))
+                (peers
+                  (list wireguard-peer-cool-laptop
+                        )))))
+                        ;wireguard-peer-hot))))
       (make-vm-services `(("root" ,ssh-pubkey))))))

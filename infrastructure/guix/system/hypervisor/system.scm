@@ -10,6 +10,7 @@
              (gnu services samba)
              (gnu services monitoring)
              (gnu system setuid)
+             ;(gnu system file-systems) not needed for deploy??
              (guix gexp)
              (griffinht system))
 
@@ -45,6 +46,9 @@
                       (list "kvm")))) ; allows kvm virtualization for speedy vms
             %base-user-accounts))
   (services
+    ; TODO TODO TODO
+    ; start virtqemud as daemon
+    ; blog about it! a quickie! or just put it in notes
     (append (list ; network manager! makes bridge networks easier
                   (service network-manager-service-type
                            (network-manager-configuration
@@ -69,16 +73,14 @@
                     ; wireguard
                     (service wireguard-service-type
                       (wireguard-configuration
-                        (addresses '("10.0.0.2/32"))
+                        (addresses '((string-append wireguard-address-hypervisor "/32")))
                         (peers
-                          (list (wireguard-peer
-                                  (name "cool-laptop")
-                                  (public-key "5V21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")
-                                  (allowed-ips '("10.0.0.9/32")))))))
+                          (list wireguard-peer-cool-laptop))))
         (service samba-service-type
           (samba-configuration
             (enable-smbd? #t)
             (config-file (local-file "smb.conf"))))
+        ; todo expose via wireguard
         (service prometheus-node-exporter-service-type)
                     )
             (modify-services %base-services
