@@ -39,14 +39,11 @@
       (list
         (service wireguard-service-type
           (wireguard-configuration
-            ;(addresses '("10.0.0.1/32"))
+            (addresses (list (string-append wireguard-address-guix "/32")))
             (port 51821)
             (peers
-              (list (wireguard-peer
-                      (name "cool-laptop")
-                      (public-key "5V21izdEyjthdeALvOrADIq1B2fvqX9I9RC4Ow37XnA=")
-                      (allowed-ips '("0.0.0.0/0" "::/0"))
-                      )))))
+              (list wireguard-peer-cool-laptop)
+                      )))
         (service prometheus-node-exporter-service-type)
         (service nftables-service-type
           (nftables-configuration (ruleset (local-file "wireguard.nft"))))

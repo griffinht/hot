@@ -12,6 +12,7 @@
                #:use-module (guix gexp))
 
 ;(define-public ssh-pubk
+(define-public wireguard-address-guix "10.0.0.1")
 (define-public wireguard-address-hypervisor "10.0.0.2")
 (define-public wireguard-address-nerd-vps "10.0.0.3")
 

@@ -36,7 +36,7 @@
             ; wireguard
             (service wireguard-service-type
               (wireguard-configuration
-                (addresses '((string-append wireguard-address-nerd-vps "/32")))
+                (addresses (list (string-append wireguard-address-nerd-vps "/32")))
                 (peers
                   (list wireguard-peer-cool-laptop
                         wireguard-peer-cloudtest))))

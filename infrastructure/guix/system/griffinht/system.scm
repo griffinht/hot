@@ -24,11 +24,13 @@
   (services
     (append
       (list (service docker-service-type)
+            #|
             (service wireguard-service-type
               (wireguard-configuration
-                (addresses '((string-append wireguard-address-griffinht "/32")))
+                (addresses (list (string-append wireguard-address-griffinht "/32")))
                 (peers
                   (list wireguard-peer-cool-laptop
                         )))))
                         ;wireguard-peer-hot))))
+                        |#
       (make-vm-services `(("root" ,ssh-pubkey))))))
