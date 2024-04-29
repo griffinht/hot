@@ -44,6 +44,7 @@ slow disk read?
 iperf3
 
 # todo lan monitoring, routeros monitoring, tp-link wap monitoring, cool-desktop monitoring
+https://github.com/lablabs/cloudflare-exporter
 docker healthcheck monitoring
 docker container infinite loops
 docker container make sure it is running ok
