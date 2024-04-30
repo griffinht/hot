@@ -76,6 +76,8 @@ scrape_configs:
       - http://cloudtest.lan.hot.griffinht.com:80
         # grafana
       - http://cloudtest.lan.hot.griffinht.com:3000
+        # redlib
+      - http://cloudtest.lan.hot.griffinht.com:8081
         # searxng
       - http://cloudtest.lan.hot.griffinht.com:8123
         # photoprism

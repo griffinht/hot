@@ -1,0 +1,7 @@
+services:
+  redlib:
+    image: quay.io/redlib/redlib:latest
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    read_only: true
