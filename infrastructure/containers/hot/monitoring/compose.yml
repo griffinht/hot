@@ -122,6 +122,7 @@ services:
 
   wireguard_exporter:
     image: docker.io/mindflavor/prometheus-wireguard-exporter@sha256:9d2e9a325f4ea3b2419534774d8b804f949876dc712cbf88a14f87e54bd6b8bb
+    restart: unless-stopped
     network_mode: host
     cap_add:
       - NET_ADMIN
@@ -133,12 +134,12 @@ services:
 
   snmp_exporter:
     image: quay.io/prometheus/snmp-exporter:latest@sha256:0360b88d3af2e576402a740f2190f5441ef3ed07b252640af2e93d1cef8209f5
+    restart: unless-stopped
       #port 9116
-      #restart: unless-stopped
 
   domain_exporter:
     # port 9203
-      #restart: unless-stopped
+    restart: unless-stopped
     image: quay.io/shift/domain_exporter@sha256:9d30907c5a0b64a3ea234ba77ff57419e82e19f397ae468e774049752f76ba25
 
   alertmanager:
