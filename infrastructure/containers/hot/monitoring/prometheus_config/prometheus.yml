@@ -69,6 +69,8 @@ scrape_configs:
       - https://status.griffinht.com
       - http://griffinht.com
       - https://griffinht.com
+      - https://registry.griffinht.com
+      - https://ui.registry.griffinht.com
         # nginx
         # should be not found but idk
       - http://cloudtest.lan.hot.griffinht.com:80
