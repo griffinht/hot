@@ -80,6 +80,8 @@ scrape_configs:
       - http://cloudtest.lan.hot.griffinht.com:8081
         # searxng
       - http://cloudtest.lan.hot.griffinht.com:8123
+        # gpt
+      - http://cloudtest.lan.hot.griffinht.com:8082
         # photoprism
       - http://cloudtest.lan.hot.griffinht.com:2342/library/browse
   relabel_configs:
