@@ -19,7 +19,8 @@
 (operating-system
   (host-name "hypervisor")
   (bootloader %vm-bootloader)
-  (file-systems 
+  (file-systems %vm-file-systems) 
+  #|
     (append (list
               (file-system
                  (mount-point "/mnt/btrfs_data")
@@ -27,6 +28,7 @@
                  (options "compress=zstd")
                  (device (file-system-label "btrfs_data"))))
             %vm-file-systems))
+|#
   ; https://issues.guix.gnu.org/34255
   ; note the swap file must be manually created
   ; fallocate --length 16G /swapfile
@@ -78,10 +80,12 @@
                         (addresses (list (string-append wireguard-address-hypervisor "/32")))
                         (peers
                           (list wireguard-peer-cool-laptop))))
+                    #|
         (service samba-service-type
           (samba-configuration
             (enable-smbd? #t)
             (config-file (local-file "smb.conf"))))
+        |#
         ; todo expose via wireguard
         (service prometheus-node-exporter-service-type)
                     )

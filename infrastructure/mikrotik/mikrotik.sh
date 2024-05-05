@@ -48,7 +48,9 @@ cat << EOF
 /ip dhcp-server lease add address=192.168.0.11 mac-address=52:54:00:55:f2:19 server=defconf
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.11 out-interface-list=LAN src-address=192.168.0.0/24
 
-
+# hot-data
+/ip dns static add name=hot-data.lan.hot.griffinht.com address=192.168.0.12
+/ip dhcp-server lease add address=192.168.0.12 mac-address=52:54:00:ff:50:26 server=defconf
 
 # dynamic dns for hairpin nat external ip
 /ip firewall address-list add address=windy.griffinht.com list=WANIP

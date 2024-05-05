@@ -7,6 +7,14 @@ make base/deploy-image ENV_FILE=hot_desktop.env
 1. virt-manager:
     - rename it to your own system
     - make sure networking is bridge br0, then probably restart
+    - also set autoconnect and virtio share (See bottom) todo automate/iaac
+
+```
+error: Failed to create pool mystuff_pool
+error: Failed to create file '/run/user/1000/libvirt/storage/run/mystuff_pool.xml.new': No such file or directory
+```
+start virtstoraged --daemon, just temporarily
+
 3. dhcp:
     - configure mikrotik to hand out dhcp lease for vm's mac address
 4. inital connection:

@@ -16,7 +16,7 @@
                          (user "root")
                          ;; ssh public key of remote system
                          ;; obtain with `ssh-keyscan -p 2222 hostname`
-                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGOay9Mz5klPe0VdJRxzCx1juclU0TtEJOFc4Ieqt9Po")
+                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMNlvI2uHIBUfgnbgU+p2uaM2y0/1dzHfGmN+Ii/LW2z")
                          ;; private key of host machine to authenticate with
                          ;; leave default its fine i think
                          ;;(identity "id_ed25519.pub")

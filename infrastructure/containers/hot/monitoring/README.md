@@ -104,3 +104,10 @@ https://wiki.mikrotik.com/wiki/Manual:System/Log
 tp-link syslog
 todo syslog all the things!
 linux kernel for every node! btrfs logs!
+
+
+
+# healthchecks
+this will minimize downtime i think!
+https://github.com/healthchecks/healthchecks
+have alertmanager constatny alerting, then make nerd complain when it goes down
