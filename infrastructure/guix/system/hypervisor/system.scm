@@ -47,7 +47,9 @@
                     (name "libvirt")
                     (group "users")
                     (supplementary-groups
-                      (list "kvm")))) ; allows kvm virtualization for speedy vms
+                      (list "kvm"; allows kvm virtualization for speedy vms
+                            "disk" ; allows access to /dev/sdb and /dev/sdc, todo make more fine grained with udev
+                            )))) 
             %base-user-accounts))
   (services
     ; TODO TODO TODO
