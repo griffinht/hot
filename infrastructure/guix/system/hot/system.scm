@@ -11,9 +11,6 @@
              (srfi srfi-1)
              (griffinht system))
 
-(define ssh-pubkey
-  (local-file "../cool-laptop.pub"))
-
 (operating-system
   (host-name "hot")
   (bootloader %vm-bootloader)
@@ -21,17 +18,21 @@
   (packages
     (append
       (list
-        nss-certs)
-      %base-packages))
+        );wireguard-tools
+      %vm-packages))
   (services
     (append
-      (list (service docker-service-type)
+      (list (service docker-service-type))
             ; todo actually use this feature lol
             ; i might just accomplish this with docker...
+      (make-vm-services `(("root" ,%vm-ssh-admin-pubkey))))))
+
+
+            #|
             (service network-manager-service-type ; network manager can automatically connect to wireguard
                      (network-manager-configuration
                        (shepherd-requirement '())))) ; no need for wpa-supplicant
     (remove (lambda (service)
               (eq? (service-kind service)
                    dhcp-client-service-type))
-     (make-vm-services `(("root" ,ssh-pubkey)))))))
+            |#

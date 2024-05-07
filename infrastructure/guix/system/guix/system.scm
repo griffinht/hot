@@ -6,9 +6,6 @@
              (gnu services monitoring)
              (griffinht system))
 
-(define ssh-pubkey
-  (local-file "../cool-laptop.pub"))
-
 (operating-system
   (host-name "guix")
   (bootloader %vm-bootloader)
@@ -26,13 +23,7 @@
                  (options "compress=zstd")
                  (device (file-system-label "btrfs_data")))|#)
              %vm-file-systems))
-  #|
-  (packages
-    (append
-      (list
-        nss-certs)
-        ;podman)
-      %base-packages))|#
+  (packages %vm-packages) ; podman
   ; todo rsyslogd! monitoring!
   (services
     (append
@@ -52,7 +43,7 @@
             (enable-smbd? #t)
             (config-file (local-file "smb.conf")))))
       (modify-services
-        (make-vm-services `(("root" ,ssh-pubkey)))
+        (make-vm-services `(("root" ,%vm-ssh-admin-pubkey)))
         (sysctl-service-type
           config =>
           (sysctl-configuration

@@ -11,9 +11,6 @@
              (guix gexp)
              (griffinht system))
 
-(define ssh-pubkey
-  (local-file "../cool-laptop.pub"))
-
 (operating-system
   (host-name "nerd-vps")
   (bootloader %vm-bootloader)
@@ -24,12 +21,7 @@
   ; chmod 0600 /swapfile
   ; mkswap /swapfile
   (swap-devices (list (swap-space (target "/swappy"))))
-  (packages
-    (append
-      (list
-        nss-certs)
-        ; debug stuff: python iptables)
-      %base-packages))
+  (packages %vm-packages)
   (services
     (append
       (list (service docker-service-type)
@@ -48,4 +40,4 @@
                                 ; todo substitue wg peer addr here!
                                 (local-file "daemon.json")))
       ; ssh
-      (make-vm-services `(("root" ,ssh-pubkey))))))
+      (make-vm-services `(("root" ,%vm-ssh-admin-pubkey))))))

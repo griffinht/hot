@@ -32,6 +32,15 @@ ssh -L 127.0.0.1:2222:cloudtest.lan.griffinht.com:22 hot-desktop.wg.griffinht.co
 ./guix.sh deploy podmanrootless/deploy.scm
 ```
 
+## wireguard nmtui
+
+add connection, wireguard
+
+private key: `$(wg genkey)`
+interface name: random
+peer:
+ipv4 config: manual, set to this ip address
+
 # stuff
 
 https://github.com/containers/podman/blob/main/docs/tutorials/basic_networking.md

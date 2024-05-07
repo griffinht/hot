@@ -25,7 +25,6 @@
   (packages
     (append
       (list
-        nss-certs
         shadow ; newuidmap with setuid
         ; things that (probably) don't need to be installed root (setuid)
         podman
@@ -37,7 +36,7 @@
         ;iptables-nft
         ;nftables
         docker-cli)
-      %base-packages))
+      %vm-packages))
   (services
     (append
       (list ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory

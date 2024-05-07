@@ -9,28 +9,12 @@
              (guix gexp)
              (griffinht system))
 
-(define ssh-pubkey
-  (local-file "../cool-laptop.pub"))
-
 (operating-system
   (host-name "griffinht")
   (bootloader %vm-bootloader)
   (file-systems %vm-file-systems)
-  (packages
-    (append
-      (list
-        nss-certs)
-      %base-packages))
+  (packages %vm-packages)
   (services
     (append
-      (list (service docker-service-type)
-            #|
-            (service wireguard-service-type
-              (wireguard-configuration
-                (addresses (list (string-append wireguard-address-griffinht "/32")))
-                (peers
-                  (list wireguard-peer-cool-laptop
-                        )))))
-                        ;wireguard-peer-hot))))
-                        |#
-      (make-vm-services `(("root" ,ssh-pubkey))))))
+      (list (service docker-service-type))
+      (make-vm-services `(("root" ,%vm-ssh-admin-pubkey))))))

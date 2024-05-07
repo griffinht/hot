@@ -8,19 +8,11 @@
              (guix gexp)
              (griffinht system))
 
-(define ssh-pubkey
-  (local-file "../cool-laptop.pub"))
-
 (operating-system
   (host-name "docker")
   (bootloader %vm-bootloader)
   (file-systems %vm-file-systems)
-  (packages
-    (append
-      (list
-        nss-certs)
-        ;podman)
-      %base-packages))
+  (packages %vm-packages) ; podman
   #|
   (users
     (append
@@ -35,4 +27,4 @@
     (append
       (list (service docker-service-type))
       ; ssh
-      (make-vm-services `(("root" ,ssh-pubkey)))))) ;("docker" ,ssh-pubkey))))))
+      (make-vm-services `(("root" ,%vm-ssh-admin-pubkey)))))) ;("docker" ,ssh-pubkey))))))

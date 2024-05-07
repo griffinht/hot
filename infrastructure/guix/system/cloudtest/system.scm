@@ -8,19 +8,11 @@
              (guix gexp)
              (griffinht system))
 
-(define ssh-pubkey
-  (local-file "../cool-laptop.pub"))
-
 (operating-system
-  (host-name "docker")
+  (host-name "cloudtest")
   (bootloader %vm-bootloader)
   (file-systems %vm-file-systems)
-  (packages
-    (append
-      (list
-        nss-certs)
-        ;podman)
-      %base-packages))
+  (packages %vm-packages)
   (services
     (append
       (list (service docker-service-type)
@@ -34,4 +26,4 @@
             #|(simple-service 'bruh etc-service-type
                             (list `("docker/daemon.json" ,(local-file "daemon.json"))))|#)
       ; ssh
-      (make-vm-services `(("root" ,ssh-pubkey))))))
+      (make-vm-services `(("root" ,%vm-ssh-admin-pubkey))))))

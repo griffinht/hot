@@ -7,20 +7,18 @@
              (gnu services docker)
              (gnu services networking)
              (gnu services monitoring)
+             (gnu services vpn)
              (gnu packages linux)
              (guix gexp)
              (srfi srfi-1)
              (griffinht system))
-
-(define ssh-pubkey
-  (local-file "../cool-laptop.pub"))
 
 (operating-system
   (host-name "hot-data")
   (bootloader %vm-bootloader)
   (packages
     (append (list btrfs-progs)
-            %base-packages))
+            %vm-packages))
   (file-systems
     (append (list
               (file-system
@@ -29,7 +27,6 @@
                  (options "compress=zstd")
                  (device (file-system-label "btrfs_data"))))
             %vm-file-systems))
-
                     #|
         (service samba-service-type
           (samba-configuration
@@ -38,5 +35,6 @@
         |#
   (services
     (append
-      (list (service docker-service-type))
-      (make-vm-services `(("root" ,ssh-pubkey))))))
+      (list (service docker-service-type)
+            )
+      (make-vm-services `(("root" ,%vm-ssh-admin-pubkey))))))

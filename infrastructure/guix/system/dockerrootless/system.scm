@@ -21,11 +21,10 @@
   (packages
     (append
       (list
-        nss-certs
         shadow ; newuidmap with setuid
         ;docker-cli ; needed for ssh but idk :/
         dockerd-rootless.sh)
-      %base-packages))
+      %vm-packages))
   (services
     (append
       (list ; [rootlesskit:parent] error: failed to setup UID/GID map: failed to compute uid/gid map: open /etc/subuid: no such file or directory

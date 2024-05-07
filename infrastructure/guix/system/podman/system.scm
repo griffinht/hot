@@ -13,7 +13,6 @@
   (packages
     (append
       (list
-        nss-certs
         podman)
-      %base-packages))
+      %vm-packages))
   (services %vm-services))

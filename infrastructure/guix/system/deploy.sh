@@ -10,6 +10,11 @@ build() {
 }
 export -f build
 
+check() {
+    echo "(load \"$1/system.scm\")" | ./guix.sh repl
+}
+export -f check
+
 parallel \
     --line-buffer \
     --tag \
@@ -20,4 +25,5 @@ parallel \
     guix \
     cloudtest \
     hot \
-    griffinht
+    griffinht \
+    hot-data

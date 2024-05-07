@@ -3,6 +3,11 @@
                #:use-module (gnu bootloader grub)
                #:use-module (gnu system file-systems)
                #:use-module (gnu packages ssh)
+               ; vm-packages
+               #:use-module (gnu system)
+               #:use-module (gnu packages python)
+               #:use-module (gnu packages curl)
+               ;
                #:use-module (gnu services)
                #:use-module (gnu services base)
                #:use-module (gnu services networking)
@@ -28,7 +33,18 @@
                  (public-key "gw5LGcb/Wfgambnv3UuPxO/zmQsPr+v6mHzZuGhWPnk=")
                  (allowed-ips '("10.0.0.10/32"))))
 
-(define-public wireguard-address-griffinht "10.0.0.11")
+;(define-public wireguard-address-hot "10.0.0.11")
+;(define-public wireguard-address-griffinht "10.0.0.11")
+
+(define-public %vm-ssh-admin-pubkey
+  (local-file "../../cool-laptop.pub"))
+
+(define-public %vm-packages
+               (append
+                 (list
+                   python
+                   curl)
+                 %base-packages))
 
 (define-public %vm-bootloader
   (bootloader-configuration (bootloader grub-bootloader)))

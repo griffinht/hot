@@ -31,7 +31,7 @@
     (append (list netcat ; allows libvirt to spice/vnc/idk what its called
                   libvirt ; normally installed by the libvirtd service
                   qemu) ; normally installed by the libvirtd service
-            %base-packages))
+            %vm-packages))
 
   (users
     (append (list (user-account
@@ -56,8 +56,8 @@
                               (permit-root-login `prohibit-password)
                               (password-authentication? #f)
                               (authorized-keys
-                                `(("root" ,(local-file "../cool-laptop.pub"))
-                                  ("libvirt" ,(local-file "../cool-laptop.pub"))))))
+                                `(("root" ,%vm-ssh-admin-pubkey)
+                                  ("libvirt" ,%vm-ssh-admin-pubkey)))))
                     ; libvirt
                     ;(service libvirt-service-type)
                     ;(service virtlog-service-type) ; required for libvirt to work
