@@ -263,3 +263,9 @@ scrape_configs:
   - targets:
     - nerd-vps.wg.hot.griffinht.com:2019
 
+# hot
+
+- job_name: hot_syncthing
+  static_configs:
+  - targets:
+    - hot.lan.hot.griffinht.com:8384
