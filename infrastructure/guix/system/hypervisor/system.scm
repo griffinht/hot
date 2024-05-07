@@ -20,15 +20,6 @@
   (host-name "hypervisor")
   (bootloader %vm-bootloader)
   (file-systems %vm-file-systems) 
-  #|
-    (append (list
-              (file-system
-                 (mount-point "/mnt/btrfs_data")
-                 (type "btrfs")
-                 (options "compress=zstd")
-                 (device (file-system-label "btrfs_data"))))
-            %vm-file-systems))
-|#
   ; https://issues.guix.gnu.org/34255
   ; note the swap file must be manually created
   ; fallocate --length 16G /swapfile
@@ -52,9 +43,6 @@
                             )))) 
             %base-user-accounts))
   (services
-    ; TODO TODO TODO
-    ; start virtqemud as daemon
-    ; blog about it! a quickie! or just put it in notes
     (append (list ; network manager! makes bridge networks easier
                   (service network-manager-service-type
                            (network-manager-configuration
@@ -76,18 +64,17 @@
                     ; qemu-bridge-helper
                     (extra-special-file "/usr/libexec/qemu-bridge-helper" "/run/setuid-programs/qemu-bridge-helper")
                     (extra-special-file "/etc/qemu/bridge.conf" (plain-file "" "allow br0\n"))
+                    ; TODO TODO TODO
+                    ; start virtqemud as daemon
+                    ; blog about it! a quickie! or just put it in notes
+                    ; libvirt config
+                    (extra-special-file "/home/libvirt/.config/libvirt/libvirtd.conf" (local-file "libvirt/libvirtd.conf"))
                     ; wireguard
                     (service wireguard-service-type
                       (wireguard-configuration
                         (addresses (list (string-append wireguard-address-hypervisor "/32")))
                         (peers
                           (list wireguard-peer-cool-laptop))))
-                    #|
-        (service samba-service-type
-          (samba-configuration
-            (enable-smbd? #t)
-            (config-file (local-file "smb.conf"))))
-        |#
         ; todo expose via wireguard
         (service prometheus-node-exporter-service-type)
                     )
