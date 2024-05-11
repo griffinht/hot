@@ -27,12 +27,6 @@
                  (options "compress=zstd")
                  (device (file-system-label "btrfs_data"))))
             %vm-file-systems))
-                    #|
-        (service samba-service-type
-          (samba-configuration
-            (enable-smbd? #t)
-            (config-file (local-file "smb.conf"))))
-        |#
   (services
     (append
       (list (service docker-service-type)
