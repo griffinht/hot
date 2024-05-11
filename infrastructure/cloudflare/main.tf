@@ -28,3 +28,19 @@ resource "cloudflare_record" "dynamic_dns" {
     type = "A"
     comment = "auto managed by terraform"
 }
+
+resource "cloudflare_record" "hot" {
+    zone_id = "d691921860e35a45bc7f99007af14a7d"
+    name = "hot"
+    value = "windy.griffinht.com"
+    type = "CNAME"
+    comment = "auto managed by terraform"
+}
+
+resource "cloudflare_record" "all_hot" {
+    zone_id = "d691921860e35a45bc7f99007af14a7d"
+    name = "*.hot"
+    value = "hot.griffinht.com"
+    type = "CNAME"
+    comment = "auto managed by terraform"
+}
