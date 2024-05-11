@@ -1,0 +1,9 @@
+volumes:
+  actual:
+
+services:
+  actualbudget:
+    image: docker.io/actualbudget/actual-server:latest
+    restart: unless-stopped
+    volumes:
+      - actual:/data
