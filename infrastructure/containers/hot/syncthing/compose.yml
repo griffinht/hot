@@ -1,5 +1,6 @@
 volumes:
   syncthing:
+  data:
 
 # https://github.com/syncthing/syncthing/blob/main/README-Docker.md
 
@@ -9,8 +10,29 @@ services:
     restart: unless-stopped
     volumes:
       - syncthing:/var/syncthing
+      - data:/data
     ports:
       - 127.0.0.1:8384:8384
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
+  # todo security lmao
+  dufs:
+    image: docker.io/sigoden/dufs
+      #restart: unless-stopped
+    ports:
+      - 5000:5000
+    volumes:
+      - data:/data
+    command: /data -A
+  copyparty:
+    image: docker.io/copyparty/ac
+      #restart: unless-stopped
+    user: "1000"
+    volumes:
+      - data:/w
+    ports:
+      - 3923:3923
+        # todo gossa
+        # todo filestash
+        # todo filebrowser??
