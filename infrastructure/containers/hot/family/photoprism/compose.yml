@@ -5,8 +5,10 @@ volumes:
   photoprism_data:
     driver_opts:
       type: cifs
-      o: username=bruh,password=
-      device: //192.168.0.5/bruhbruh/MEENA/archive
+        # https://docs.docker.com/storage/volumes/#create-cifssamba-volumes
+        # addr is required to perform DNS hostname lookup
+      o: username=bruh,password=,addr=hot-data.lan.hot.griffinht.com
+      device: //hot-data.lan.hot.griffinht.com/media
 
 services:
   photoprism:

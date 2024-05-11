@@ -1,0 +1,13 @@
+volumes:
+  config:
+
+services:
+  samba:
+    image: docker.io/crazymax/samba
+    volumes:
+      - config:/config:ro
+      - /mnt/btrfs_data/backup/family/MEENA/archive:/share
+    environment:
+      - CONFIG_FILE=/config/config.yml
+    ports:
+      - 445:445

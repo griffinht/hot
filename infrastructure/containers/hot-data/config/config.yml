@@ -1,0 +1,12 @@
+# idk if these options here are even necessary
+global:
+  - "security = user"
+  - "map to guest = Bad User"
+  - "default service = media"
+
+share:
+  - name: media
+    path: /share
+    guestok: yes
+    guestonly: yes
+    readonly: no
