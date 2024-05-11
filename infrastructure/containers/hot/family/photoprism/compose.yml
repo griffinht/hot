@@ -14,8 +14,8 @@ services:
   photoprism:
     image: docker.io/photoprism/photoprism:latest
     restart: unless-stopped
-    depends_on:
-      - mariadb
+      #    depends_on:
+      #      - mariadb
     ports:
       - 2342:2342
     environment:
