@@ -1,0 +1,27 @@
+{
+    #log debug
+}
+
+# todo registry and ui registry
+{$DOMAIN} {
+    #log info
+    respond 404
+    #reverse_proxy http://cloudtest.lan.hot.griffinht.com:80 {
+    #    header_up Host griffinht.com
+    #}
+}
+
+# todo auth
+budget.{$DOMAIN} {
+    log info
+    @denied not remote_ip private_ranges
+    abort @denied
+    reverse_proxy actualbudget:5006
+}
+
+vaultwarden.{$DOMAIN} {
+    log info
+    @denied not remote_ip private_ranges
+    abort @denied
+    reverse_proxy vaultwarden:80
+}
