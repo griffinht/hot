@@ -44,3 +44,27 @@ resource "cloudflare_record" "all_hot" {
     type = "CNAME"
     comment = "auto managed by terraform"
 }
+
+resource "cloudflare_record" "gcpdeb" {
+    zone_id = "d691921860e35a45bc7f99007af14a7d"
+    name = "gcpdeb"
+    value = "34.23.115.253"
+    type = "A"
+    comment = "auto managed by terraform"
+}
+
+resource "cloudflare_record" "hotter" {
+    zone_id = "d691921860e35a45bc7f99007af14a7d"
+    name = "hotter"
+    value = "gcpdeb.griffinht.com"
+    type = "CNAME"
+    comment = "auto managed by terraform"
+}
+
+resource "cloudflare_record" "hotter_all" {
+    zone_id = "d691921860e35a45bc7f99007af14a7d"
+    name = "*.hotter"
+    value = "hotter.griffinht.com"
+    type = "CNAME"
+    comment = "auto managed by terraform"
+}

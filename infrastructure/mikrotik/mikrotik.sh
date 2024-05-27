@@ -47,6 +47,8 @@ cat << EOF
 /ip dns static add name=hot.lan.hot.griffinht.com address=192.168.0.11
 /ip dhcp-server lease add address=192.168.0.11 mac-address=52:54:00:55:f2:19 server=defconf
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.11 out-interface-list=LAN src-address=192.168.0.0/24
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.11 protocol=tcp
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.11 protocol=tcp
 
 # hot-data
 /ip dns static add name=hot-data.lan.hot.griffinht.com address=192.168.0.12
@@ -65,13 +67,14 @@ cat << EOF
 # hypervisor wireguard
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.5 out-interface-list=LAN src-address=192.168.0.0/24
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51820 to-addresses=192.168.0.5 protocol=udp
+
 # mystuff-guix wireguard
 /ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.8 out-interface-list=LAN src-address=192.168.0.0/24
 /ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=51821 to-addresses=192.168.0.8 protocol=udp
+
 # podmanrootless nginx
-/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.9 out-interface-list=LAN src-address=192.168.0.0/24
-/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.9 protocol=tcp
-/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.9 protocol=tcp
+#/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.9 out-interface-list=LAN src-address=192.168.0.0/24
+
 
 # terarria laptop
 #/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.7 out-interface-list=LAN protocol=tcp src-address=192.168.0.0/24
