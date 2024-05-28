@@ -5,7 +5,10 @@
 # todo registry and ui registry
 {$DOMAIN} {
     log info
-    reverse_proxy cloudtest.lan.hot.griffinht:80
+    respond 404
+    #reverse_proxy http://cloudtest.lan.hot.griffinht.com:80 {
+    #    header_up Host griffinht.com
+    #}
 }
 
 # todo auth

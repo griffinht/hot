@@ -18,10 +18,3 @@ budget.{$DOMAIN} {
     abort @denied
     reverse_proxy actualbudget:5006
 }
-
-vaultwarden.{$DOMAIN} {
-    log info
-    @denied not remote_ip private_ranges
-    abort @denied
-    reverse_proxy vaultwarden:80
-}

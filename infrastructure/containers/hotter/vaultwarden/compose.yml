@@ -1,9 +1,0 @@
-volumes:
-  vaultwarden:
-
-services:
-  vaultwarden:
-    image: docker.io/vaultwarden/server
-    restart: unless-stopped
-    volumes:
-      - vaultwarden:/data

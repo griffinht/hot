@@ -1,15 +1,11 @@
 networks:
   actualbudget_default:
     name: actualbudget_default
-    external: false
-  vaultwarden_default:
-    name: vaultwarden_default
     external: true
 
 volumes:
   caddy:
   caddy_config:
-  tailscale:
 
 services:
   caddy:
@@ -20,16 +16,8 @@ services:
     networks:
       - default
       - actualbudget_default
-      - vaultwarden_default
     environment:
       - DOMAIN=${DOMAIN:-localhost}
     volumes:
       - caddy_config:/etc/caddy:ro
       - caddy:/data
-
-  tailscale:
-    image: docker.io/tailscale/tailscale:latest
-    environment:
-      - TS_STATE_DIR=/var/lib/tailscale
-    volumes:
-      - tailscale:/var/lib/tailscale
