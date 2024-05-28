@@ -1,0 +1,20 @@
+services:
+  miniflux:
+    image: miniflux
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=postgres://miniflux:secret@postgres/miniflux?sslmode=disable
+        #- RUN_MIGRATIONS=1
+      - AUTH_PROXY_HEADER=bruh
+      - AUTH_PROXY_USER_CREATION=true
+    restart: unless-stopped
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
