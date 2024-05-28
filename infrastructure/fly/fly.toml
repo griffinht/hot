@@ -8,11 +8,12 @@ primary_region = 'iad'
 
 # todo change build to image
 [build]
+  image = 'docker.io/miniflux/miniflux:latest'
 
 [[vm]]
-  memory = '1gb'
+  memory = '256mb'
   cpu_kind = 'shared'
   cpus = 1
 
-[env]
-    RUN_MIGRATIONS=1
+#[env]
+#    RUN_MIGRATIONS=1
