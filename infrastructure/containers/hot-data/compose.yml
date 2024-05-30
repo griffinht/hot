@@ -4,6 +4,7 @@ volumes:
 services:
   samba:
     image: docker.io/crazymax/samba
+    restart: unless-stopped
     volumes:
       - config:/config:ro
       - /mnt/btrfs_data/backup/family/MEENA/archive:/share
