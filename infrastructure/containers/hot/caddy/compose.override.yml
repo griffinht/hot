@@ -1,0 +1,8 @@
+volumes:
+  caddy_config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./caddy_config"
+
