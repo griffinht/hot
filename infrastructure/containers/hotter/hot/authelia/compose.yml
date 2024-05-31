@@ -1,0 +1,58 @@
+networks:
+  internal:
+    driver: bridge
+    internal: true
+  redis:
+    driver: bridge
+    internal: true
+
+volumes:
+  authelia_config:
+  authelia_internal:
+  authelia_users:
+  authelia_data:
+  redis:
+
+
+secrets:
+  authelia_session:
+    file: /home/root/secrets/authelia_session
+  authelia_jwt:
+    file: /home/root/secrets/authelia_jwt
+  authelia_storage:
+    file: /home/root/secrets/authelia_storage
+
+services:
+  authelia:
+    image: docker.io/authelia/authelia@sha256:19375b10024caeef4e0b119a6247beae84cbaa02c846cfd750e92dea910d4b6a
+      #restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - internal
+      - redis
+    environment: 
+      - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/authelia_session
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/authelia_jwt
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/authelia_storage
+      - X_AUTHELIA_CONFIG_FILTERS=template
+        #- "AUTHELIA_SESSION_DOMAIN=${DOMAIN:-hot.localhost}"
+      - DOMAIN=${DOMAIN:-hot.localhost}
+        # todo restrict so not every backend server gets the session cookie
+    volumes:
+      - authelia_config:/authelia_config:ro
+      - authelia_internal:/config
+      - authelia_data:/data
+      - authelia_users:/users:ro
+    secrets:
+      - authelia_session
+      - authelia_jwt
+      - authelia_storage
+        #command: authelia config validate --config /authelia_config/configuration.yml
+    command: authelia --config /authelia_config/configuration.yml
+  redis:
+    image: redis:alpine
+    networks:
+      - redis
+    volumes:
+      - redis:/data

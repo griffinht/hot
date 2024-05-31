@@ -2,8 +2,13 @@
 #https://stackoverflow.com/questions/53674725/how-to-create-top-level-named-volume-with-a-relative-path-for-the-source
 # i had to add type: volume for some reason idk why
 volumes:
-  authelia:
-  authelia_secrets:
+  authelia_config:
+    driver: local
+    driver_opts:
+      device: ./authelia_config
+      o: bind
+      type: volume
+  authelia_users:
     driver: local
     driver_opts:
       device: ./mock
@@ -23,4 +28,4 @@ services:
     environment:
       - AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY=one_factor
     volumes:
-      - authelia_secrets:/secrets:ro
+      - ./mock:/secrets:ro

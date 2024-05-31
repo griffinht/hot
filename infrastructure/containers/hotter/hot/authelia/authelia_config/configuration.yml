@@ -1,32 +1,30 @@
-#default_redirection_url: https://hot.localhost
-
-server:
-    path: login
-    # default is 4096 which isn't enough for libreddit subscription import :(
-    buffers:
-        read: 8192
-        write: 8192
+#server:
+  #address: tcp://:9091/
+  # default is 4096 which isn't enough for libreddit subscription import :(
+  #buffers:
+  #  read: 8192
+  #  write: 8192
 
 log:
-    level: debug
+  level: debug
 
 totp:
-    issuer: hot.griffinht.com
+  issuer: 'authelia.{{ mustEnv "DOMAIN" }}'
 
 webauthn:
-    display_name: hot.griffinht.com
+  disable: true
 
 duo_api:
-    disable: true
+  disable: true
 
 # probably fine without ntp
 # allows authelia to run without internet access
 ntp:
-    disable_startup_check: true
+  disable_startup_check: true
 
 authentication_backend:
   file:
-        path: /data/users_database.yml
+    path: /users/users_database.yml
   #ldap:
     #implementation: custom
     #url: ldap://ldap
@@ -43,30 +41,29 @@ authentication_backend:
     #password: password
 
 access_control:
-    default_policy: two_factor
-
-regulation:
-    max_retries: 3
-    find_time: 2m
-    ban_time: 5m
+  default_policy: two_factor
 
 session:
-    redis:
-        host: redis
-        port: 6379
+  cookies:
+    - domain: 'authelia.{{ mustEnv "DOMAIN" }}'
+      authelia_url: 'https://authelia.{{ mustEnv "DOMAIN" }}'
+        # dfefautl redir url
+  redis:
+    host: redis
+    port: 6379
     #consider increasing this
     #https://www.authelia.com/configuration/session/introduction/
     #remember_me_duration:  1M
 
 storage:
-    local:
-        path: /data/db.sqlite3
+  local:
+    path: /data/db.sqlite3
 
 notifier:
-    # todo use smtp
-    filesystem:
-        filename: /data/notification.txt
+  # todo use smtp
+  filesystem:
+    filename: /dev/stdout
 
 telemetry:
-    metrics:
-        enabled: true
+  metrics:
+    enabled: true
