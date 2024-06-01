@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -eu
+set -o pipefail
+
+# shellcheck disable=SC2317  # Don't warn about unreachable commands in this function
+
+old_dev() {
+    new_dev() {
+        sync.sh
+    }
+
+    "new_$1"
+}
+
+old_1() {
+    new_0() {
+        echo asdf
+    }
+     
+    "new_$1"
+}
+
+#set -x
+"old_$1" "$2"
