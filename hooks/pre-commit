@@ -2,4 +2,4 @@
 
 set -xe
 
-(cd ./infrastructure/containers/status && ./pre-commit.sh)
+(cd ./infrastructure/compose/status && ./pre-commit.sh)
