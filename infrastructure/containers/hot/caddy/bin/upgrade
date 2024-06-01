@@ -4,7 +4,6 @@ set -eu
 set -o pipefail
 
 # shellcheck disable=SC2317  # Don't warn about unreachable commands in this function
-
 old_dev() {
     new_dev() {
         sync.sh
@@ -13,12 +12,24 @@ old_dev() {
     "new_$1"
 }
 
-old_1() {
-    new_0() {
-        echo asdf
+# shellcheck disable=SC2317  # Don't warn about unreachable commands in this function
+old_v0() {
+    cleanup() {
+        set +x
+        docker compose down
     }
-     
-    "new_$1"
+
+    new_v1() {
+        if [ -n "$(docker compose ps -q)" ]; then
+            echo bruh please docker compose down --volume
+            return 1
+        fi
+
+        docker compose up -d caddy
+        test.sh localhost:8080
+    }
+
+    "new_$1" || (cleanup && return 1)
 }
 
 #set -x
