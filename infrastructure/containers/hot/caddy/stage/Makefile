@@ -1,4 +1,4 @@
-FILE=prod_deploy
+FILE=stage_deploy
 
 $(FILE):
 	echo v0 > '$@'
