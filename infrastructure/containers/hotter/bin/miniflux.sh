@@ -1,3 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-ssh -L 127.0.0.1:8080:flydfsg.internal:8080 -N "${SSH_HOST?}"
+host='127.0.0.1:8080'
+
+linkify "http://$host"
+
+ssh -L "$host:localhost:80" -N "${SSH_HOST?}"

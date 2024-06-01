@@ -2,5 +2,7 @@
 
 set -xe
 
-scp -r caddy_config/* "${SSH_HOST?}:/var/lib/docker/volumes/caddy_caddy_config/_data"
+if [ -n "${SSH_HOST+x}" ]; then
+    scp -r caddy_config/* "${SSH_HOST?}:/var/lib/docker/volumes/caddy_caddy_config/_data"
+fi
 docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile

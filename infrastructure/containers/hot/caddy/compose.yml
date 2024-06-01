@@ -21,3 +21,8 @@ services:
     volumes:
       - caddy_config:/etc/caddy:ro
       - caddy:/data
+  tailscale:
+    image: docker.io/tailscale/tailscale:latest
+    network_mode: service:caddy
+    environment:
+      - asdf=

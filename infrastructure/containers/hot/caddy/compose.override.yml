@@ -1,3 +1,8 @@
+networks:
+  actualbudget_default:
+    name: actualbudget_default
+    external: false
+
 volumes:
   caddy_config:
     driver: local

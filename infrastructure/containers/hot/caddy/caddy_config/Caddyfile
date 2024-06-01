@@ -1,9 +1,10 @@
 {
-    #log debug
+    log debug
+    #auto_https off
 }
 
 # todo registry and ui registry
-{$DOMAIN} {
+http://{$DOMAIN} {
     #log info
     respond 404
     #reverse_proxy http://cloudtest.lan.hot.griffinht.com:80 {
@@ -12,9 +13,12 @@
 }
 
 # todo auth
-budget.{$DOMAIN} {
+http://budget.{$DOMAIN} {
     log info
-    @denied not remote_ip private_ranges
-    abort @denied
     reverse_proxy actualbudget:5006
+}
+
+http://miniflux.{$DOMAIN} {
+    log info
+    reverse_proxy flydfsg.internal:8080
 }
