@@ -3,7 +3,7 @@
 set -eu
 set -o pipefail
 
-host="${1?please specify a host}"
+host="${HTTP_HOST?please specify a host}"
 
 bruh() {
     get_code() {
@@ -22,5 +22,6 @@ bruh() {
     return 1
 }
 
-bruh "$host" 404
+#bruh "http://$host" 404
+bruh "http://2iniflux.$host" 404
 #bruh "miniflux.$host" 200

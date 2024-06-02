@@ -11,3 +11,4 @@ volumes:
       o: "bind"
       device: "./caddy_config"
 
+# todo disable tailscale and expose caddy to 8080

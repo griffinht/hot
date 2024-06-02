@@ -1,18 +1,17 @@
 networks:
   actualbudget_default:
     name: actualbudget_default
-    external: true
+    external: false
 
 volumes:
   caddy:
   caddy_config:
+  tailscale:
 
 services:
   caddy:
     image: docker.io/caddy
-    ports:
-      - ${HTTP_PORT:-8080}:80
-      - ${HTTPS_PORT:-4443}:443
+    hostname: cool
     networks:
       - default
       - actualbudget_default
@@ -23,6 +22,9 @@ services:
       - caddy:/data
   tailscale:
     image: docker.io/tailscale/tailscale:latest
+    restart: unless-stopped
     network_mode: service:caddy
+    volumes:
+      - tailscale:/var/lib/tailscale
     environment:
-      - asdf=
+      - TS_STATE_DIR=/var/lib/tailscale
