@@ -1,0 +1,31 @@
+volumes:
+  prometheus:
+  prometheus_config:
+  grafana:
+
+services:
+  prometheus:
+    image: docker.io/prom/prometheus
+    restart: unless-stopped
+      #depends_on:
+      #- blackbox_exporter
+        #- snmp_exporter
+        #- wireguard_exporter
+        #- domain_exporter
+    networks:
+      - default
+        # todo set external url so alert links work
+    volumes:
+      - prometheus_config:/config:ro
+      - prometheus:/prometheus
+    command: --config.file=/config/prometheus.yml
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  grafana:
+    image: docker.io/grafana/grafana-oss
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana:/var/lib/grafana

@@ -15,10 +15,63 @@ http://{$DOMAIN} {
 # todo auth
 http://budget.{$DOMAIN} {
     log info
-    reverse_proxy actualbudget:5006
+    reverse_proxy {
+        to actualbudget:5006
+        health_uri /sdfghgh
+    }
 }
 
 http://miniflux.{$DOMAIN} {
     log info
-    reverse_proxy flydfsg.internal:8080
+    reverse_proxy {
+        to host.docker.internal:8080
+        health_uri /healthcheck
+    }
+}
+
+http://vaultwarden.{$DOMAIN} {
+    reverse_proxy {
+        to vaultwarden:80
+        health_uri /alive
+    }
+}
+
+http://netdata.{$DOMAIN} {
+    # https://github.com/netdata/netdata/pull/9172/files
+    reverse_proxy {
+        to host.docker.internal:19999
+        health_uri /api/v1/info
+    }
+}
+
+http://prometheus.{$DOMAIN} {
+    reverse_proxy prometheus:9090
+    reverse_proxy {
+        to grafana:3000
+        health_uri /
+    }
+}
+
+http://grafana.{$DOMAIN} {
+    reverse_proxy {
+        to grafana:3000
+        health_uri /api/health
+    }
+}
+
+http://yacht.{$DOMAIN} {
+    reverse_proxy {
+        to yacht:8000
+        health_uri /
+    }
+}
+
+http://admin.{$DOMAIN} {
+    reverse_proxy {
+        health_uri /dklfjghsdfg
+        health_status 404
+
+        to localhost:2019
+        header_up Host localhost:2019
+    }
 }

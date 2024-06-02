@@ -1,0 +1,14 @@
+# todo service discovery
+#https://peterbabic.dev/blog/why-use-labels-docker-compose/
+#https://stackoverflow.com/questions/70803245/prometheus-service-discovery-with-docker-compose
+scrape_configs:
+
+# mystuff-guix
+
+## host
+
+- job_name: caddy
+  scrape_interval: 5s
+  static_configs:
+  - targets:
+    - admin.cool.griffinht.com

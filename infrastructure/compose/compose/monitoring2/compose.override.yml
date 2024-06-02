@@ -1,0 +1,7 @@
+volumes:
+  prometheus_config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./prometheus_config"

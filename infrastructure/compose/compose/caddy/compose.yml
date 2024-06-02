@@ -1,4 +1,10 @@
 networks:
+  vaultwarden_default:
+    external: true
+  monitoring2_default:
+    external: true
+  yacht_default:
+    external: true
   actualbudget_default:
     name: actualbudget_default
     external: false
@@ -6,20 +12,31 @@ networks:
 volumes:
   caddy:
   caddy_config:
+  caddy_host_config:
   tailscale:
 
 services:
+  caddy_host:
+    image: docker.io/caddy
+    network_mode: host
+    volumes:
+      - caddy_host_config:/etc/caddy:ro
   caddy:
     image: docker.io/caddy
     hostname: cool
     networks:
       - default
       - actualbudget_default
+      - vaultwarden_default
+      - monitoring2_default
+      - yacht_default
     environment:
       - DOMAIN=${DOMAIN:-localhost}
     volumes:
       - caddy_config:/etc/caddy:ro
       - caddy:/data
+    extra_hosts:
+      - host.docker.internal:host-gateway
   tailscale:
     image: docker.io/tailscale/tailscale:latest
     restart: unless-stopped
