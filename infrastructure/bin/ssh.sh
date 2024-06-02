@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ssh "${SSH_HOST?}"
+ssh "${SSH_HOST?}" "$@"
