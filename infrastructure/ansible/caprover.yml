@@ -1,0 +1,10 @@
+- name: Install tailscale on debian
+  hosts: caprover
+  user: root
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - docker.io
