@@ -50,6 +50,16 @@ variable "records" {
             value = "hot.griffinht.com"
             type = "CNAME"
         }
+        cool = {
+            name = "cool"
+            value = "100.117.0.28"
+            type = "A"
+        }
+        cool_all = {
+            name = "*.cool"
+            value = "cool.griffinht.com"
+            type = "CNAME"
+        }
     }
 }
 

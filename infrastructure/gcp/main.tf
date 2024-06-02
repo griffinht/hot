@@ -164,3 +164,12 @@ output "tailscale_init_ips" {
         if contains(instance.tags, "tailscale-init")
     }
 }
+
+
+
+
+
+
+resource "google_compute_image" "" {
+    name = "nixos"
+}

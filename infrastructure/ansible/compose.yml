@@ -8,5 +8,8 @@
         state: present
       with_items:
         - docker.io
-        - wireguard-tools
-
+          # todo remove???
+        #- wireguard-tools
+        #- prometheus-node-exporter
+          #https://www.syslog-ng.com/community/b/blog/posts/sending-logs-from-syslog-ng-to-grafana-loki
+          ##https://alexandre.deverteuil.net/post/syslog-relay-for-loki/
