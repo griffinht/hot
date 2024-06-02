@@ -9,3 +9,4 @@
         state: present
       with_items:
         - docker.io
+        - wireguard-tools
