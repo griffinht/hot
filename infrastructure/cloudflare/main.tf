@@ -21,11 +21,28 @@ variable "cloudflare_api_token" {
     sensitive = true
 }
 
-resource "cloudflare_record" "dynamic_dns" {
+# todo do this
+variable "records" {
+    type = map(object({
+        name = string
+        value = string
+        type = string
+    }))
+    default = {
+        dynamic_dns = {
+            name = "windy"
+            value = "67.140.90.146"
+            type = "A"
+        }
+    }
+}
+
+resource "cloudflare_record" "record" {
+    for_each = var.records
     zone_id = "d691921860e35a45bc7f99007af14a7d"
-    name = "windy"
-    value = "67.140.90.146"
-    type = "A"
+    name = each.value.name
+    value = each.value.value
+    type = each.value.type
     comment = "auto managed by terraform"
 }
 
@@ -37,7 +54,7 @@ resource "cloudflare_record" "hot" {
     comment = "auto managed by terraform"
 }
 
-resource "cloudflare_record" "all_hot" {
+resource "cloudflare_record" "hot_all" {
     zone_id = "d691921860e35a45bc7f99007af14a7d"
     name = "*.hot"
     value = "hot.griffinht.com"
@@ -53,18 +70,17 @@ resource "cloudflare_record" "gcpdeb" {
     comment = "auto managed by terraform"
 }
 
-resource "cloudflare_record" "hotter" {
+resource "cloudflare_record" "cool" {
     zone_id = "d691921860e35a45bc7f99007af14a7d"
-    name = "hotter"
-    value = "gcpdeb.griffinht.com"
+    name = "cool"
+    value = "cool.tail773884.ts.net"
     type = "CNAME"
     comment = "auto managed by terraform"
 }
-
-resource "cloudflare_record" "hotter_all" {
+resource "cloudflare_record" "cool_all" {
     zone_id = "d691921860e35a45bc7f99007af14a7d"
-    name = "*.hotter"
-    value = "hotter.griffinht.com"
+    name = "*.cool"
+    value = "cool.griffinht.com"
     type = "CNAME"
     comment = "auto managed by terraform"
 }
