@@ -1,7 +1,6 @@
 - name: Install Docker on Debian
-  hosts: docker
+  hosts: compose
   user: root
-
   tasks:
     - name: Install dependencies
       apt:
@@ -10,3 +9,4 @@
       with_items:
         - docker.io
         - wireguard-tools
+

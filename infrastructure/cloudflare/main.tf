@@ -22,6 +22,12 @@ variable "cloudflare_api_token" {
 }
 
 locals {
+    gcp_internal_ips = {
+      "caprover" = "10.142.0.23"
+      "compose" = "10.142.0.21"
+      "coolify" = "10.142.0.22"
+      "dokku" = "10.142.0.24"
+    }
     gcp_public_ips = {
       "appliku" = "35.237.190.125"
       "cloud66" = "34.73.180.83"
@@ -70,6 +76,13 @@ locals {
         for name, value in local.gcp_public_ips :
         name => {
             name = "${name}.gcp"
+            value = value
+            type = "A"
+        }
+    }, {
+        for name, value in local.gcp_internal_ips :
+        name => {
+            name = "${name}.gcp_internal"
             value = value
             type = "A"
         }

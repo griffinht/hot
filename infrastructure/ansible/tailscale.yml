@@ -1,0 +1,41 @@
+- name: Install tailscale on debian
+  hosts: tailscale
+  user: root
+  tasks:
+    - name: Ensure net.ipv4.ip_forward is enabled
+      ansible.builtin.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        state: present
+        reload: yes
+    - name: Ensure net.ipv6.conf.all.forwarding is enabled
+      ansible.builtin.sysctl:
+        name: net.ipv6.conf.all.forwarding
+        value: '1'
+        state: present
+        reload: yes
+    # https://tailscale.com/kb/1174/install-debian-bookworm
+    - name: Add Tailscale GPG key
+      ansible.builtin.apt_key:
+        url: https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg
+        keyring: /usr/share/keyrings/tailscale-archive-keyring.gpg
+        state: present
+
+    - name: Add Tailscale APT repository
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/debian bookworm main"
+        filename: tailscale
+        state: present
+        update_cache: yes
+
+    - name: Update APT package list
+      ansible.builtin.apt:
+        update_cache: yes
+        force_apt_get: yes
+
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - tailscale

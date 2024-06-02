@@ -4,26 +4,23 @@ provider "google" {
     project = var.project
 }
 
-resource "google_compute_firewall" "allow-all" {
-    name    = "allow-all"
+# https://tailscale.com/kb/1147/cloud-gce#step-2-allow-udp-port-41641
+resource "google_compute_firewall" "tailscale" {
+    name    = "tailscale"
     network = "default"
 
     allow {
         protocol = "tcp"
-        ports    = ["0-65535"]
+        ports    = ["22"]
     }
 
     allow {
         protocol = "udp"
-        ports    = ["0-65535"]
-    }
-
-    allow {
-        protocol = "icmp"
+        ports    = ["41641"]
     }
 
     source_ranges = ["0.0.0.0/0"]
-    target_tags   = ["allow-all"]
+    target_tags   = ["tailscale"]
 }
 
 variable "instances" {
@@ -37,22 +34,8 @@ variable "instances" {
         compose = {
             name = "compose"
             machine_type = "e2-medium"
-            #tags = [ "allow-all" ]
             image = "debian-cloud/debian-12"
         }
-        /*
-        swarm = {
-            name = "swarm"
-            machine_type = "e2-medium"
-            #tags = [ "allow-all" ]
-            image = "debian-cloud/debian-12"
-        }
-        kubernetes = {
-            name = "swarm"
-            machine_type = "e2-medium"
-            #tags = [ "allow-all" ]
-            image = "debian-cloud/debian-12"
-        }*/
         dokku = {
             name = "dokku"
             image = "debian-cloud/debian-12"
@@ -65,6 +48,17 @@ variable "instances" {
             name = "coolify"
             image = "debian-cloud/debian-12"
         }
+        /*
+        swarm = {
+            name = "swarm"
+            machine_type = "e2-medium"
+            image = "debian-cloud/debian-12"
+        }
+        kubernetes = {
+            name = "swarm"
+            machine_type = "e2-medium"
+            image = "debian-cloud/debian-12"
+        }*/
     }
 }
 
@@ -79,6 +73,7 @@ variable "instances_public" {
         tailscale = {
             name = "tailscale"
             image = "debian-cloud/debian-12"
+            tags = ["tailscale"]
         }
         cloud66 = {
             name = "cloud66"
@@ -150,8 +145,14 @@ resource "google_compute_instance" "instance_public" {
     }
 }
 
-output "instance_public_ips" {
+output "gcp_public_ips" {
     value = {
         for instance in google_compute_instance.instance_public : instance.name => instance.network_interface[0].access_config[0].nat_ip
+    }
+}
+
+output "gcp_internal_ips" {
+    value = {
+        for instance in google_compute_instance.instance : instance.name => instance.network_interface[0].network_ip
     }
 }
