@@ -74,6 +74,16 @@ variable "instances_public" {
             image = "ubuntu-os-cloud/ubuntu-2004-lts"
             machine_type = "e2-medium"
         }*/
+        family = {
+            name = "family"
+            image = "debian-cloud/debian-12"
+            tags = ["bruh"]
+        }
+        machine = {
+            name = "machine"
+            image = "debian-cloud/debian-12"
+            tags = ["bruh"]
+        }
         compose = {
             name = "compose"
             machine_type = "e2-medium"
@@ -163,13 +173,4 @@ output "tailscale_init_ips" {
         for instance in google_compute_instance.instance_public : instance.name => instance.network_interface[0].access_config[0].nat_ip
         if contains(instance.tags, "tailscale-init")
     }
-}
-
-
-
-
-
-
-resource "google_compute_image" "" {
-    name = "nixos"
 }
