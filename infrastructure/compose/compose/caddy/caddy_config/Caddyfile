@@ -26,6 +26,7 @@ http://miniflux.{$DOMAIN} {
     reverse_proxy {
         to host.docker.internal:8080
         health_uri /healthcheck
+        header_up x-forwarded-user griffin
     }
 }
 

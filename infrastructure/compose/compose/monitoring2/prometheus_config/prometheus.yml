@@ -12,3 +12,9 @@ scrape_configs:
   static_configs:
   - targets:
     - admin.cool.griffinht.com
+
+      # todo https://prometheus.io/docs/prometheus/latest/http_sd/
+- job_name: miniflux
+  static_configs:
+  - targets:
+    - miniflux.cool.griffinht.com

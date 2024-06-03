@@ -20,7 +20,8 @@ primary_region = 'iad'
 #    RUN_MIGRATIONS=1
     AUTH_PROXY_HEADER = 'X-Forwarded-User'
     AUTH_PROXY_USER_CREATION = 'true'
-#    METRICS_COLLECTOR=true
+    METRICS_COLLECTOR=1
+    METRICS_ALLOWED_NETWORKS='0.0.0.0/0,::/0'
 #    METRICS_USERNAME=bruh
 
 #CREATE_ADMIN=1
