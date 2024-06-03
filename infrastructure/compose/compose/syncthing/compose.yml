@@ -12,13 +12,15 @@ services:
       - syncthing:/var/syncthing
       - data:/data
     ports:
-      - 127.0.0.1:8384:8384
+      #- 127.0.0.1:8384:8384
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
   # todo security lmao
   dufs:
     image: docker.io/sigoden/dufs
+    profiles:
+      - disabled
       #restart: unless-stopped
     ports:
       - 5000:5000
@@ -27,6 +29,8 @@ services:
     command: /data -A
   copyparty:
     image: docker.io/copyparty/ac
+    profiles:
+      - disabled
       #restart: unless-stopped
     user: "1000"
     volumes:

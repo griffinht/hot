@@ -5,9 +5,6 @@ networks:
     external: true
   yacht_default:
     external: true
-  actualbudget_default:
-    name: actualbudget_default
-    external: false
   syncthing_default:
     external: true
   redlib_default:
@@ -15,8 +12,6 @@ networks:
   searxng_default:
     external: true
   dockge_default:
-    external: true
-  portainer_default:
     external: true
   tty_default:
     external: true
@@ -43,7 +38,6 @@ services:
     hostname: cool
     networks:
       - default
-      - actualbudget_default
       - vaultwarden_default
       - monitoring2_default
       - yacht_default
@@ -51,7 +45,6 @@ services:
       - redlib_default
       - searxng_default
       - dockge_default
-      - portainer_default
       - tty_default
     environment:
       - DOMAIN=${DOMAIN:-localhost}

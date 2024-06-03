@@ -1,3 +1,8 @@
+gcp stackdriver
+
+
+
+
 todo nerd xmpp alerts down - deploy alertmanager with email
 
 # actionable - these can be automated

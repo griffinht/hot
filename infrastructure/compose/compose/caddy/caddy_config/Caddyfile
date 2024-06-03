@@ -110,14 +110,6 @@ https://dockge.{$DOMAIN} {
     }
 }
 
-https://portainer.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
-    reverse_proxy {
-        to portainer:9000
-        health_uri /api/system/status
-    }
-}
-
 https://tty.{$DOMAIN} {
     tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     reverse_proxy {
