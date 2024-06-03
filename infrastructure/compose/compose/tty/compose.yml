@@ -1,0 +1,9 @@
+# todo https://github.com/wrfly/container-web-tty/issues/84
+services:
+  tty:
+    image: wrfly/container-web-tty:0.1.10
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+        # port 8080
+

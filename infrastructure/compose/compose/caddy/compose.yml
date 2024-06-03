@@ -8,11 +8,28 @@ networks:
   actualbudget_default:
     name: actualbudget_default
     external: false
+  syncthing_default:
+    external: true
+  redlib_default:
+    external: true
+  searxng_default:
+    external: true
+  dockge_default:
+    external: true
+  portainer_default:
+    external: true
+  tty_default:
+    external: true
 
 volumes:
+  # todo caddy should be stateless
   caddy:
   caddy_config:
   caddy_host_config:
+  certbot_certificates:
+  certbot:
+  # todo migrate to swarm secrets
+  certbot_secrets:
   tailscale:
 
 services:
@@ -30,11 +47,18 @@ services:
       - vaultwarden_default
       - monitoring2_default
       - yacht_default
+      - syncthing_default
+      - redlib_default
+      - searxng_default
+      - dockge_default
+      - portainer_default
+      - tty_default
     environment:
       - DOMAIN=${DOMAIN:-localhost}
     volumes:
       - caddy_config:/etc/caddy:ro
       - caddy:/data
+      - certbot_certificates:/certificates:ro
     extra_hosts:
       - host.docker.internal:host-gateway
   tailscale:
@@ -45,3 +69,11 @@ services:
       - tailscale:/var/lib/tailscale
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
+  certbot:
+    image: docker.io/certbot/dns-cloudflare
+    profiles:
+      - disabled
+    volumes:
+      - certbot_secrets:/secrets:ro
+      - certbot_certificates:/etc/letsencrypt
+      - certbot:/var/lib/letsencrypt

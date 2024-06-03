@@ -30,7 +30,8 @@ http://miniflux.{$DOMAIN} {
     }
 }
 
-http://vaultwarden.{$DOMAIN} {
+https://vaultwarden.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     reverse_proxy {
         to vaultwarden:80
         health_uri /alive
@@ -74,5 +75,53 @@ http://admin.{$DOMAIN} {
 
         to localhost:2019
         header_up Host localhost:2019
+    }
+}
+
+https://searxng.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to searxng:8080
+        health_uri /healthz
+    }
+}
+
+https://redlib.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to redlib:8080
+        health_uri /settings
+    }
+}
+
+https://syncthing.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to syncthing:8384
+        health_uri /rest/noauth/health
+    }
+}
+
+https://dockge.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to dockge:5001
+        health_uri /
+    }
+}
+
+https://portainer.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to portainer:9000
+        health_uri /api/system/status
+    }
+}
+
+https://tty.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to tty:8080
+        health_uri /
     }
 }

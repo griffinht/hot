@@ -1,13 +1,3 @@
-volumes:
-  searxng_internal:
-
 services:
   searxng:
     image: docker.io/searxng/searxng:latest
-    restart: always
-      #    environment:
-      #      - BASE_URL=https://hot.griffinht.com/searx/
-    ports:
-      - 8123:8080
-    volumes:
-      - searxng_internal:/etc/searxng
