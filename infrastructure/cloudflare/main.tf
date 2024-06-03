@@ -74,9 +74,14 @@ locals {
     })
 }
 
+variable "zone_id" {
+    type = string
+    default = "d691921860e35a45bc7f99007af14a7d"
+}
+
 resource "cloudflare_record" "record" {
     for_each = local.computed_records
-    zone_id = "d691921860e35a45bc7f99007af14a7d"
+    zone_id = var.zone_id
     name = each.value.name
     value = each.value.value
     type = each.value.type
