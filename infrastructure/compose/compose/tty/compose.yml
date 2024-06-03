@@ -1,9 +1,17 @@
 # todo https://github.com/wrfly/container-web-tty/issues/84
+networks:
+  traefik_default:
+    external: true
+
 services:
   tty:
     image: wrfly/container-web-tty:0.1.10
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik_default
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`tty.cool.griffinht.com`)"
         # port 8080
 

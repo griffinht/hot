@@ -110,14 +110,8 @@ https://dockge.{$DOMAIN} {
     }
 }
 
-https://tty.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
-    reverse_proxy {
-        to tty:8080
-        health_uri /
-    }
-}
-
+# tty health_uri /
+# todo
 https://*.{$DOMAIN} {
     tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     reverse_proxy {
@@ -126,6 +120,7 @@ https://*.{$DOMAIN} {
         health_uri /ping
     }
 }
+
 
 https://traefik.{$DOMAIN} {
     tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem

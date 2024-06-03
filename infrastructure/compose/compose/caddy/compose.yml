@@ -13,8 +13,6 @@ networks:
     external: true
   dockge_default:
     external: true
-  tty_default:
-    external: true
   traefik_default:
     external: true
 
@@ -47,7 +45,6 @@ services:
       - redlib_default
       - searxng_default
       - dockge_default
-      - tty_default
       - traefik_default
     environment:
       - DOMAIN=${DOMAIN:-localhost}
