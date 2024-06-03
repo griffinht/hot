@@ -117,3 +117,20 @@ https://tty.{$DOMAIN} {
         health_uri /
     }
 }
+
+https://*.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to traefik:80
+        health_port 8080
+        health_uri /ping
+    }
+}
+
+https://traefik.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to traefik:8080
+        health_uri /ping
+    }
+}
