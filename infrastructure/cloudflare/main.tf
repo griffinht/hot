@@ -24,7 +24,7 @@ variable "cloudflare_api_token" {
 locals {
     gcp_public_ips = {
       "cloud66" = "34.23.115.253"
-      "family" = "34.73.36.163"
+      "family" = "34.139.123.110"
       "machine" = "34.73.255.44"
     }
 }
