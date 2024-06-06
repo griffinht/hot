@@ -11,7 +11,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - traefik_default
-    labels:
-      - "traefik.http.routers.whoami.rule=Host(`tty.cool.griffinht.com`)"
+        #    labels:
+      #      - "traefik.http.routers.tty.rule=Host(`tty.cool.griffinht.com`)"
         # port 8080
 

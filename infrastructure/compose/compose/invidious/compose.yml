@@ -7,6 +7,8 @@ networks:
   internal:
     driver: bridge
     internal: true
+  traefik_default:
+    external: true
 
 services:
   invidious:
@@ -15,23 +17,23 @@ services:
     networks:
       - default
       - internal
-    ports:
-      - 3000:3000
+      - traefik_default
+        # port 3000
     environment:
       INVIDIOUS_CONFIG: |
         database_url: postgres://postgres:@postgres
         hmac_key: b7377837040574d07a254cb89b6f7e014b14386c
     depends_on:
       - postgres
-  # todo use guix?
   postgres:
     image: docker.io/library/postgres
     restart: unless-stopped
+      # bootstrap
+      #ports:
+      #- 5432:5432
     networks:
       - internal
     volumes:
       - invidious:/var/lib/postgresql/data
-        #- ./invidious/config/sql:/config/sql:ro
-        #- ./invidious/docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh:ro
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust

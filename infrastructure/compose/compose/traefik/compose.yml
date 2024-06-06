@@ -2,7 +2,9 @@ services:
   traefik:
     image: traefik:v3.0
     # Enables the web UI and tells Traefik to listen to docker
-    command: --api.insecure=true --providers.docker --ping
+    command: --api.insecure=true --providers.docker --ping --accesslog=true --accesslog.fields.headers.defaultmode=keep --accesslog.fields.headers.names.host=keep --accesslog.fields.names.RequestHost=keep --accesslog.format=json
+    networks:
+      - default
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock

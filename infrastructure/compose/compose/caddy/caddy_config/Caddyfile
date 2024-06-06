@@ -4,7 +4,8 @@
 }
 
 # todo registry and ui registry
-http://{$DOMAIN} {
+https://{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     #log info
     respond 404
     #reverse_proxy http://cloudtest.lan.hot.griffinht.com:80 {
@@ -13,7 +14,8 @@ http://{$DOMAIN} {
 }
 
 # todo auth
-http://budget.{$DOMAIN} {
+https://budget.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     log info
     reverse_proxy {
         to actualbudget:5006
@@ -21,7 +23,8 @@ http://budget.{$DOMAIN} {
     }
 }
 
-http://miniflux.{$DOMAIN} {
+https://miniflux.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     log info
     reverse_proxy {
         to host.docker.internal:8080
@@ -38,7 +41,8 @@ https://vaultwarden.{$DOMAIN} {
     }
 }
 
-http://netdata.{$DOMAIN} {
+https://netdata.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     # https://github.com/netdata/netdata/pull/9172/files
     reverse_proxy {
         to host.docker.internal:19999
@@ -46,7 +50,8 @@ http://netdata.{$DOMAIN} {
     }
 }
 
-http://prometheus.{$DOMAIN} {
+https://prometheus.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     reverse_proxy prometheus:9090
     reverse_proxy {
         to grafana:3000
@@ -54,21 +59,24 @@ http://prometheus.{$DOMAIN} {
     }
 }
 
-http://grafana.{$DOMAIN} {
+https://grafana.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     reverse_proxy {
         to grafana:3000
         health_uri /api/health
     }
 }
 
-http://yacht.{$DOMAIN} {
+https://yacht.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     reverse_proxy {
         to yacht:8000
         health_uri /
     }
 }
 
-http://admin.{$DOMAIN} {
+https://admin.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     reverse_proxy {
         health_uri /dklfjghsdfg
         health_status 404
@@ -118,6 +126,7 @@ https://*.{$DOMAIN} {
         to traefik:80
         health_port 8080
         health_uri /ping
+        header_up Host {http.request.host.labels.3}-{http.request.host.labels.3}
     }
 }
 
