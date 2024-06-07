@@ -3,9 +3,19 @@
     #auto_https off
 }
 
+(all) {
+    handle_errors {
+        rewrite * /{err.status_code}
+	reverse_proxy https://http.cat {
+            header_up Host {upstream_hostport}
+            replace_status {err.status_code}
+	}
+    }
+}
+
 # todo registry and ui registry
 https://{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     #log info
     respond 404
     #reverse_proxy http://cloudtest.lan.hot.griffinht.com:80 {
@@ -15,7 +25,7 @@ https://{$DOMAIN} {
 
 # todo auth
 https://budget.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     log info
     reverse_proxy {
         to actualbudget:5006
@@ -24,7 +34,7 @@ https://budget.{$DOMAIN} {
 }
 
 https://miniflux.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     log info
     reverse_proxy {
         to host.docker.internal:8080
@@ -34,7 +44,7 @@ https://miniflux.{$DOMAIN} {
 }
 
 https://vaultwarden.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to vaultwarden:80
         health_uri /alive
@@ -42,7 +52,7 @@ https://vaultwarden.{$DOMAIN} {
 }
 
 https://netdata.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     # https://github.com/netdata/netdata/pull/9172/files
     reverse_proxy {
         to host.docker.internal:19999
@@ -51,7 +61,7 @@ https://netdata.{$DOMAIN} {
 }
 
 https://prometheus.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy prometheus:9090
     reverse_proxy {
         to grafana:3000
@@ -60,7 +70,7 @@ https://prometheus.{$DOMAIN} {
 }
 
 https://grafana.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to grafana:3000
         health_uri /api/health
@@ -68,7 +78,7 @@ https://grafana.{$DOMAIN} {
 }
 
 https://yacht.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to yacht:8000
         health_uri /
@@ -76,7 +86,7 @@ https://yacht.{$DOMAIN} {
 }
 
 https://admin.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         health_uri /dklfjghsdfg
         health_status 404
@@ -87,7 +97,7 @@ https://admin.{$DOMAIN} {
 }
 
 https://searxng.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to searxng:8080
         health_uri /healthz
@@ -95,7 +105,7 @@ https://searxng.{$DOMAIN} {
 }
 
 https://redlib.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to redlib:8080
         health_uri /settings
@@ -103,7 +113,7 @@ https://redlib.{$DOMAIN} {
 }
 
 https://syncthing.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to syncthing:8384
         health_uri /rest/noauth/health
@@ -111,7 +121,7 @@ https://syncthing.{$DOMAIN} {
 }
 
 https://dockge.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to dockge:5001
         health_uri /
@@ -119,7 +129,7 @@ https://dockge.{$DOMAIN} {
 }
 
 https://planka.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to planka:1337
         health_uri /
@@ -127,7 +137,7 @@ https://planka.{$DOMAIN} {
 }
 
 https://invidious.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to invidious:3000
         health_uri /preferences
@@ -137,7 +147,7 @@ https://invidious.{$DOMAIN} {
 # tty health_uri /
 # todo
 https://*.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to traefik:80
         health_port 8080
@@ -146,9 +156,8 @@ https://*.{$DOMAIN} {
     }
 }
 
-
 https://traefik.{$DOMAIN} {
-    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    import all
     reverse_proxy {
         to traefik:8080
         health_uri /ping
