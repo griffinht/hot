@@ -118,6 +118,22 @@ https://dockge.{$DOMAIN} {
     }
 }
 
+https://planka.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to planka:1337
+        health_uri /
+    }
+}
+
+https://invidious.{$DOMAIN} {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
+    reverse_proxy {
+        to invidious:3000
+        health_uri /preferences
+    }
+}
+
 # tty health_uri /
 # todo
 https://*.{$DOMAIN} {

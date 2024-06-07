@@ -1,5 +1,5 @@
 networks:
-  traefik_default:
+  caddy_default:
     external: true
 
 volumes:
@@ -20,9 +20,9 @@ services:
         #- 3000:1337
     networks:
       - default
-      - traefik_default
+      - caddy_default
     environment:
-      - BASE_URL=http://localhost:3000
+      - BASE_URL=https://planka.cool.griffinht.com
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=notsecretkey
 
