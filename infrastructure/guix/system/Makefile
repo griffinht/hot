@@ -44,6 +44,7 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 %/vm.run: %/vm.bin
 	"$$(cat '$<')" \
 		-nic "user,model=virtio-net-pci,hostfwd=tcp:$(INTERFACE):2222-:22"
+#		-m 4096
 		#-nic "user,model=virtio-net-pci,hostfwd=tcp:$(INTERFACE):2222-:22,hostfwd=tcp:$(INTERFACE):8080-:80,hostfwd=tcp:$(INTERFACE):4434-:443,hostfwd=udp:$(INTERFACE):51820-:51820"
 
 # https://guix.gnu.org/cookbook/en/html_node/Container-Networking.html
