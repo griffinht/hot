@@ -37,7 +37,7 @@
 ;(define-public wireguard-address-griffinht "10.0.0.11")
 
 (define-public %vm-ssh-admin-pubkey
-  (local-file "../../cool-laptop.pub"))
+  (local-file (getenv "SSH_PUBKEY")))
 
 (define-public %vm-packages
                (append

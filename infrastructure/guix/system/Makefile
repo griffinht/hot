@@ -3,10 +3,10 @@
 
 SYSTEM=system.scm
 LOAD_PATH=--load-path=channel
-SSH_KEY=id_ed25519.bin
+#SSH_KEY=id_ed25519.bin
 DEPLOY_IMAGE_SCRIPT=./scripts/deploy-image.sh
-ENV_FILE=local.env
-ENV_SCRIPT=. ./$(ENV_FILE) &&
+#ENV_FILE=local.env
+#ENV_SCRIPT=. ./$(ENV_FILE) &&
 # which interface to bind on host
 # could be 0.0.0.0
 INTERFACE=127.0.0.1
@@ -14,11 +14,11 @@ INTERFACE=127.0.0.1
 # todo allow this to be out of date? it just needs to exist once
 id_%.bin:
 	ssh-keygen -t $* -f '$@' -N ""
-	mv '$@.pub' 'id_$*.pub.bin'
+	mv '$@.pub' '#id_$*.pub.bin'
 
 # debug thing, todo use make for this idk
 load:
-	$(ENV_SCRIPT) echo '(use-modules (griffinht system) (griffinht deploy))' | guix repl $(LOAD_PATH)
+	echo '(use-modules (griffinht system) (griffinht deploy))' | guix repl $(LOAD_PATH)
 
 all.vm.bin: \
 	docker/vm.bin \
@@ -39,7 +39,7 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 	touch '$@'
 
 %/vm.bin: %/$(SYSTEM)
-	$(ENV_SCRIPT) guix system $(LOAD_PATH) vm --no-graphic '$<' > '$@'
+	guix system $(LOAD_PATH) vm --no-graphic '$<' > '$@'
 
 %/vm.run: %/vm.bin
 	"$$(cat '$<')" \
@@ -48,21 +48,21 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 
 # https://guix.gnu.org/cookbook/en/html_node/Container-Networking.html
 %/container.run: %/$(SYSTEM)
-	sudo "$$($(ENV_SCRIPT) guix system $(LOAD_PATH) container --network '$<')"
+	sudo "$$(guix system $(LOAD_PATH) container --network '$<')"
 
 %/image-docker.bin: %/$(SYSTEM)
-	$(ENV_SCRIPT) guix system $(LOAD_PATH) image --image-type=docker --network '$<' > '$@'
+	guix system $(LOAD_PATH) image --image-type=docker --network '$<' > '$@'
 
 #%/image-docker.bin: %/$(SYSTEM)
 #todo
 
 %/image-small.bin: %/$(SYSTEM)
-	$(ENV_SCRIPT) guix system $(LOAD_PATH) image --image-type=qcow2 '$<' > '$@'
+	guix system $(LOAD_PATH) image --image-type=qcow2 '$<' > '$@'
 	#qemu-img convert?????
 	#qemu-img resize '$<' +20G
 
 %/image.bin: %/$(SYSTEM)
-	$(ENV_SCRIPT) guix system $(LOAD_PATH) image --image-size=20G --image-type=qcow2 '$<' > '$@'
+	guix system $(LOAD_PATH) image --image-size=20G --image-type=qcow2 '$<' > '$@'
 
 %/image-temp.bin: %/image.bin
 	mktemp > '$@'
@@ -81,10 +81,10 @@ channel/griffinht/deploy.scm: $(SSH_KEY)
 	guix deploy $(LOAD_PATH) '$<'
 
 %/deploy: deploy.scm %/$(SYSTEM)
-	$(ENV_SCRIPT) SYSTEM='$*/$(SYSTEM)' guix deploy $(LOAD_PATH) '$<'
+	SYSTEM='$*/$(SYSTEM)' guix deploy $(LOAD_PATH) '$<'
 
 %/deploy-image: %/image.bin $(DEPLOY_IMAGE_SCRIPT)
-	$(ENV_SCRIPT) guix shell libvirt -- './$(DEPLOY_IMAGE_SCRIPT)' "$$(cat '$<')" '$*'
+	guix shell libvirt -- './$(DEPLOY_IMAGE_SCRIPT)' "$$(cat '$<')" '$*'
 
 bruh:
 	make base/deploy-image

@@ -7,6 +7,7 @@
              (gnu services ssh)
              (gnu services networking)
              (gnu services desktop)
+             (gnu services virtualization)
              (gnu services samba)
              (gnu services monitoring)
              (gnu system setuid)
@@ -59,8 +60,8 @@
                                 `(("root" ,%vm-ssh-admin-pubkey)
                                   ("libvirt" ,%vm-ssh-admin-pubkey)))))
                     ; libvirt
-                    ;(service libvirt-service-type)
-                    ;(service virtlog-service-type) ; required for libvirt to work
+                    (service libvirt-service-type)
+                    (service virtlog-service-type) ; required for libvirt to work
                     ; qemu-bridge-helper
                     (extra-special-file "/usr/libexec/qemu-bridge-helper" "/run/setuid-programs/qemu-bridge-helper")
                     (extra-special-file "/etc/qemu/bridge.conf" (plain-file "" "allow br0\n"))
