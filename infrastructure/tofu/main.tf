@@ -93,6 +93,7 @@ resource "routeros_snmp" "test" {
     enabled = true
 }
 
+# dynamic dns for hairpin nat external ip
 resource "routeros_ip_firewall_addr_list" "thing" {
     address = "windy.griffinht.com"
     list    = "WANIP"
@@ -144,4 +145,54 @@ resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
     address     = each.value.address
     mac_address = each.value.mac_address
     server = "defconf"
+}
+
+
+
+
+/*
+/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.11 out-interface-list=LAN src-address=192.168.0.0/24
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.11 protocol=tcp
+/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.11 protocol=tcp
+*/
+
+variable "ip_forwards" {
+    type = map(object({
+        address     = string
+        ports = list(number)
+    }))
+    default = {
+        hot_desktop     = { address = "192.168.0.11", ports = [80, 443] }
+    }
+}
+
+resource "routeros_ip_firewall_nat" "masquerade" {
+    for_each      = var.ip_forwards
+    action        = "masquerade"
+    chain         = "srcnat"
+    dst_address = each.value.address
+    out_interface_list = "LAN"
+    src_address = "192.168.0.0/24"
+}
+
+variable "dst_nat" {
+    type = map(object({
+        address = string
+        port = string
+        protocol = string
+    }))
+    default = {
+        a = { address = "192.168.0.11", port = 80, protocol = "tcp" },
+        b = { address = "192.168.0.11", port = 443, protocol = "tcp" }
+    }
+}
+
+resource "routeros_ip_firewall_nat" "dst-nat" {
+    for_each      = var.dst_nat
+    action        = "dst-nat"
+    chain         = "dstnat"
+    dst_address_list = "WANIP"
+    dst_port      = each.value.port
+    to_addresses = each.value.address
+    protocol = each.value.protocol
 }
