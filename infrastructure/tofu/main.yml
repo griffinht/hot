@@ -1,0 +1,47 @@
+lil_tik:
+  address: "192.168.0.1"
+
+fruit_pi:
+  address: "192.168.0.2"
+
+tp-wap:
+  address: "192.168.0.3"
+
+hot_desktop:
+  address: "192.168.0.5"
+  mac_address: "fc:aa:14:b0:1b:64"
+  ports:
+    - port: "51820"
+      protocol: "udp"
+
+envy_laptop:
+  address: "192.168.0.6"
+  mac_address: "E4:11:5B:61:70:DD"
+
+mystuff_guix:
+  address: "192.168.0.8"
+  mac_address: "52:54:00:d4:ac:e9"
+  ports:
+    - port: "51821"
+      protocol: "udp"
+
+cloudtest:
+  address: "192.168.0.9"
+  mac_address: "52:54:00:ac:97:88"
+
+griffinht:
+  address: "192.168.0.10"
+  mac_address: "52:54:00:08:ad:4e"
+
+hot:
+  address: "192.168.0.11"
+  mac_address: "52:54:00:55:f2:19"
+  ports:
+    - port: "80"
+      protocol: "tcp"
+    - port: "443"
+      protocol: "udp"
+
+hot-data:
+  address: "192.168.0.12"
+  mac_address: "52:54:00:ff:50:26"
