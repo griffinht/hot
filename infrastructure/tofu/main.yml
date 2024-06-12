@@ -45,3 +45,7 @@ hot:
 hot-data:
   address: "192.168.0.12"
   mac_address: "52:54:00:ff:50:26"
+
+debian:
+  address: "192.168.0.13"
+  domain:
