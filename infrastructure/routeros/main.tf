@@ -1,6 +1,16 @@
+terraform {
+    required_providers {
+        routeros = {
+            source = "terraform-routeros/routeros"
+        }
+    }
+}
+
+
+
 provider "routeros" {
-    #hosturl = "api://lil-tik.lan.hot.griffinht.com"
-    hosturl = "api://localhost"
+    hosturl = "api://lil-tik.lan.hot.griffinht.com"
+    #hosturl = "api://localhost"
     username = "api"
     # todo lmaco
     password = "bruhbruhbruhbruh"
@@ -25,12 +35,14 @@ resource "routeros_system_user_group" "api" {
         "!web",
         "!winbox"
     ]
+    comment = "terraform"
 }
 
 resource "routeros_system_user" "api" {
     name = "api"
     group = routeros_system_user_group.api.name
     password = "bruhbruhbruhbruh"
+    comment = "terraform"
 }
 
 
@@ -44,15 +56,31 @@ resource "routeros_snmp" "test" {
 resource "routeros_ip_firewall_addr_list" "thing" {
     address = "windy.griffinht.com"
     list    = "WANIP"
+    comment = "terraform"
 }
+
+
+
 
 locals {
-    main = yamldecode(file("main.yml"))
+    main = yamldecode(file("../main.yml"))
+    dns_records = {
+        for k, v in local.main : k => v if contains(keys(v), "address")
+    }
+
+    dhcp_leases = {
+        for k, v in local.main : k => v if contains(keys(v), "mac_address")
+    }
+
+    ports = {
+        for k, v in local.main : k => v if contains(keys(v), "ports")
+    }
 }
 
+# todo rename tod dns_record
 resource "routeros_ip_dns_record" "dns_records" {
-    for_each = local.main
-    comment = each.key
+    for_each = local.dns_records
+    comment = "terraform ${each.key}"
     name     = "${each.key}.lan.hot.griffinht.com"
     address  = each.value.address
     type     = "A"
@@ -76,8 +104,8 @@ variable "dhcp_leases" {
 }
 
 resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
-    for_each    = local.main
-    comment = each.key
+    for_each    = local.dhcp_leases
+    comment = "terraform ${each.key}"
     address     = each.value.address
     mac_address = each.value.mac_address
     # idk if/why server = defconf is needed
@@ -85,13 +113,12 @@ resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
 }
 
 
-
-
 /*
-/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.11 out-interface-list=LAN src-address=192.168.0.0/24
-/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.11 protocol=tcp
-/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.11 protocol=tcp
-*/
+
+
+#/ip firewall nat add action=masquerade chain=srcnat dst-address=192.168.0.11 out-interface-list=LAN src-address=192.168.0.0/24
+#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=80 to-addresses=192.168.0.11 protocol=tcp
+#/ip firewall nat add chain=dstnat action=dst-nat dst-address-list=WANIP dst-port=443 to-addresses=192.168.0.11 protocol=tcp
 
 variable "ip_forwards" {
     type = map(object({
@@ -136,4 +163,4 @@ resource "routeros_ip_firewall_nat" "dst-nat" {
     dst_port      = each.value.port
     to_addresses = each.value.address
     protocol = each.value.protocol
-}
+}*/

@@ -3,10 +3,6 @@ terraform {
         libvirt = {
             source = "dmacvicar/libvirt"
         }
-        /*
-        routeros = {
-            source = "terraform-routeros/routeros"
-        }*/
     }
 }
 
@@ -20,8 +16,11 @@ resource "libvirt_network" "bridge_network" {
     bridge = "br0"
 }
 
+
+
+
 locals {
-    main = yamldecode(file("main.yml"))
+    main = yamldecode(file("../main.yml"))
 
     domains = {
         for k, v in local.main : k => v if contains(keys(v), "domain")
@@ -36,13 +35,20 @@ resource "libvirt_domain" "domain" {
     network_interface {
         bridge = libvirt_network.bridge_network.bridge
         #network_id = libvirt_network.bridge_network.id
+        mac = each.value.mac_address
     }
 
     autostart = true
 }
 
-output "mac" {
-    value = {
-        for instance in libvirt_domain.domain : instance.name => instance.network_interface[0].mac
-    }
+/*
+resource "libvirt_cloudinit_disk" "commoninit" {
+    name      = "commoninit.iso"
+    user_data = data.template_file.user_data.rendered
 }
+
+data "template_file" "user_data" {
+    template = file("${path.module}/cloud_init.cfg")
+}*/
+
+# todo ignition https://registry.terraform.io/providers/multani/libvirt/latest/docs/resources/coreos_ignition

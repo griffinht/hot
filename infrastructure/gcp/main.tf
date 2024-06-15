@@ -1,4 +1,21 @@
 variable "project" {}
+locals {
+    instance_metadata = {
+        ssh-keys = <<EOF
+root:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILlrXoJEmDX/hi1wvH3M2NNYm2saKxrC+ELNyt3v1pBI griffin@cool-laptop
+EOF
+        # enable root login
+        # todo too much code! delete this code!
+        startup-script = file("startup.sh")
+        # serial-port-enable = "TRUE"
+    }
+
+    #zone = "us-east1-b"
+    tailscale_tag = "tailscale"
+    tailscale_tag_init = "tailscale-init"
+    region = "us-east1"
+    zone = "us-east1-b"
+}
 
 provider "google" {
     project = var.project
@@ -21,7 +38,7 @@ resource "google_compute_firewall" "tailscale_init" {
     }
 
     source_ranges = ["0.0.0.0/0"]
-    target_tags   = ["tailscale-init"]
+    target_tags   = [local.tailscale_tag_init]
 }
 
 resource "google_compute_firewall" "tailscale_deny" {
@@ -44,7 +61,7 @@ resource "google_compute_firewall" "tailscale_deny" {
     }
 
     source_ranges = ["0.0.0.0/0"]
-    target_tags   = ["tailscale"]
+    target_tags   = [local.tailscale_tag]
 }
 
 resource "google_compute_firewall" "tailscale_allow" {
@@ -56,7 +73,7 @@ resource "google_compute_firewall" "tailscale_allow" {
     }
 
     source_ranges = ["0.0.0.0/0"]
-    target_tags   = ["tailscale"]
+    target_tags   = [local.tailscale_tag]
 }
 
 variable "instances_public" {
@@ -117,23 +134,13 @@ variable "instances_public" {
 }
 
 
-locals {
-    instance_metadata = {
-        ssh-keys = <<EOF
-root:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILlrXoJEmDX/hi1wvH3M2NNYm2saKxrC+ELNyt3v1pBI griffin@cool-laptop
-EOF
-        # enable root login
-        # todo too much code! delete this code!
-        startup-script = file("startup.sh")
-        # serial-port-enable = "TRUE"
-    }
-}
 
 resource "google_compute_instance" "instance_public" {
     for_each = var.instances_public
+
     name = each.value.name
     machine_type = each.value.machine_type
-    zone = "us-east1-b"
+    zone = local.zone
 
     tags = each.value.tags
     desired_status = each.value.desired_status
@@ -171,6 +178,6 @@ output "gcp_public_ips" {
 output "tailscale_init_ips" {
     value = {
         for instance in google_compute_instance.instance_public : instance.name => instance.network_interface[0].access_config[0].nat_ip
-        if contains(instance.tags, "tailscale-init")
+        if contains(instance.tags, local.tailscale_tag_init)
     }
 }
