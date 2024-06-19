@@ -36,6 +36,7 @@ variable "records" {
         name = string
         value = string
         type = string
+        proxied = optional(bool, false)
     }))
     default = {
         dynamic_dns = {
@@ -63,6 +64,12 @@ variable "records" {
             value = "cool.griffinht.com"
             type = "CNAME"
         }
+        griffinht = {
+            name = "@"
+            value = "griffinht.pages.dev"
+            type = "CNAME"
+            proxied = "true"
+        }
     }
 }
 
@@ -73,6 +80,7 @@ locals {
             name = "${name}.gcp"
             value = value
             type = "A"
+            proxied = false
         }
     })
 }
@@ -88,5 +96,6 @@ resource "cloudflare_record" "record" {
     name = each.value.name
     value = each.value.value
     type = each.value.type
+    proxied = each.value.proxied
     comment = "auto managed by terraform"
 }
