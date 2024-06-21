@@ -64,12 +64,6 @@ variable "records" {
             value = "cool.griffinht.com"
             type = "CNAME"
         }
-        griffinht = {
-            name = "@"
-            value = "griffinht.pages.dev"
-            type = "CNAME"
-            proxied = "true"
-        }
     }
 }
 
