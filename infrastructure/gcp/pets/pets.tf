@@ -63,11 +63,11 @@ resource "google_compute_disk" "pet_boot" {
     image = "debian-cloud/debian-12"
 }*/
 
-# Using pd-standard because it's the default for Compute Engine
+/*
 resource "google_compute_disk" "pet" {
     name = "pet-persist"
     type = "pd-standard"
-    size = "1"
+    size = "10"
     zone = local.zone
 }
 
@@ -98,3 +98,32 @@ resource "google_compute_instance" "pet" {
         device_name = google_compute_disk.pet.name
     }
 }
+
+# todo add pet2
+
+variable "instances_public" {
+    type = map(object({
+        name = string
+        machine_type = optional(string, "e2-small")
+        tags = optional(list(string), [])
+        image = string
+        desired_status = optional(string, "RUNNING")
+    }))
+    default = {
+        /*
+        cloud66 = {
+            name = "cloud66"
+            image = "ubuntu-os-cloud/ubuntu-2004-lts"
+            machine_type = "e2-medium"
+        hot = {
+            name = "hot"
+            image = "debian-cloud/debian-12"
+            tags = ["tailscale"]
+        }
+        griffinht = {
+            name = "griffinht"
+            image = "debian-cloud/debian-12"
+            tags = ["custom"]
+        }
+    }
+}*/

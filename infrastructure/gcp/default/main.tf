@@ -1,4 +1,3 @@
-variable "project" {}
 locals {
     instance_metadata = {
         ssh-keys = <<EOF
