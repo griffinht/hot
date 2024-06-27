@@ -1,0 +1,5 @@
+services:
+  alpine:
+    image: alpine
+    volumes:
+      - /mnt/persist/alpine:/asdf
