@@ -1,0 +1,22 @@
+services:
+  linuxserver:
+    image: lscr.io/linuxserver/wireguard:latest
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /mnt/storage/wireguard:/config/wg_confs:ro
+
+  wireguard:
+    profiles:
+      - disabled
+    # also has bind:utils for dig command for debugging
+    image: wireguard-tools-bash-coreutils-curl
+      #restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./mnt/storage/secrets/wireguard:/wireguard:ro
+    command: bash -c 'wg-quick up /wireguard/wg0.conf'

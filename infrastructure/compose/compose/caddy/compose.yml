@@ -30,11 +30,13 @@ volumes:
 services:
   caddy_host:
     image: docker.io/caddy
+    restart: unless-stopped
     network_mode: host
     volumes:
       - caddy_host_config:/etc/caddy:ro
   caddy:
     image: docker.io/caddy
+    restart: unless-stopped
     hostname: cool
     networks:
       - default

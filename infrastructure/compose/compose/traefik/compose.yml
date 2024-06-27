@@ -1,6 +1,7 @@
 services:
   traefik:
     image: traefik:v3.0
+    restart: unless-stopped
     # Enables the web UI and tells Traefik to listen to docker
     command: --api.insecure=true --providers.docker --ping --accesslog=true --accesslog.fields.headers.defaultmode=keep --accesslog.fields.headers.names.host=keep --accesslog.fields.names.RequestHost=keep --accesslog.format=json
     networks:
