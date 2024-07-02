@@ -1,3 +1,4 @@
 services:
   searxng:
     image: docker.io/searxng/searxng:latest
+    restart: unless-stopped
