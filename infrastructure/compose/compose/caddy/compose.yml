@@ -20,7 +20,6 @@ volumes:
   # todo caddy should be stateless
   caddy:
   caddy_config:
-  caddy_host_config:
   certbot_certificates:
   certbot:
   # todo migrate to swarm secrets
@@ -28,12 +27,6 @@ volumes:
   tailscale:
 
 services:
-  caddy_host:
-    image: docker.io/caddy
-    restart: unless-stopped
-    network_mode: host
-    volumes:
-      - caddy_host_config:/etc/caddy:ro
   caddy:
     image: docker.io/caddy
     restart: unless-stopped
@@ -51,7 +44,8 @@ services:
     environment:
       - DOMAIN=${DOMAIN:-localhost}
     volumes:
-      - caddy_config:/etc/caddy:ro
+      - caddy_config:/etc/caddy
+        # todo caddy should be stateless??
       - caddy:/data
       - certbot_certificates:/certificates:ro
     extra_hosts:

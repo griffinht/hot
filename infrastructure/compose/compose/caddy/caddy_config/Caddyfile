@@ -4,6 +4,7 @@
 }
 
 (all) {
+    tls /certificates/live/cool.griffinht.com/fullchain.pem /certificates/live/cool.griffinht.com/privkey.pem
     handle_errors {
         rewrite * /{err.status_code}
 	reverse_proxy https://http.cat {
@@ -37,7 +38,7 @@ https://miniflux.{$DOMAIN} {
     import all
     log info
     reverse_proxy {
-        to host.docker.internal:8080
+        to miniflux:8080
         health_uri /healthcheck
         header_up x-forwarded-user griffin
     }

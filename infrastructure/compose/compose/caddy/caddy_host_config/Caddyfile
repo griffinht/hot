@@ -1,8 +1,0 @@
-{
-    log debug
-}
-
-:8080 {
-    log info
-    reverse_proxy flydfsg.internal:8080
-}
