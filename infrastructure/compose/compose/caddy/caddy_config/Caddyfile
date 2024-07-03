@@ -24,16 +24,6 @@ https://{$DOMAIN} {
     #}
 }
 
-# todo auth
-https://budget.{$DOMAIN} {
-    import all
-    log info
-    reverse_proxy {
-        to actualbudget:5006
-        health_uri /sdfghgh
-    }
-}
-
 https://miniflux.{$DOMAIN} {
     import all
     log info
@@ -125,14 +115,6 @@ https://dockge.{$DOMAIN} {
     import all
     reverse_proxy {
         to dockge:5001
-        health_uri /
-    }
-}
-
-https://planka.{$DOMAIN} {
-    import all
-    reverse_proxy {
-        to planka:1337
         health_uri /
     }
 }
