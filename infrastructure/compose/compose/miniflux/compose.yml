@@ -30,3 +30,16 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - /mnt/storage/miniflux2:/var/lib/postgresql/data
+
+        # todo rewrite as a dagster pipeline
+  backup:
+    profile:
+      - disabled
+    image: postgres
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=miniflux
+    volumes:
+      - /mnt/storage/miniflux3:/backup
+    command: sh -c 'pg_dump > /backup/dumpfile'
