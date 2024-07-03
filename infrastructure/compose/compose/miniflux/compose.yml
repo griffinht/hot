@@ -1,0 +1,32 @@
+networks:
+  caddy_default:
+    external: true
+
+services:
+  miniflux:
+    image: docker.io/miniflux/miniflux:latest
+    networks:
+      - default
+      - caddy_default
+    environment:
+      #- DATABASE_URL=postgres://miniflux:secret@postgres/miniflux?sslmode=disable
+      - DATABASE_URL=postgres://postgres@postgres/miniflux?sslmode=disable
+        #- RUN_MIGRATIONS=1
+      - AUTH_PROXY_HEADER=X-Forwarded-User
+      - AUTH_PROXY_USER_CREATION=true
+      - METRICS_COLLECTOR=1
+      - METRICS_ALLOWED_NETWORKS='0.0.0.0/0,::/0'
+#    METRICS_USERNAME=bruh
+    restart: unless-stopped
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      # make psql work without config
+      - PGUSER=postgres
+        #- POSTGRES_PASSWORD=secret
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - /mnt/storage/miniflux2:/var/lib/postgresql/data
