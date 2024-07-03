@@ -1,0 +1,28 @@
+
+users:
+  - name: root
+    ssh_authorized_keys:
+      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILlrXoJEmDX/hi1wvH3M2NNYm2saKxrC+ELNyt3v1pBI griffin@cool-laptop'
+    plain_text_passwd: password
+    lock_passwd: false
+  - name: griffin
+    #groups: sudo
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh_authorized_keys:
+      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILlrXoJEmDX/hi1wvH3M2NNYm2saKxrC+ELNyt3v1pBI griffin@cool-laptop'
+    plain_text_passwd: password
+    lock_passwd: false
+
+
+
+
+
+    TEST LOCALLY
+    but keep in mind you should never even have to test locally in the first place
+    these should be appliances? or idk should they? not really sure tbh
+    because keep in mind you can have dev and prod on the same hypervisor so....
+
+
+
+
+    actually maybe experiment with dev and prod domains? and keep disks constant yeah!

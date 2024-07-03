@@ -1,0 +1,35 @@
+#cloud-config
+
+# password https://cloudinit.readthedocs.io/en/latest/reference/modules.html#set-passwords
+# TODO
+ssh_pwauth: true
+  #password: '$6$rounds=500000$qY3HhMOmpx$3wZLF2G1Vcd/zrPgtMCJnnf4ee3KYbgO/MspIOVqNqaXuzBpDdPCQclN7G4TEzD/stmFwRWzoNrlHGi48x8Pc0'
+  ## password
+  #'$6$rounds=500000$qY3HhMOmpx$3wZLF2G1Vcd/zrPgtMCJnnf4ee3KYbgO/MspIOVqNqaXuzBpDdPCQclN7G4TEzD/stmFwRWzoNrlHGi48x8Pc0'
+  #chpasswd:
+  #  expire: false
+
+
+
+# ssh https://cloudinit.readthedocs.io/en/latest/reference/modules.html#ssh
+disable_root: false
+
+bootcmd:
+  - echo "HELLO HELLO2"
+
+cloud_init_modules:
+  - runcmd
+
+runcmd:
+  - echo "RUN RUN RUN HELLO2"
+
+
+
+
+
+users:
+  - name: user
+    lock_passwd: false
+    plain_text_passwd: password
+    ssh_authorized_keys:
+      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILlrXoJEmDX/hi1wvH3M2NNYm2saKxrC+ELNyt3v1pBI griffin@cool-laptop'
