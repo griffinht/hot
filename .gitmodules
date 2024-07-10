@@ -1,3 +1,0 @@
-[submodule "infrastructure/containers/hot/invidious/invidious"]
-	path = infrastructure/compose/compose/invidious/invidious
-	url = https://github.com/iv-org/invidious
