@@ -5,8 +5,10 @@ services:
   samba:
     image: docker.io/crazymax/samba
     restart: unless-stopped
+      #    fix dfs
+      #    hostname: hot-data.lan.hot.griffinht.com
     volumes:
-      - config:/config:ro
+      - config:/config
       - /mnt/btrfs_data/backup/family/MEENA/archive:/share
     environment:
       - CONFIG_FILE=/config/config.yml

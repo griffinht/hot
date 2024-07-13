@@ -1,8 +1,13 @@
 # idk if these options here are even necessary
 global:
-  - "security = user"
-  - "map to guest = Bad User"
+  #- "security = user"
+    #- "map to guest = Bad User"
+  - "guest account = root"
   - "default service = media"
+# fixes │parse_dfs_path_strict: Hostname hot-data.lan.hot.griffinht.com is not ours. 
+# alternative is setting container hostname in compose.yml: hostname: hot-data.lan.hot.griffinht.com
+  - "host msdfs = no"
+
 
 share:
   - name: media

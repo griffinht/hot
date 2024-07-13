@@ -64,6 +64,11 @@ variable "records" {
             value = "cool.griffinht.com"
             type = "CNAME"
         }
+        postgres = {
+            name = "postgres.ts"
+            value = "100.79.87.2"
+            type = "A"
+        }
     }
 }
 
