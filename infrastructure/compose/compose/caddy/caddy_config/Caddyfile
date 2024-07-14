@@ -127,8 +127,6 @@ https://invidious.{$DOMAIN} {
     }
 }
 
-# tty health_uri /
-# todo
 https://*.{$DOMAIN} {
     import all
     reverse_proxy {
