@@ -15,7 +15,7 @@ services:
       - AUTH_PROXY_HEADER=X-Forwarded-User
       - AUTH_PROXY_USER_CREATION=true
       - METRICS_COLLECTOR=1
-      - METRICS_ALLOWED_NETWORKS='0.0.0.0/0,::/0'
+      - 'METRICS_ALLOWED_NETWORKS=0.0.0.0/0,::/0'
 #    METRICS_USERNAME=bruh
     restart: unless-stopped
 
@@ -33,7 +33,7 @@ services:
 
         # todo rewrite as a dagster pipeline
   backup:
-    profile:
+    profiles:
       - disabled
     image: postgres
     environment:
@@ -43,3 +43,6 @@ services:
     volumes:
       - /mnt/storage/miniflux3:/backup
     command: sh -c 'pg_dump > /backup/dumpfile'
+
+
+      # e2e test: /metrics
