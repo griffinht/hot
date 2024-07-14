@@ -1,0 +1,6 @@
+# todo jupy notebook and make a script which deploys this to a compose machine
+# and gives error otherwise - super basic automation
+# then you can add testing somehow
+# TESTING CAN COME FIRST - in the form of healthchecks
+projects:
+  - dozzle
