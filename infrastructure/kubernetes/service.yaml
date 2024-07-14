@@ -1,0 +1,29 @@
+# doesnt work because gke doesnt like this
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres
+spec:
+  containers:
+  - name: postgres
+    image: ghcr.io/tailscale/tailscale:latest
+    env:
+    - name: TS_KUBE_SECRET
+      value: ""
+    - name: TS_DEST_IP
+      value: "34.138.68.188"
+    - name: TS_USERNAME
+      value: "false"
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
+    volumeMounts:
+      - name: tun-device
+        mountPath: /dev/net/tun
+        readOnly: true  # Set the volume mount as read-only
+  volumes:
+    - name: tun-device
+      hostPath:
+        path: /dev/net/tun
+
