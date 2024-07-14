@@ -18,3 +18,8 @@ scrape_configs:
   static_configs:
   - targets:
     - miniflux.cool.griffinht.com
+
+- job_name: traefik
+  static_configs:
+  - targets:
+    - traefik.cool.griffinht.com

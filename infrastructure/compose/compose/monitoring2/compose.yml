@@ -16,9 +16,10 @@ services:
       - default
         # todo set external url so alert links work
     volumes:
-      - prometheus_config:/config:ro
+      - prometheus_config:/config
       - prometheus:/prometheus
     command: --config.file=/config/prometheus.yml
+      # todo use a proxy
     extra_hosts:
       - host.docker.internal:host-gateway
 
