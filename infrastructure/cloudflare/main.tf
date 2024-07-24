@@ -69,6 +69,21 @@ variable "records" {
             value = "100.79.87.2"
             type = "A"
         }
+        chilly = {
+            name = "chilly"
+            value = "chilly-955.pages.dev"
+            type = "CNAME"
+        }
+        chilly_all = {
+            name = "*.chilly"
+            value = "34.74.21.105"
+            type = "A"
+        }
+        chilly_iperf = {
+            name = "iperf.chilly"
+            value = "35.231.59.239"
+            type = "A"
+        }
     }
 }
 
