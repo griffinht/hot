@@ -1,0 +1,6 @@
+version: '3'
+
+tasks:
+  hello:
+    cmds:
+      - guix pack --manifest=manifest.scm --format=docker --image-tag=docker.io/griffinht/iperf3 --entry-point=iperf3 -C none

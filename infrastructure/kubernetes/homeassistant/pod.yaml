@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homeassistant-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # Adjust size as needed
+  #storageClassName: standard
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tailscale-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  #storageClassName: standard
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: homeassistant
+spec:
+  containers:
+  - name: tailscale
+    image: tailscale/tailscale
+    env:
+    - name: TS_KUBE_SECRET
+      value: ''
+    - name: TS_STATE_DIR
+      value: /var/lib/tailscale
+    volumeMounts:
+    - name: ts-config
+      mountPath: /var/lib/tailscale
+  - name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    ports:
+    - containerPort: 8123
+    volumeMounts:
+    - name: config
+      mountPath: /config
+  volumes:
+  - name: ts-config
+    persistentVolumeClaim:
+      claimName: tailscale-config
+  - name: config
+    persistentVolumeClaim:
+      claimName: homeassistant-config

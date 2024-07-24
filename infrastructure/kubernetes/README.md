@@ -1,3 +1,13 @@
+authentik
+
+
+
+
+
+
+
+
+
 # principles
 http://blog.itaysk.com/2017/11/20/deployment-strategies-defined
 

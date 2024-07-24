@@ -1,0 +1,34 @@
+# https://github.com/syncthing/syncthing/blob/main/README-Docker.md
+
+services:
+  syncthing:
+    image: docker.io/syncthing/syncthing
+    restart: unless-stopped
+    volumes:
+      - /mnt/backup/syncthing:/var/syncthing
+      - /mnt/backup/sync:/sync
+    ports:
+      - 100.103.181.95:8384:8384
+      - 100.103.181.95:22000:22000/tcp
+      - 100.103.181.95:22000:22000/udp
+      - 100.103.181.95:21027:21027/udp
+  # todo security lmao
+  dufs:
+    image: docker.io/sigoden/dufs
+    restart: unless-stopped
+    ports:
+      - 100.103.181.95:5000:5000
+    volumes:
+      - /mnt/backup/sync:/data:ro
+    command: /data -A
+  copyparty:
+    image: docker.io/copyparty/ac
+    restart: unless-stopped
+    user: "1000"
+    volumes:
+      - /mnt/backup/sync:/data:ro
+    ports:
+      - 100.103.181.95:3923:3923
+        # todo gossa
+        # todo filestash
+        # todo filebrowser??

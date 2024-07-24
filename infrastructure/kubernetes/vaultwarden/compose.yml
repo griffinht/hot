@@ -1,0 +1,9 @@
+volumes:
+  vaultwarden:
+
+services:
+  vaultwarden:
+    image: docker.io/vaultwarden/server:latest
+    restart: unless-stopped
+    volumes:
+      - vaultwarden:/data
