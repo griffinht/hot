@@ -5,10 +5,8 @@ services:
   postgres:
     image: tailscale/tailscale
     hostname: postgres
-    #privileged: true
-    #network_mode: host
     environment:
-      - TS_DEST_IP=34.138.68.188
+      - TS_DEST_IP=34.138.123.91
       - TS_USERSPACE=false
       - TS_STATE_DIR=/var/lib/tailscale
     volumes:
