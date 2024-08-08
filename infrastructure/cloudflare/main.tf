@@ -69,10 +69,32 @@ variable "records" {
             value = "100.79.87.2"
             type = "A"
         }
+        /*
+        chilly_1 = {
+            name = "chilly"
+            value = "ns-cloud-c1.googledomains.com"
+            type = "NS"
+        }
+        chilly_2 = {
+            name = "chilly"
+            value = "ns-cloud-c2.googledomains.com"
+            type = "NS"
+        }
+        chilly_3 = {
+            name = "chilly"
+            value = "ns-cloud-c3.googledomains.com"
+            type = "NS"
+        }
+        chilly_4 = {
+            name = "chilly"
+            value = "ns-cloud-c4.googledomains.com"
+            type = "NS"
+        }*/
         chilly = {
             name = "chilly"
             value = "chilly-955.pages.dev"
             type = "CNAME"
+            proxied = true
         }
         chilly_all = {
             name = "*.chilly"
@@ -82,6 +104,11 @@ variable "records" {
         chilly_iperf = {
             name = "iperf.chilly"
             value = "35.231.59.239"
+            type = "A"
+        }
+        chilly_hetzner = {
+            name = "hetzner.chilly"
+            value = "5.161.160.132"
             type = "A"
         }
     }
