@@ -111,6 +111,11 @@ variable "records" {
             value = "5.161.160.132"
             type = "A"
         }
+        hot_talos = {
+            name = "talos.hot"
+            value = "192.168.0.14"
+            type = "A"
+        }
     }
 }
 
