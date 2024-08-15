@@ -1,0 +1,55 @@
+https://talos.hot.griffinht.com:6443
+
+REQUIREMENTS
+/*
+caddy lb
+tcp talos.hot.griffinht.com:6443
+*/
+dns talos.hot.griffinht.com -> talosvm.hot.griffinht.com
+
+upstreams:
+    control:
+        talosvm.hot.griffinht.com
+
+worker:
+    smart-laptop.hot.griffinht.com
+    envy-laptop.hot.griffinht.com
+    dell-red.hot.griffinht.com
+    dell-blue.hot.griffinht.com
+
+
+
+
+TODO EXPLORE SOME MORE
+
+
+
+
+
+
+
+
+ACCEPTANCE CRITERIA
+kubernetes
+    iperf
+
+
+REQUIREMENTS
+secrets
+    mkdir ~/secrets/talos/
+    mkdir ~/secrets/talos/terraform
+certs
+    regenerate secrets
+    make cert for the different address?
+
+
+
+vm MAYBE DO A CONTAINER INSTEAD
+    copy paste libvirt
+        tofu init
+        get talos
+
+
+    mac address: asdasd
+    image: talos
+    userdata: talos
