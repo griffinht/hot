@@ -1,8 +1,0 @@
-services:
-  chatgpt:
-    # todo pin
-    image: docker.io/yidadaa/chatgpt-next-web
-    ports:
-      - 8082:3000
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY?}

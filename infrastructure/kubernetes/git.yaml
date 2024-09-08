@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git
+  labels:
+    app.kubernetes.io/name: git
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: git
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: git
+    spec:
+      containers:
+      - image: joseluisq/alpine-cgit:2
+        name: cgit
+        env:
+          - name: CGIT_TITLE
+            value: my cgit
+          - name: CGIT_DESC
+            value: welcome to my cgit
+        ports:
+        - containerPort: 80
+          name: http
+        volumeMounts:
+          - mountPath: "/srv/git"
+            name: git
+      volumes:
+        - name: git
